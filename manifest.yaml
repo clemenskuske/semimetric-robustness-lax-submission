@@ -24,3 +24,6 @@ bibEntries:
       url = {https://github.com/verinncoq/mueps-robustness-proofs},
       note = {Reference commit d0d81caa28f9ffd166ffd245510c99b0db1c2962}
     }
+issue:
+  repositoryId: 1320232165
+  number: 193
