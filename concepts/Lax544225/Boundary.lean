@@ -1,5 +1,5 @@
 import Lax544225.Covering
-import Mathlib.Order.Interval.Set.Basic
+import Mathlib.Order.Cover
 
 /-!
 ---
@@ -9,6 +9,8 @@ type: definition
 In a total order, y is the immediate successor of x when x<y and no point lies strictly between them. The boundary of a subset consists of its points adjacent to a point outside it. The complement boundary is the boundary of the complement (Section 5.2, p. 10).
 
 # Formalization notes
+
+Successor is the standard mathlib cover relation `CovBy`, with the paper's name retained as an alias.
 
 The boundary covering condition restricts the μ-ball to the side containing its center, and uses ε-balls centered in the boundary on the opposite side. This preserves the two distinct boundaries in Theorem 3.
 -/
@@ -21,8 +23,8 @@ open scoped NNReal
 
 open Semimetric Balls
 /-- Consecutive points in a linear order. -/
-def Successor {S : Type u} [LinearOrder S] (x y : S) : Prop :=
-  x < y ∧ ¬ ∃ z, x < z ∧ z < y
+abbrev Successor {S : Type u} [LinearOrder S] (x y : S) : Prop :=
+  CovBy x y
 
 /-- Points of A adjacent to its complement in the ambient order. -/
 def boundary {S : Type u} [LinearOrder S] (A : Set S) : Set S :=

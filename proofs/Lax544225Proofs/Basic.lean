@@ -12,6 +12,17 @@ open scoped NNReal
 open Lax544225.Semimetric Lax544225.Classifier Lax544225.ClassifierRobustness
 open Lax544225.Partitions Lax544225.PartitionRobustness Lax544225.Balls Lax544225.Covering
 
+/-- The mathlib partition predicate preserves the finite-family formulation. -/
+lemma isPartition_iff {S : Type u} (P : Set (Set S)) :
+    IsPartition P ↔
+      P.Finite ∧ (∀ A ∈ P, A.Nonempty) ∧ (∀ x, ∃! A, A ∈ P ∧ x ∈ A) := by
+  constructor
+  · rintro ⟨hfinite, hpartition⟩
+    exact ⟨hfinite, fun _ hA => Setoid.nonempty_of_mem_partition hpartition hA,
+      hpartition.2⟩
+  · rintro ⟨hfinite, hnonempty, hunique⟩
+    exact ⟨hfinite, fun h => Set.nonempty_iff_ne_empty.mp (hnonempty ∅ h) rfl, hunique⟩
+
 lemma distance_self {S : Type u} {d : Distance S} (hd : IsSemimetric d) (x : S) :
     d x x = 0 := (hd.2.1 x x).2 rfl
 
@@ -23,9 +34,8 @@ lemma mem_ball_self {S : Type u} {d : Distance S} (hd : IsSemimetric d)
 
 lemma part_eq_of_mem {S : Type u} {P : Set (Set S)} (hP : IsPartition P)
     {A B : Set S} (hA : A ∈ P) (hB : B ∈ P) {x : S}
-    (hxA : x ∈ A) (hxB : x ∈ B) : A = B := by
-  rcases hP.2.2 x with ⟨C, _, hC⟩
-  exact (hC A ⟨hA, hxA⟩).trans (hC B ⟨hB, hxB⟩).symm
+    (hxA : x ∈ A) (hxB : x ∈ B) : A = B :=
+  Setoid.eq_of_mem_eqv_class hP.2.2 hA hxA hB hxB
 
 lemma ball_subset_iff_not_mem_neighborhood {S : Type u} {d : Distance S}
     (hd : IsSemimetric d) (A : Set S) (x : S) (ε : ℝ≥0) :
@@ -64,6 +74,7 @@ Definitions 5–6 of *Relaxing Global Classifier Robustness on Semimetric Spaces
 lemma inducedPartition {S : Type u} {n : ℕ} (c : Classifier S n) :
     IsPartition (induced c) := by
   classical
+  apply (isPartition_iff _).mpr
   refine ⟨Set.finite_range (fiber c), ?_, ?_⟩
   · intro A hA
     rcases hA with ⟨i, rfl⟩

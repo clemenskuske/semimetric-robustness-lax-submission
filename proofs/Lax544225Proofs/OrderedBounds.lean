@@ -16,6 +16,11 @@ open Lax544225 Semimetric OrderedSemimetric Balls Covering Boundary PrecisionGap
 lemma distance_self {S : Type u} {d : Distance S} (hd : IsSemimetric d) (x : S) :
     d x x = 0 := (hd.2.1 x x).2 rfl
 
+/-- The standard cover relation is the paper's strict no-between successor relation. -/
+lemma successor_iff {S : Type u} [LinearOrder S] (x y : S) :
+    Successor x y ↔ x < y ∧ ¬ ∃ z, x < z ∧ z < y := by
+  simp only [Successor, CovBy, not_exists, not_and]
+
 /-- A finite ordered interval whose endpoints lie on opposite sides contains a crossing pair. -/
 lemma crossing_pair {S : Type u} [Finite S] [LinearOrder S] (A : Set S)
     {a b : S} (hab : a < b) (ha : a ∈ A) (hb : b ∉ A) :
@@ -30,7 +35,7 @@ lemma crossing_pair {S : Type u} [Finite S] [LinearOrder S] (A : Set S)
     by_contra hn
     have hqp := hmin p ⟨hp.1, hp.2.le.trans hq.2.1, hn⟩
     exact (not_le_of_gt hp.2) hqp
-  refine ⟨p, q, hp.1, hq.2.1, hpA, hq.2.2, hp.2, ?_⟩
+  refine ⟨p, q, hp.1, hq.2.1, hpA, hq.2.2, (successor_iff p q).2 ⟨hp.2, ?_⟩⟩
   rintro ⟨z, hpz, hzq⟩
   exact (not_le_of_gt hpz) (hmax z ⟨hp.1.trans hpz.le, hzq⟩)
 
@@ -45,12 +50,12 @@ lemma boundary_center {S : Type u} [Finite S] [LinearOrder S] {d : Distance S}
     refine ⟨q, ⟨hqA, p, ?_, Or.inr hpq⟩, ?_⟩
     · simpa only [Set.mem_compl_iff, not_not] using hpA
     · exact (le_add_of_nonneg_right (show 0 ≤ d q b from zero_le)).trans
-        (hd.2.2 a q b (hap.trans hpq.1.le) hqb)
+        (hd.2.2 a q b (hap.trans hpq.le) hqb)
   · obtain ⟨p, q, hbp, hqa, hpA, hqA, hpq⟩ := crossing_pair Aᶜ hba hb (by simpa using ha)
     refine ⟨p, ⟨hpA, q, hqA, Or.inl hpq⟩, ?_⟩
     rw [hd.1.2.2 a p, hd.1.2.2 a b]
     exact (le_add_of_nonneg_left (show 0 ≤ d b p from zero_le)).trans
-      (hd.2.2 b p a hbp (hpq.1.le.trans hqa))
+      (hd.2.2 b p a hbp (hpq.le.trans hqa))
 
 /--
 Reduce opposite-side covering to opposite-boundary covering.
@@ -122,16 +127,14 @@ lemma interval_successor {S : Type u} [LinearOrder S] {a x y : S}
   · intro hz
     by_cases hzy : z = y
     · exact Or.inl hzy
-    · refine Or.inr ⟨hz.1, ?_⟩
-      by_contra hn
-      exact hxy.2 ⟨z, lt_of_not_ge hn, lt_of_le_of_ne hz.2 hzy⟩
+    · exact Or.inr ⟨hz.1, hxy.le_of_lt (lt_of_le_of_ne hz.2 hzy)⟩
   · rintro (rfl | hz)
-    · exact ⟨hax.trans hxy.1.le, le_rfl⟩
-    · exact ⟨hz.1, hz.2.trans hxy.1.le⟩
+    · exact ⟨hax.trans hxy.le, le_rfl⟩
+    · exact ⟨hz.1, hz.2.trans hxy.le⟩
 
 lemma steps_successor_add {S : Type u} [Finite S] [LinearOrder S] {a x y : S}
     (hax : a ≤ x) (hxy : Successor x y) : steps a y = steps a x + 1 := by
-  have hn : y ∉ Set.Icc a x := by intro h; exact (not_le_of_gt hxy.1) h.2
+  have hn : y ∉ Set.Icc a x := by intro h; exact (not_le_of_gt hxy.lt) h.2
   have hcard : (Set.Icc a y).ncard = (Set.Icc a x).ncard + 1 := by
     rw [interval_successor hax hxy, Set.ncard_insert_of_notMem hn]
   have hp : 0 < (Set.Icc a x).ncard := (Set.ncard_pos).2 ⟨a, le_rfl, hax⟩
@@ -140,7 +143,7 @@ lemma steps_successor_add {S : Type u} [Finite S] [LinearOrder S] {a x y : S}
 
 lemma steps_successor {S : Type u} [Finite S] [LinearOrder S] {x y : S}
     (hxy : Successor x y) : steps x y = 1 := by
-  simpa [steps] using steps_successor_add (a := x) le_rfl hxy
+  rw [steps, hxy.Icc_eq, Set.ncard_pair hxy.ne]
 
 lemma upper_ratios_bounded {S : Type u} [Finite S] [LinearOrder S] (d : Distance S) :
     BddAbove {r | ∃ x y, x < y ∧ r = d x y / (steps x y : ℝ≥0)} := by
@@ -175,8 +178,8 @@ lemma steps_inverse {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
 lemma precision_product_ge_one {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsSemimetric d) {x y : S} (hxy : Successor x y) :
     1 ≤ deltaUpper d * deltaInverse d := by
-  have hu := distance_upper d hxy.1
-  have hi := steps_inverse d hd hxy.1
+  have hu := distance_upper d hxy.lt
+  have hi := steps_inverse d hd hxy.lt
   rw [steps_successor hxy] at hu hi
   simp only [Nat.cast_one, mul_one] at hu hi
   calc
@@ -207,7 +210,7 @@ theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance 
   change d z y ≤ ε
   rcases lt_trichotomy z x with hzx | rfl | hxz
   · calc
-      d z y ≤ deltaUpper d * (steps z y : ℝ≥0) := distance_upper d (hzx.trans hxy.1)
+      d z y ≤ deltaUpper d * (steps z y : ℝ≥0) := distance_upper d (hzx.trans hxy.lt)
       _ = deltaUpper d * (steps z x : ℝ≥0) + deltaUpper d := by
         rw [steps_successor_add hzx.le hxy, Nat.cast_add, Nat.cast_one]
         ring
@@ -219,13 +222,11 @@ theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance 
         unfold threshold
         gcongr
       _ ≤ ε := hbound
-  · have hu := distance_upper d hxy.1
+  · have hu := distance_upper d hxy.lt
     rw [steps_successor hxy, Nat.cast_one, mul_one] at hu
     exact hu.trans ((le_add_of_nonneg_left (show 0 ≤ deltaUpper d * deltaInverse d * μ
       from zero_le)).trans hbound)
-  · have hyz : y ≤ z := by
-      by_contra hn
-      exact hxy.2 ⟨z, hxz, lt_of_not_ge hn⟩
+  · have hyz : y ≤ z := hxy.ge_of_gt hxz
     have hμ : μ ≤ threshold d μ := by
       calc
         μ = 1 * μ := (one_mul μ).symm
@@ -234,7 +235,7 @@ theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance 
         _ ≤ threshold d μ := le_add_of_nonneg_right zero_le
     rw [hd.1.2.2 z y, hd.1.2.2 z x] at *
     exact ((le_add_of_nonneg_left (show 0 ≤ d x y from zero_le)).trans
-      (hd.2.2 x y z hxy.1.le hyz)).trans (hz.trans (hμ.trans hbound))
+      (hd.2.2 x y z hxy.le hyz)).trans (hz.trans (hμ.trans hbound))
 
 /--
 ---

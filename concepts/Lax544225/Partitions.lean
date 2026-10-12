@@ -1,5 +1,6 @@
 import Lax544225.Classifier
 import Mathlib.Data.Set.Finite.Basic
+import Mathlib.Data.Setoid.Partition
 
 /-!
 ---
@@ -10,7 +11,7 @@ A partition is a finite collection of nonempty pairwise disjoint subsets coverin
 
 # Formalization notes
 
-The family is a set of sets, so enumeration and duplicate parts are absent. Unique membership expresses covering and pairwise disjointness together. Finite families are required even when S is infinite.
+The family is a set of sets, so enumeration and duplicate parts are absent. Mathlib's `Setoid.IsPartition` supplies nonempty parts and unique membership. Finite families are required even when S is infinite.
 -/
 
 universe u
@@ -20,7 +21,7 @@ namespace Lax544225.Partitions
 open Classifier
 /-- A finite partition into nonempty parts with unique membership for every input. -/
 def IsPartition {S : Type u} (P : Set (Set S)) : Prop :=
-  P.Finite ∧ (∀ A ∈ P, A.Nonempty) ∧ (∀ x, ∃! A, A ∈ P ∧ x ∈ A)
+  P.Finite ∧ Setoid.IsPartition P
 
 /-- The partition consisting of the whole carrier as its only part. -/
 def IsTrivial {S : Type u} (P : Set (Set S)) : Prop := P = {Set.univ}

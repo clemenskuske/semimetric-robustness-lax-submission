@@ -52,7 +52,7 @@ private lemma common_ball_trivial {S : Type*} (d : Distance S) (pivot : S)
   intro P hP hrob
   have hpart : ∀ B ∈ P, pivot ∈ B := by
     intro B hB
-    obtain ⟨x, hx⟩ := hP.2.1 B hB
+    obtain ⟨x, hx⟩ := Setoid.nonempty_of_mem_partition hP.2 hB
     obtain ⟨y, _, A, hA, hxA, hball⟩ := hrob x
     have heq := Basic.part_eq_of_mem hP hA hB hxA hx
     exact heq ▸ hball (hcommon y)

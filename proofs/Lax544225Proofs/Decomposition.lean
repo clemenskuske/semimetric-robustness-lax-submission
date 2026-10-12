@@ -1,6 +1,7 @@
 import Lax544225.DecompositionObstruction
 import Lax544225.PartialOrderPrecisionBound
 import Lax544225.PrecisionObstruction
+import Lax544225Proofs.Basic
 import Mathlib.Data.Set.Finite.Basic
 
 universe u
@@ -15,6 +16,7 @@ private def traceFamily {S : Type u} (A : Set S) (P : Set (Set S)) : Set (Set A)
 private lemma trace_partition {S : Type u} (A : Set S) {P : Set (Set S)}
     (hP : IsPartition P) : IsPartition (traceFamily A P) := by
   classical
+  apply (Basic.isPartition_iff _).mpr
   refine ⟨(hP.1.subset (by intro B hB; exact hB.1)).image (trace A), ?_, ?_⟩
   · rintro C ⟨B, hB, rfl⟩
     exact hB.2
@@ -83,7 +85,7 @@ theorem decompositionObstruction {S : Type u} (d : Distance S) (hd : IsSemimetri
     exact piece_monochromatic d hP μ ε hrob A (hD.2.2.1 A hA) (hlocal A hA)
   have hall : ∀ B ∈ P, B = Set.univ := by
     intro B hB
-    obtain ⟨x, hx⟩ := hP.2.1 B hB
+    obtain ⟨x, hx⟩ := Setoid.nonempty_of_mem_partition hP.2 hB
     apply Set.eq_univ_of_forall
     intro y
     obtain ⟨A, hA, E, hE, hxA, hyE, hpath⟩ := hD.2.2.2 x y

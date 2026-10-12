@@ -1,5 +1,6 @@
 import Lax544225.GeneralExistence
 import Lax544225.CoveringCharacterization
+import Lax544225Proofs.Basic
 
 universe u
 namespace Lax544225Proofs.Existence
@@ -9,6 +10,7 @@ open Lax544225 Semimetric Partitions PartitionRobustness Balls Covering
 lemma cut_partition {S : Type u} (A : Set S) (hA : A.Nonempty)
     (hAc : Aᶜ.Nonempty) : IsPartition ({A, Aᶜ} : Set (Set S)) := by
   classical
+  apply (Basic.isPartition_iff _).mpr
   refine ⟨Set.toFinite _, ?_, ?_⟩
   · intro B hB
     rcases Set.mem_insert_iff.mp hB with rfl | hB
@@ -31,8 +33,7 @@ lemma cut_partition {S : Type u} (A : Set S) (hA : A.Nonempty)
 lemma part_disjoint {S : Type u} {P : Set (Set S)} (hP : IsPartition P)
     {A B : Set S} (hA : A ∈ P) (hB : B ∈ P) (hne : A ≠ B) : A ⊆ Bᶜ := by
   intro x hx hxb
-  obtain ⟨C, hC, hu⟩ := hP.2.2 x
-  exact hne ((hu A ⟨hA, hx⟩).trans (hu B ⟨hB, hxb⟩).symm)
+  exact (hP.2.pairwiseDisjoint hA hB hne).le_bot ⟨hx, hxb⟩
 
 lemma neighborhood_mono {S : Type u} (d : Distance S) (r : ℝ≥0)
     {A B : Set S} (h : A ⊆ B) : neighborhood d A r ⊆ neighborhood d B r := by
@@ -100,7 +101,7 @@ lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetric d
     intro A hA
     by_contra hne
     have hAc : Aᶜ.Nonempty := Set.nonempty_compl.mpr hne
-    obtain ⟨x, hx⟩ := hcut A (hP.2.1 A hA) hAc
+    obtain ⟨x, hx⟩ := hcut A (Setoid.nonempty_of_mem_partition hP.2 hA) hAc
     rcases hx with ⟨hx, hcov⟩ | ⟨hx, hcov⟩
     · exact hun A hA x hx hcov
     · obtain ⟨B, ⟨hB, hxB⟩, _⟩ := hP.2.2 x
