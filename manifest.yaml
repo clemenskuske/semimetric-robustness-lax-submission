@@ -1,0 +1,26 @@
+specVersion: "1"
+id: lax-544225
+leanVersion: "v4.33.0"
+mathlibVersion: "db584cd6d46c92f209a44c0f1c829460d327499d"
+title: "Relaxing Global Classifier Robustness on Semimetric Spaces"
+unlisted: true
+authors:
+  - name: Clemens Kuske
+    github: clemenskuske
+  - name: Codex (OpenAI)
+bibEntries:
+  - |
+    @unpublished{aleksandrovVoellinger2027relaxing,
+      title = {Relaxing Global Classifier Robustness on Semimetric Spaces},
+      author = {Aleksandrov, Andrei and Völlinger, Kim},
+      year = {2027},
+      note = {Supplied FSEN 2027 manuscript, received 10 October 2026}
+    }
+  - |
+    @software{aleksandrovVoellinger2026robustnessproofs,
+      title = {Rocq and Python examples for semimetric robustness},
+      author = {Aleksandrov, Andrei and Völlinger, Kim},
+      year = {2026},
+      url = {https://github.com/verinncoq/mueps-robustness-proofs},
+      note = {Reference commit d0d81caa28f9ffd166ffd245510c99b0db1c2962}
+    }
