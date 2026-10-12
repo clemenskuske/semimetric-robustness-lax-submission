@@ -244,8 +244,8 @@ The precision threshold excludes every nontrivial robust partition.
 
 # Proof strategy
 Each proper cut has a consecutive crossing pair. SuccessorCovering places the
-ball at the lower point inside an epsilon-ball centered across the cut. Apply the
-previous general cut-covering obstruction.
+ball at the lower point inside an epsilon-ball centered on the opposite boundary.
+Restrict this covering to the lower point's side and apply BoundaryExistence.
 
 # Attribution
 Aleksandrov and Völlinger, Corollary 2.
@@ -253,7 +253,7 @@ Aleksandrov and Völlinger, Corollary 2.
 lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε)
     (hbound : threshold d μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d μ ε := by
-  apply (Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mpr
+  apply (Lax544225.BoundaryExistence.statement d hd μ ε hε).mpr
   intro A hA hAc
   obtain ⟨a, ha⟩ := hA
   obtain ⟨b, hb⟩ := hAc
@@ -262,12 +262,13 @@ lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance
   · obtain ⟨p, q, _, _, hpA, hqA, hpq⟩ := crossing_pair A hab ha hb
     refine ⟨p, Or.inl ⟨hpA, ?_⟩⟩
     intro z hz
-    exact ⟨q, hqA, Lax544225.SuccessorCovering.statement d hd μ ε hε hbound p q hpq hz⟩
+    exact ⟨q, ⟨hqA, p, by simpa using hpA, Or.inr hpq⟩,
+      Lax544225.SuccessorCovering.statement d hd μ ε hε hbound p q hpq hz.1⟩
   · obtain ⟨p, q, _, _, hpA, hqA, hpq⟩ := crossing_pair Aᶜ hba hb (by simpa using ha)
     refine ⟨p, Or.inr ⟨hpA, ?_⟩⟩
     intro z hz
-    exact ⟨q, by simpa using hqA,
-      Lax544225.SuccessorCovering.statement d hd μ ε hε hbound p q hpq hz⟩
+    exact ⟨q, ⟨by simpa using hqA, p, hpA, Or.inr hpq⟩,
+      Lax544225.SuccessorCovering.statement d hd μ ε hε hbound p q hpq hz.1⟩
 
 /--
 Only-trivial robustness gives opposite-boundary covering.

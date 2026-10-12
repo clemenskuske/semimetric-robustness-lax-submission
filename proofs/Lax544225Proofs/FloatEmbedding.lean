@@ -5,6 +5,8 @@ import Mathlib.Tactic
 
 /-! Canonical finite values and the independent category order embed in the reals. -/
 
+universe u
+
 namespace Lax544225Proofs.FloatEmbedding
 
 open scoped NNReal
@@ -311,6 +313,26 @@ lemma floatAbsoluteSpace (F : Format) : IsOrdered (absDistance F) (ieeeLe F) := 
   · intro a b c hab hbc
     exact (floatAbsoluteAdditivity F a b c hab hbc).symm.le
 
+private lemma square_ordered {S : Type u} (d : Distance S) (le : S → S → Prop)
+    (hd : IsOrdered d le) : IsOrdered (fun x y => d x y ^ 2) le := by
+  refine ⟨⟨hd.1.1, ?_, ?_⟩, hd.2.1, ?_⟩
+  · intro x y
+    simpa only [sq_eq_zero_iff] using hd.1.2.1 x y
+  · intro x y
+    exact congrArg (fun r : ℝ≥0 => r ^ 2) (hd.1.2.2 x y)
+  · intro a b c hab hbc
+    have h := NNReal.coe_le_coe.2 (hd.2.2 a b c hab hbc)
+    apply NNReal.coe_le_coe.1
+    simp only [NNReal.coe_add, NNReal.coe_pow] at h ⊢
+    nlinarith [NNReal.coe_nonneg (d a b), NNReal.coe_nonneg (d b c)]
+
+private lemma squareDistance_eq_absDistance_sq (F : Format) (x y : Value F) :
+    squareDistance F x y = absDistance F x y ^ 2 := by
+  apply NNReal.coe_injective
+  simp only [squareDistance, absDistance, NNReal.coe_pow,
+    Real.coe_toNNReal _ (sq_nonneg _), Real.coe_toNNReal _ (abs_nonneg _)]
+  rw [sq_abs]
+
 /--
 ---
 conclusion: Lax544225.FloatSquaredSpace.statement
@@ -319,9 +341,10 @@ Squared embedded distance forms an ordered semimetric.
 
 # Proof strategy
 
-Injectivity of φ gives distance-zero separation; reversing a difference leaves
-its square unchanged. Along an increasing embedded chain, expanding the total
-square adds twice the nonnegative product of the adjacent increments.
+Use the absolute-distance proposition and closure of ordered semimetrics under
+squaring. Squaring preserves symmetry, separation and the partial order. The
+base antitriangle inequality bounds the sum of adjacent distances; its square
+dominates the sum of their squares because both distances are nonnegative.
 
 # Attribution
 
@@ -329,24 +352,10 @@ Proposition 1.2 of the source paper and the squared-distance construction in
 `flocq_ordered_spaces/semimetrics.v` of verinncoq/mueps-robustness-proofs.
 -/
 lemma floatSquaredSpace (F : Format) : IsOrdered (squareDistance F) (ieeeLe F) := by
-  refine ⟨⟨⟨Value.nan⟩, ?_, ?_⟩, (floatLinearOrder F).toIsPartialOrder, ?_⟩
-  · intro x y
-    constructor
-    · intro h
-      have hz : (phi F x - phi F y) ^ 2 = 0 :=
-        le_antisymm (Real.toNNReal_eq_zero.1 h) (sq_nonneg _)
-      exact phi_injective F (sub_eq_zero.1 (sq_eq_zero_iff.1 hz))
-    · rintro rfl
-      simp [squareDistance]
-  · intro x y
-    unfold squareDistance
-    congr 1
-    ring
-  · intro a b c hab hbc
-    have hab' := (ieeeLe_iff_phi_le F a b).1 hab
-    have hbc' := (ieeeLe_iff_phi_le F b c).1 hbc
-    apply NNReal.coe_le_coe.1
-    simp only [squareDistance, NNReal.coe_add, Real.coe_toNNReal _ (sq_nonneg _)]
-    nlinarith [mul_nonneg (sub_nonneg.2 hab') (sub_nonneg.2 hbc')]
+  have hdist : squareDistance F = fun x y => absDistance F x y ^ 2 := by
+    funext x y
+    exact squareDistance_eq_absDistance_sq F x y
+  rw [hdist]
+  exact square_ordered (absDistance F) (ieeeLe F) (Lax544225.FloatAbsoluteSpace.statement F)
 
 end Lax544225Proofs.FloatEmbedding
