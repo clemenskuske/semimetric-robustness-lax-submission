@@ -28,6 +28,6 @@ axiom statement {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (D : Set (Set S)) (μ ε : ℝ≥0) (hε : 0 < ε)
     (hD : IsDecomposition d D μ)
     (hchain : ∀ A ∈ D, ∀ x ∈ A, ∀ y ∈ A, x ≤ y ∨ y ≤ x)
-    (hbound : ∀ A ∈ D, threshold (restrict d A) μ ≤ ε) : OnlyTrivial d μ ε
+    (hbound : ∀ A ∈ D, threshold (fun x y : A => d x.val y.val) μ ≤ ε) : OnlyTrivial d μ ε
 
 end Lax544225.PartialOrderPrecisionBound

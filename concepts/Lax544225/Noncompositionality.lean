@@ -30,11 +30,11 @@ open Semimetric Partitions PartitionRobustness
 axiom statement :
     (∃ (d : Distance (Fin 4)) (P : Set (Set (Fin 4))) (A : Set (Fin 4)),
     IsSemimetric d ∧ IsPartition P ∧ Robust d P 1 1 ∧
-    A.Nonempty ∧ Aᶜ.Nonempty ∧ OnlyTrivial (restrict d A) 1 1 ∧
+    A.Nonempty ∧ Aᶜ.Nonempty ∧ OnlyTrivial (fun x y : A => d x.val y.val) 1 1 ∧
     ¬ ∃ B ∈ P, A ⊆ B) ∧
     (∃ (d : Distance (Fin 4)) (A B : Set (Fin 4)) (P : Set (Set (Fin 4))),
     IsSemimetric d ∧ Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧
-    A ∪ B = Set.univ ∧ OnlyTrivial (restrict d A) 1 1 ∧
-    OnlyTrivial (restrict d B) 1 1 ∧ IsPartition P ∧ Robust d P 1 1 ∧ ¬ IsTrivial P)
+    A ∪ B = Set.univ ∧ OnlyTrivial (fun x y : A => d x.val y.val) 1 1 ∧
+    OnlyTrivial (fun x y : B => d x.val y.val) 1 1 ∧ IsPartition P ∧ Robust d P 1 1 ∧ ¬ IsTrivial P)
 
 end Lax544225.Noncompositionality

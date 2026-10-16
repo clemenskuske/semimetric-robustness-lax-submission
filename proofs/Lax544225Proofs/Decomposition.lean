@@ -1,3 +1,4 @@
+import Lax544225Proofs.SubspaceDistance
 import Lax544225.DecompositionObstruction
 import Lax544225.PartialOrderPrecisionBound
 import Lax544225.PrecisionObstruction

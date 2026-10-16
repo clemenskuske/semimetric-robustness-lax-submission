@@ -39,8 +39,4 @@ abbrev Distance (S : Type u) := S → S → ℝ≥0
 def IsSemimetric {S : Type u} (d : Distance S) : Prop :=
   Nonempty S ∧ (∀ x y, d x y = 0 ↔ x = y) ∧ (∀ x y, d x y = d y x)
 
-/-- The distance inherited by a subset. -/
-def restrict {S : Type u} (d : Distance S) (A : Set S) : Distance A :=
-  fun x y => d x.val y.val
-
 end Lax544225.Semimetric
