@@ -35,17 +35,17 @@ private lemma range_sup_eq_univ_sup (n : ℕ) (h : ℕ → ℝ≥0) :
 
 private lemma sum_list_as_product {S : Type u} (d : Distance S) (pad : S) (f g : List S) :
     Lax544225.ListSpaces.sumDistance d pad f g = Lax544225.ListSpaces.lengthPenalty f g +
-      Lax544225.ProductSpaces.sumDistance d (max f.length g.length)
+      Lax544225.SumProductSpace.sumDistance d (max f.length g.length)
         (coordinates pad _ f) (coordinates pad _ g) := by
-  unfold Lax544225.ListSpaces.sumDistance Lax544225.ProductSpaces.sumDistance coordinates
+  unfold Lax544225.ListSpaces.sumDistance Lax544225.SumProductSpace.sumDistance coordinates
   congr 1
   exact (Fin.sum_univ_eq_sum_range (fun i => d (f.getD i pad) (g.getD i pad)) _).symm
 
 private lemma max_list_as_product {S : Type u} (d : Distance S) (pad : S) (f g : List S) :
     Lax544225.ListSpaces.maxDistance d pad f g = Lax544225.ListSpaces.lengthPenalty f g +
-      Lax544225.ProductSpaces.maxDistance d (max f.length g.length)
+      Lax544225.MaximumProductSpace.maxDistance d (max f.length g.length)
         (coordinates pad _ f) (coordinates pad _ g) := by
-  simp only [Lax544225.ListSpaces.maxDistance, Lax544225.ProductSpaces.maxDistance,
+  simp only [Lax544225.ListSpaces.maxDistance, Lax544225.MaximumProductSpace.maxDistance,
     coordinates, range_sup_eq_univ_sup]
 
 private lemma lengthPenalty_symm {S : Type u} (f g : List S) :
@@ -87,20 +87,20 @@ private lemma padded_semimetric {S : Type u} (pad : S)
 private lemma listLe_to_product {S : Type u} (le : S → S → Prop) (pad : S)
     (n : ℕ) (f g : List S) (hf : f.length = n)
     (hfg : Lax544225.ListSpaces.listLe le pad f g) :
-    Lax544225.ProductSpaces.productLe le n (coordinates pad n f) (coordinates pad n g) := by
+    Lax544225.SumProductSpace.productLe le n (coordinates pad n f) (coordinates pad n g) := by
   intro i
   exact hfg.2 i (hf ▸ i.isLt)
 
 private lemma synchronizedListLe_to_product {S : Type u} (d : Distance S)
     (le : S → S → Prop) (pad : S) (n : ℕ) (f g : List S) (hf : f.length = n)
     (hfg : Lax544225.ListSpaces.synchronizedListLe d le pad f g) :
-    Lax544225.ProductSpaces.synchronizedLe d le n (coordinates pad n f) (coordinates pad n g) := by
+    Lax544225.MaximumProductSpace.synchronizedLe d le n (coordinates pad n f) (coordinates pad n g) := by
   refine ⟨listLe_to_product le pad n f g hf hfg.1, ?_⟩
   intro i j
   exact hfg.2 i (hf ▸ i.isLt) j (hf ▸ j.isLt)
 
 private lemma list_partialOrder {S : Type u} (le : S → S → Prop) (pad : S)
-    (h : ∀ n, IsPartialOrder (Fin n → S) (Lax544225.ProductSpaces.productLe le n)) :
+    (h : ∀ n, IsPartialOrder (Fin n → S) (Lax544225.SumProductSpace.productLe le n)) :
     IsPartialOrder (List S) (Lax544225.ListSpaces.listLe le pad) := by
   refine { refl := ?_, trans := ?_, antisymm := ?_ }
   · intro f
@@ -122,7 +122,7 @@ private lemma list_partialOrder {S : Type u} (le : S → S → Prop) (pad : S)
 
 private lemma synchronized_list_partialOrder {S : Type u} (d : Distance S)
     (le : S → S → Prop) (pad : S)
-    (h : ∀ n, IsPartialOrder (Fin n → S) (Lax544225.ProductSpaces.synchronizedLe d le n)) :
+    (h : ∀ n, IsPartialOrder (Fin n → S) (Lax544225.MaximumProductSpace.synchronizedLe d le n)) :
     IsPartialOrder (List S) (Lax544225.ListSpaces.synchronizedListLe d le pad) := by
   refine { refl := ?_, trans := ?_, antisymm := ?_ }
   · intro f
@@ -150,25 +150,25 @@ private lemma synchronized_list_partialOrder {S : Type u} (d : Distance S)
 private lemma sum_list_equal_length {S : Type u} (d : Distance S) (pad : S)
     (n : ℕ) (f g : List S) (hf : f.length = n) (hg : g.length = n) :
     Lax544225.ListSpaces.sumDistance d pad f g =
-      Lax544225.ProductSpaces.sumDistance d n (coordinates pad n f) (coordinates pad n g) := by
+      Lax544225.SumProductSpace.sumDistance d n (coordinates pad n f) (coordinates pad n g) := by
   rw [sum_list_as_product]
   have hp : Lax544225.ListSpaces.lengthPenalty f g = 0 := by
     simp [Lax544225.ListSpaces.lengthPenalty, hf, hg]
   rw [hp, zero_add]
   have hm : max f.length g.length = n := by rw [hf, hg, max_self]
-  exact congrArg (fun m => Lax544225.ProductSpaces.sumDistance d m
+  exact congrArg (fun m => Lax544225.SumProductSpace.sumDistance d m
     (coordinates pad m f) (coordinates pad m g)) hm
 
 private lemma max_list_equal_length {S : Type u} (d : Distance S) (pad : S)
     (n : ℕ) (f g : List S) (hf : f.length = n) (hg : g.length = n) :
     Lax544225.ListSpaces.maxDistance d pad f g =
-      Lax544225.ProductSpaces.maxDistance d n (coordinates pad n f) (coordinates pad n g) := by
+      Lax544225.MaximumProductSpace.maxDistance d n (coordinates pad n f) (coordinates pad n g) := by
   rw [max_list_as_product]
   have hp : Lax544225.ListSpaces.lengthPenalty f g = 0 := by
     simp [Lax544225.ListSpaces.lengthPenalty, hf, hg]
   rw [hp, zero_add]
   have hm : max f.length g.length = n := by rw [hf, hg, max_self]
-  exact congrArg (fun m => Lax544225.ProductSpaces.maxDistance d m
+  exact congrArg (fun m => Lax544225.MaximumProductSpace.maxDistance d m
     (coordinates pad m f) (coordinates pad m g)) hm
 
 /--
@@ -188,8 +188,8 @@ Proposition 1.5 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript.
 lemma sumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
     (hd : IsOrdered d le) (pad : S) :
     IsOrdered (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad) := by
-  have htuple := sumProductSpace d le hd
-  refine ⟨padded_semimetric pad (Lax544225.ProductSpaces.sumDistance d)
+  have htuple := Lax544225.SumProductSpace.statement d le hd
+  refine ⟨padded_semimetric pad (Lax544225.SumProductSpace.sumDistance d)
       (fun n => (htuple n).1) _ (sum_list_as_product d pad),
     list_partialOrder le pad (fun n => (htuple n).2.1), ?_⟩
   intro f g k hfg hgk
@@ -221,8 +221,8 @@ lemma maximumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
     (hd : IsOrdered d le) (hadd : Additive d le) (pad : S) :
     IsOrdered (Lax544225.ListSpaces.maxDistance d pad)
       (Lax544225.ListSpaces.synchronizedListLe d le pad) := by
-  have htuple := maximumProductSpace d le hd hadd
-  refine ⟨padded_semimetric pad (Lax544225.ProductSpaces.maxDistance d)
+  have htuple := Lax544225.MaximumProductSpace.statement d le hd hadd
+  refine ⟨padded_semimetric pad (Lax544225.MaximumProductSpace.maxDistance d)
       (fun n => (htuple n).1) _ (max_list_as_product d pad),
     synchronized_list_partialOrder d le pad (fun n => (htuple n).2.1), ?_⟩
   intro f g k hfg hgk
@@ -234,5 +234,31 @@ lemma maximumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
   exact (htuple f.length).2.2 _ _ _
     (synchronizedListLe_to_product d le pad f.length f g rfl hfg)
     (synchronizedListLe_to_product d le pad f.length g k hgf hgk)
+
+/--
+---
+conclusion: Lax544225.ListSpaces.statement
+---
+Both finite-list extensions form ordered semimetric spaces.
+
+# Proof strategy
+
+Combine the sum-list and maximum-list lemmas. Each transfers the corresponding
+product construction through padded coordinates; the length penalty separates
+lists of different lengths, while comparable lists have equal lengths.
+
+# Attribution
+
+Proposition 1.5 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript.
+-/
+lemma listSpaces :
+    (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
+      IsOrdered d le → ∀ pad : S,
+        IsOrdered (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
+    (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
+      IsOrdered d le → Additive d le → ∀ pad : S,
+        IsOrdered (Lax544225.ListSpaces.maxDistance d pad)
+          (Lax544225.ListSpaces.synchronizedListLe d le pad)) := by
+  exact ⟨sumListSpace, maximumListSpace⟩
 
 end Lax544225Proofs

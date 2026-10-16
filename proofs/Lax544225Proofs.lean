@@ -8,4 +8,3 @@ import Lax544225Proofs.Products
 import Lax544225Proofs.Lists
 import Lax544225Proofs.FloatEmbedding
 import Lax544225Proofs.MainResults
-import Lax544225Proofs.OrderedSemimetricConstructions

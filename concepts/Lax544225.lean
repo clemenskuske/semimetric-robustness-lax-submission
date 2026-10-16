@@ -1,5 +1,4 @@
 import Lax544225.Noncompositionality
-import Lax544225.OrderedSemimetricConstructions
 import Lax544225.Balls
 import Lax544225.BinaryFloats
 import Lax544225.Boundary
@@ -18,6 +17,9 @@ import Lax544225.PartitionRobustness
 import Lax544225.Partitions
 import Lax544225.PrecisionGaps
 import Lax544225.PrecisionObstruction
-import Lax544225.ProductSpaces
 import Lax544225.Semimetric
 import Lax544225.SuccessorCovering
+import Lax544225.FloatAbsoluteSpace
+import Lax544225.FloatSquaredSpace
+import Lax544225.SumProductSpace
+import Lax544225.MaximumProductSpace

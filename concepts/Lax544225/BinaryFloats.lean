@@ -27,13 +27,9 @@ Define $\phi:\mathcal F\rightarrow\mathbb R$ by
 - $\phi(\mathrm{NaN})=2^{c_{\max}+1}+1$;
 - $\phi(\pm\mathrm{Inf})=\pm2^{c_{\max}+1}$.
 
-The two scalar distances are
-$d_1(f_1,f_2)=|\phi(f_1)-\phi(f_2)|$ and
-$d_2(f_1,f_2)=(\phi(f_1)-\phi(f_2))^2$, with the IEEE total order.
-
 # Formalization notes
 
-This is the paper’s single-NaN abstraction, matching the supplied Flocq BinarySingleNaN examples, not the full set of IEEE NaN payloads. A finite mantissa is stored as the integer k with m=k·2^(−p); normality means k≥2^p. The independent order puts −∞ first, then negative finite values, −0, +0, positive finite values, +∞, and NaN. It is not defined by φ. The two distances are the absolute and squared differences of φ.
+This is the paper’s single-NaN abstraction, matching the supplied Flocq BinarySingleNaN examples, not the full set of IEEE NaN payloads. A finite mantissa is stored as the integer k with m=k·2^(−p); normality means k≥2^p. The independent order puts −∞ first, then negative finite values, −0, +0, positive finite values, +∞, and NaN. It is not defined by φ.
 -/
 
 universe u
@@ -108,13 +104,5 @@ noncomputable def withinCategory {F : Format} : Value F → ℝ
 def ieeeLe (F : Format) (x y : Value F) : Prop :=
   category x < category y ∨
     (category x = category y ∧ withinCategory x ≤ withinCategory y)
-
-/-- Absolute embedded distance d₁. -/
-noncomputable def absDistance (F : Format) (x y : Value F) : ℝ≥0 :=
-  Real.toNNReal (|phi F x - phi F y|)
-
-/-- Squared embedded distance d₂. -/
-noncomputable def squareDistance (F : Format) (x y : Value F) : ℝ≥0 :=
-  Real.toNNReal ((phi F x - phi F y) ^ 2)
 
 end Lax544225.BinaryFloats

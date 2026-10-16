@@ -1,4 +1,4 @@
-import Lax544225.ProductSpaces
+import Lax544225.MaximumProductSpace
 import Mathlib.Data.List.GetD
 
 /-!
@@ -15,6 +15,9 @@ floating-point numbers. For distance computation, the shorter list is padded
 with $\mathrm{NaN}$, and a penalty equal to $1$ is added whenever the list
 lengths differ. The partial orders compare only lists of the same length;
 lists of different lengths are incomparable.
+Both extensions are ordered semimetric spaces: the sum extension assumes an
+ordered semimetric base, and the maximum extension additionally assumes
+additivity along ordered chains.
 
 # Formalization notes
 
@@ -29,7 +32,7 @@ namespace Lax544225.ListSpaces
 
 open scoped NNReal
 
-open Semimetric
+open Semimetric OrderedSemimetric
 open scoped BigOperators
 /-- Equal-length lists ordered coordinatewise; other lengths are incomparable. -/
 def listLe {S : Type u} (le : S → S → Prop) (pad : S) (f g : List S) : Prop :=
@@ -54,5 +57,15 @@ noncomputable def sumDistance {S : Type u} (d : Distance S) (pad : S) : Distance
 noncomputable def maxDistance {S : Type u} (d : Distance S) (pad : S) : Distance (List S) :=
   fun f g => lengthPenalty f g +
     (Finset.range (max f.length g.length)).sup (fun i => d (f.getD i pad) (g.getD i pad))
+
+/-- Both padded-list constructions are ordered semimetric spaces. -/
+axiom statement :
+    (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
+      IsOrdered d le → ∀ pad : S,
+        IsOrdered (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
+    (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
+      IsOrdered d le → Additive d le → ∀ pad : S,
+        IsOrdered (Lax544225.ListSpaces.maxDistance d pad)
+          (Lax544225.ListSpaces.synchronizedListLe d le pad))
 
 end Lax544225.ListSpaces

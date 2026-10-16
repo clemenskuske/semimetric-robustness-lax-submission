@@ -31,22 +31,26 @@ Let $\mathcal{F}$ be a binary floating point format with $p \in \mathbb{N}$ bein
     \item $\phi(\pm\texttt{Inf}) = \pm 2^{c_{\max} + 1}$
 \end{itemize}
 % lax end
-% lax begin Lax544225.OrderedSemimetricConstructions
 Then, the following are ordered semimetric spaces:
-% lax end
 \begin{enumerate}
+% lax begin Lax544225.FloatAbsoluteSpace
     \item $(\mathcal{F}, <_{IEEE}, d_1)$ where $<_{IEEE}$ is the IEEE total order and $d_1(f_1, f_2) = |\phi(f_1) - \phi(f_2)|$.
-    \item $(\mathcal{F}, <_{IEEE}, d_2)$ where $d_2(f_1, f_2) = (\phi(f_1) - \phi(f_2))^2$.
-% lax begin Lax544225.ProductSpaces
-    \item $(\mathcal{F}^n, <^n, d_3(f, g) := \sum_{i \in [n]} d(f_i, g_i))$
 % lax end
+% lax begin Lax544225.FloatSquaredSpace
+    \item $(\mathcal{F}, <_{IEEE}, d_2)$ where $d_2(f_1, f_2) = (\phi(f_1) - \phi(f_2))^2$.
+% lax end
+% lax begin Lax544225.SumProductSpace
+    \item $(\mathcal{F}^n, <^n, d_3(f, g) := \sum_{i \in [n]} d(f_i, g_i))$
  such that $(\mathcal{F}, <, d)$ is an ordered semimetric space and $<^n$ is n-wise product partial order.
+% lax end
+% lax begin Lax544225.MaximumProductSpace
     \item $(\mathcal{F}^n, <^{n}_*, d_4(f, g) := \max_{i \in [n]}d(f_i, g_i))$ where $(\mathcal{F},<,d)$ is an ordered semimetric space such that for all $a,b,c\in\mathcal{F}$ with $a \leq b \leq c$ holds that $d(a,c) = d(a,b) + d(b,c)$ and $<^n_* := \{(f,g) \in \mathcal{F}^n \times \mathcal{F}^n\,|f <^n g \wedge \forall i,j \in [n]\, d(f_i, g_i) = d(f_j, g_j)\,\}$.
+% lax end
+% lax begin Lax544225.ListSpaces
     \item Extensions of
 (3)
 and
 (4)
-% lax begin Lax544225.ListSpaces
 to arbitrary finite lists of floating-point numbers where a shorter list is padded with \texttt{NaN} for distance computation, and a penalty equal to $1$ is added to the distance whenever list lengths are different. The partial orders compare only lists of the same length, and lists of different lengths are incomparable.
 % lax end
 \end{enumerate}
