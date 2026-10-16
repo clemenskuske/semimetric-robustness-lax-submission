@@ -1,5 +1,5 @@
 import Lax544225.Classifier
-import Lax544225.Balls
+import Lax544225.Semimetric
 
 /-!
 ---
@@ -25,7 +25,7 @@ $c(x)=c(x')$ and $c$ is locally $\epsilon$-robust at $x'$.
 
 # Formalization notes
 
-Radii are nonnegative reals. The predicates also make sense at ε=0; the paper’s results below explicitly require ε>0. The same-label requirement is present even when μ>ε.
+Each predicate requires evidence that the distance defines a semimetric space. Radii are nonnegative reals. The predicates also make sense at ε=0; the paper’s results below explicitly require ε>0. The same-label requirement is present even when μ>ε.
 -/
 
 universe u
@@ -36,18 +36,18 @@ open scoped NNReal
 
 open Classifier Semimetric
 /-- Local robustness of the classifier at x. -/
-def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S)
+def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S) (_hd : IsSemimetric d)
     (c : Classifier S n) (ε : ℝ≥0) (x : S) : Prop :=
   ∀ y, d y x ≤ ε → c.label y = c.label x
 
 /-- Local robustness at every input. -/
-def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S)
+def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
     (c : Classifier S n) (ε : ℝ≥0) : Prop :=
-  ∀ x, LocallyRobust d c ε x
+  ∀ x, LocallyRobust d hd c ε x
 
 /-- Coverage of each input by a same-label locally robust input. -/
-def RelaxedRobust {S : Type u} {n : ℕ} (d : Distance S)
+def RelaxedRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
     (c : Classifier S n) (μ ε : ℝ≥0) : Prop :=
-  ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyRobust d c ε x'
+  ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyRobust d hd c ε x'
 
 end Lax544225.ClassifierRobustness

@@ -102,7 +102,7 @@ Definitions 4 and 8 of the source paper.
 -/
 lemma classifierToPartition {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    RelaxedRobust d c μ ε → Robust d (induced c) μ ε := by
+    RelaxedRobust d hd c μ ε → Robust d (induced c) μ ε := by
   intro hc x
   rcases hc x with ⟨x', hdist, hlabel, hlocal⟩
   refine ⟨x', ?_, fiber c (c.label x), ⟨c.label x, rfl⟩, rfl, ?_⟩
@@ -126,7 +126,7 @@ Definitions 4 and 8 of the source paper.
 -/
 lemma partitionToClassifier {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    Robust d (induced c) μ ε → RelaxedRobust d c μ ε := by
+    Robust d (induced c) μ ε → RelaxedRobust d hd c μ ε := by
   intro hP x
   rcases hP x with ⟨x', hdist, A, hA, hx, hball⟩
   rcases hA with ⟨i, rfl⟩
@@ -152,7 +152,7 @@ The zero-relaxation observation in Section 2 of the source paper.
 -/
 lemma zeroToGlobal {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (ε : ℝ≥0) (_hε : 0 < ε) :
-    RelaxedRobust d c 0 ε → GloballyRobust d c ε := by
+    RelaxedRobust d hd c 0 ε → GloballyRobust d hd c ε := by
   intro h x
   rcases h x with ⟨x', hdist, _, hlocal⟩
   have heq : x = x' := (hd.2.1 x x').1 (le_antisymm hdist zero_le)
@@ -171,7 +171,7 @@ The zero-relaxation observation in Section 2 of the source paper.
 -/
 lemma globalToZero {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (ε : ℝ≥0) (_hε : 0 < ε) :
-    GloballyRobust d c ε → RelaxedRobust d c 0 ε := by
+    GloballyRobust d hd c ε → RelaxedRobust d hd c 0 ε := by
   intro h x
   exact ⟨x, (distance_self hd x).le, rfl, h x⟩
 
