@@ -7,6 +7,10 @@ import Mathlib.Data.Finset.Lattice.Fold
 title: Product Distances and Orders
 type: definition
 ---
+For tuples, distances can be combined by taking their sum or maximum. The sum uses the coordinatewise order. The maximum uses a synchronized order in which every coordinate changes by the same distance, with an additive base distance.
+
+**Definition from the paper.**
+
 For an ordered semimetric space $(S,<,d)$, the sum distance on $S^n$ is
 
 $$d_3(f,g):=\sum_{i\in[n]}d(f_i,g_i),$$

@@ -5,6 +5,10 @@ import Mathlib.Data.Fin.Basic
 title: Classifier
 type: definition
 ---
+A classifier assigns a class to every input, and every class occurs for at least one input.
+
+**Definition from the paper.**
+
 Let $S$ be a set of inputs and $[n]$ a set of classes. A **classifier** is a
 total, surjective function $c:S\rightarrow[n]$.
 

@@ -8,6 +8,10 @@ import Mathlib.Order.Interval.Set.Basic
 title: Precision Gap Metrics
 type: definition
 ---
+The precision gap measures compare distance with the number of ordered steps between two points. One measures the largest average distance per step; the other measures the largest number of steps per unit distance.
+
+**Definition from the paper.**
+
 Let $(S,<,d)$ be a finite totally ordered semimetric space with $|S|\geq2$.
 For $a\leq b$, write $[a,b]:=\{x\in S\mid a\leq x\leq b\}$.
 Define $\Delta$ and $\delta$ by

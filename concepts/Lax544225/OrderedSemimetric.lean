@@ -6,6 +6,10 @@ import Mathlib.Order.Defs.PartialOrder
 title: Ordered Semimetric Space
 type: definition
 ---
+An ordered semimetric space relates its order to its distance: moving through an intermediate point in the order cannot cost more than the direct distance between the endpoints.
+
+**Definition from the paper.**
+
 A tuple $(S,<,d)$ with a set $S$, a partial order $<$ on $S$, and
 $d:S\times S\rightarrow\mathbb{R}_{\geq0}$ is an **ordered semimetric space**
 if $(S,d)$ is a semimetric space and, for all $a,b,c\in S$,

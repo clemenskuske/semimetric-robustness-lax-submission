@@ -7,6 +7,10 @@ import Mathlib.Data.Int.Cast.Lemmas
 title: Binary Floating Point Format
 type: definition
 ---
+A binary floating-point format specifies a precision and a range of exponents. Its finite values are supplemented by signed zeros, signed infinities, and one NaN. A real-valued embedding assigns distinct positions to these special values.
+
+**Definition from the paper.**
+
 Let $\mathcal F$ be a binary floating point format with $p\in\mathbb N$
 mantissa bits. Its finite nonzero values are triples $(s,c,m)$ representing
 $(-1)^s2^cm$, where $s\in\{0,1\}$,

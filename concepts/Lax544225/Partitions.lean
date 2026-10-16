@@ -7,6 +7,10 @@ import Mathlib.Data.Setoid.Partition
 title: Partition and Classifier Induced Partition
 type: definition
 ---
+A partition divides a set into finitely many nonempty, disjoint parts. The trivial partition has just one part containing everything. A classifier induces a partition by grouping inputs with the same label.
+
+**Definition from the paper.**
+
 A collection of nonempty sets $\{P_1,\dots,P_p\}$ is a **partition** of a set
 $S$ if and only if
 

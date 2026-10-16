@@ -6,6 +6,10 @@ import Mathlib.Data.List.GetD
 title: Finite List Distances and Orders
 type: definition
 ---
+For lists of different lengths, missing entries are filled with a padding value before comparing coordinates, and a unit penalty distinguishes different lengths. The orders compare only lists of equal length.
+
+**Definition from the paper.**
+
 The sum and maximum product distances extend to arbitrary finite lists of
 floating-point numbers. For distance computation, the shorter list is padded
 with $\mathrm{NaN}$, and a penalty equal to $1$ is added whenever the list

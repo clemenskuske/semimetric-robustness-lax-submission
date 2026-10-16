@@ -6,6 +6,10 @@ import Lax544225.Balls
 title: (μ,ε)-Robustness of a Partition
 type: definition
 ---
+A partition is robust when each input has a nearby center whose entire robustness ball lies in the same part as that input.
+
+**Definition from the paper.**
+
 Let $(S,d)$ be a semimetric space. A partition $P:=\{S_1,\dots,S_p\}$ of $S$
 is **globally robust** for $\mu\geq0$, $\epsilon>0$ if and only if
 

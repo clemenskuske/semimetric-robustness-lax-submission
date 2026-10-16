@@ -6,6 +6,10 @@ import Lax544225.Balls
 title: ε-Robustness and (μ,ε)-Robustness
 type: definition
 ---
+Local robustness means that all inputs sufficiently close to a given input have the same label. Global robustness requires this at every input. Relaxed robustness allows each input to move a short distance to a locally robust input with the same label.
+
+**Definition from the paper.**
+
 Let $(S,d)$ be a semimetric space. A classifier $c:S\rightarrow[n]$ is
 **locally robust** at a point $x^*\in S$ for $\epsilon>0$ if
 

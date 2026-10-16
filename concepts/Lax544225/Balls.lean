@@ -6,6 +6,10 @@ import Mathlib.Data.Set.Lattice
 title: ε-Ball
 type: definition
 ---
+A closed ball consists of all inputs within a chosen distance of its center, including inputs exactly at that distance.
+
+**Definition from the paper.**
+
 Let $(S,d)$ be a semimetric space. Then
 
 $$B(x^*,\epsilon):=\{x\in S\mid d(x,x^*)\leq\epsilon\}$$

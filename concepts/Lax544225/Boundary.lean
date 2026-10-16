@@ -6,6 +6,10 @@ import Mathlib.Order.Cover
 title: Successor and Boundary
 type: definition
 ---
+An immediate successor is the next point in the order, with no point in between. The boundary of a subset consists of its points adjacent to points outside it; the complement has its own boundary.
+
+**Definition from the paper.**
+
 In a totally ordered semimetric space $(S,<,d)$, $Succ(x,y)$ holds if
 $x<y$ and there is no $z$ with $x<z<y$.
 For each subset $S'\subseteq S$, its **boundary** is

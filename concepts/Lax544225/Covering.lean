@@ -5,6 +5,10 @@ import Lax544225.Balls
 title: Covering Conditions
 type: definition
 ---
+The covering conditions ask whether a small ball on one side of a partition or cut can be covered by larger balls centered on the other side.
+
+**Definition from the paper.**
+
 Let $(S,d)$ be a semimetric space, $P$ a partition of $S$, and
 $\mu\geq0$, $\epsilon>0$. The partition covering condition is
 
