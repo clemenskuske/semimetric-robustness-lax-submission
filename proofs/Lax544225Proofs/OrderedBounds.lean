@@ -1,3 +1,4 @@
+import Lax544225Proofs.CoveringConditions
 import Lax544225.GeneralExistence
 import Lax544225.BoundaryCoveringCharacterization
 import Lax544225.BoundaryExistence
@@ -11,7 +12,7 @@ universe u
 namespace Lax544225Proofs.OrderedBounds
 
 open scoped NNReal
-open Lax544225 Semimetric OrderedSemimetric Balls Covering Boundary PrecisionGaps
+open Lax544225 Semimetric OrderedSemimetric Balls CoveringConditions Boundary PrecisionGaps
 
 lemma distance_self {S : Type u} {d : Distance S} (hd : IsSemimetric d) (x : S) :
     d x x = 0 := (hd.2.1 x x).2 rfl

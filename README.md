@@ -3,7 +3,7 @@
 Lean 4 formalization of the mathematical statements in Andrei Aleksandrov and
 Kim Völlinger’s supplied FSEN 2027 manuscript.
 
-The package contains 14 definitions and 10 proved paper results: five theorems,
+The package contains 13 definitions and 10 proved paper results: five theorems,
 three corollaries, one proposition combining Proposition 1’s five constructions, and one lemma combining Lemma 1’s two
 counterexamples. Directional arguments and supporting facts are proof lemmas.
 The proofs reuse intermediate results with a grounded dependency graph.
@@ -16,8 +16,8 @@ replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
-attached at the user’s request on 16 October 2026. The paper viewer links 26
-passages to all 24 formalized concepts and results. Private working history and
+attached at the user’s request on 16 October 2026. The paper viewer links 25
+passages to all 23 formalized concepts and results. Private working history and
 unrelated formalizations are not included.
 
 Validation:
@@ -32,3 +32,7 @@ result entries.
 
 Formalization credit: Clemens Kuske and Codex (OpenAI).
 Source references are recorded in `manifest.yaml`; source code uses Apache 2.0.
+
+Each of Theorems 1–5 is one concept with its full paper statement and one PDF
+passage. Covering conditions are written directly in theorem statements; named
+shorthands for these conditions are confined to the proof package.

@@ -1,3 +1,4 @@
+import Lax544225Proofs.CoveringConditions
 import Lax544225Proofs.Basic
 import Lax544225Proofs.Existence
 import Lax544225Proofs.OrderedBounds

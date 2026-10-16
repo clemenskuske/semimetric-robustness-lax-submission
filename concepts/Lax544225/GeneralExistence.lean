@@ -1,12 +1,26 @@
 import Lax544225.PartitionRobustness
-import Lax544225.Covering
 
 /-!
 ---
 title: Theorem 2 — General existence criterion
 type: theorem
 ---
-The trivial partition is the only robust partition exactly when every nonempty proper cut admits a covering point on one side from ε-balls centered on the other side.
+The possibility of a nontrivial robust partition is determined by how balls on opposite sides of a cut cover one another.
+
+**Statement from the paper.**
+
+Let $(S,d)$ be a semimetric space and $\mu\geq0$, $\epsilon>0$.
+The following statements are equivalent:
+
+1. The only $(\mu,\epsilon)$-robust partition on $S$ is trivial.
+2. For every nonempty proper subset $S'\subset S$, there exists $x\in S$
+   such that either
+
+   $$x\in S'\quad\text{and}\quad B(x,\mu)\subseteq\bigcup_{x'\in S\setminus S'}B(x',\epsilon),$$
+
+   or
+
+   $$x\in S\setminus S'\quad\text{and}\quad B(x,\mu)\subseteq\bigcup_{x'\in S'}B(x',\epsilon).$$
 
 # Formalization notes
 
@@ -19,11 +33,13 @@ universe u
 namespace Lax544225.GeneralExistence
 
 open scoped NNReal
-open Semimetric PartitionRobustness Covering
+open Semimetric PartitionRobustness Balls
 
 /-- The trivial partition is the only robust partition exactly when every nonempty proper cut admits a covering point on one side from ε-balls centered on the other side. -/
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d μ ε ↔ EveryCutCovered d μ ε
+    OnlyTrivial d μ ε ↔ (∀ A : Set S, A.Nonempty → Aᶜ.Nonempty →
+      ∃ x, (x ∈ A ∧ ball d x μ ⊆ neighborhood d Aᶜ ε) ∨
+        (x ∈ Aᶜ ∧ ball d x μ ⊆ neighborhood d A ε))
 
 end Lax544225.GeneralExistence

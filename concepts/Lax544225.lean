@@ -7,7 +7,6 @@ import Lax544225.BoundaryCoveringCharacterization
 import Lax544225.BoundaryExistence
 import Lax544225.Classifier
 import Lax544225.ClassifierRobustness
-import Lax544225.Covering
 import Lax544225.CoveringCharacterization
 import Lax544225.Decomposition
 import Lax544225.DecompositionObstruction

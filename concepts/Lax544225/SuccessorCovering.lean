@@ -7,8 +7,18 @@ import Lax544225.OrderedSemimetric
 title: Theorem 4 — Successor covering at the precision bound
 type: theorem
 ---
-In a finite totally ordered semimetric space, ε≥Δδμ+Δ implies B(x,μ)⊆B(y,ε) whenever y is the immediate successor of x.
+Above the precision-dependent bound, the robustness ball of an immediate successor covers the smaller ball around the preceding point.
 
+**Statement from the paper.**
+
+Let $(S,<,d)$ be a finite totally ordered semimetric space and
+$\mu\geq0$, $\epsilon>0$. If
+
+$$\epsilon\geq\Delta\cdot\delta\cdot\mu+\Delta,$$
+
+then for all $x,x'\in S$ with $Succ(x,x')$,
+
+$$B(x,\mu)\subseteq B(x',\epsilon).$$
 -/
 
 universe u

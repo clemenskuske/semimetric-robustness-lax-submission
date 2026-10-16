@@ -11,7 +11,7 @@ universe u
 namespace Lax544225Proofs.MainResults
 
 open scoped NNReal
-open Lax544225 Semimetric Partitions PartitionRobustness Covering
+open Lax544225 Semimetric Partitions PartitionRobustness CoveringConditions
   OrderedSemimetric Boundary
 
 /--

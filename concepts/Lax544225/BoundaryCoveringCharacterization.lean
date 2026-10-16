@@ -6,7 +6,30 @@ import Lax544225.OrderedSemimetric
 title: Theorem 3 — Boundary covering characterization
 type: theorem
 ---
-In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary.
+In a finite ordered space, the covering criterion can be expressed using the boundaries of the two sides of each cut.
+
+**Statement from the paper.**
+
+Let $(S,<,d)$ be a finite totally ordered semimetric space and
+$\mu\geq0$, $\epsilon>0$. The following statements are equivalent:
+
+1. For every nonempty proper subset $S'\subset S$, there exists $x\in S$
+   such that either
+
+   $$x\in S'\quad\text{and}\quad B(x,\mu)\subseteq\bigcup_{x'\in S\setminus S'}B(x',\epsilon),$$
+
+   or
+
+   $$x\in S\setminus S'\quad\text{and}\quad B(x,\mu)\subseteq\bigcup_{x'\in S'}B(x',\epsilon).$$
+
+2. For every nonempty proper subset $S'\subset S$, there exists $x\in S$
+   such that either
+
+   $$x\in S'\quad\text{and}\quad B(x,\mu)\cap S'\subseteq\bigcup_{x'\in\overline{\partial}S'}B(x',\epsilon),$$
+
+   or
+
+   $$x\in S\setminus S'\quad\text{and}\quad B(x,\mu)\cap(S\setminus S')\subseteq\bigcup_{x'\in\partial S'}B(x',\epsilon).$$
 
 # Formalization notes
 
@@ -19,11 +42,15 @@ universe u
 namespace Lax544225.BoundaryCoveringCharacterization
 
 open scoped NNReal
-open Semimetric OrderedSemimetric Covering Boundary
+open Semimetric OrderedSemimetric Balls Boundary
 
 /-- In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary. -/
 axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutCovered d μ ε ↔ EveryCutBoundaryCovered d μ ε
+    (∀ A : Set S, A.Nonempty → Aᶜ.Nonempty →
+      ∃ x, (x ∈ A ∧ ball d x μ ⊆ neighborhood d Aᶜ ε) ∨
+        (x ∈ Aᶜ ∧ ball d x μ ⊆ neighborhood d A ε)) ↔ (∀ A : Set S, A.Nonempty → Aᶜ.Nonempty →
+      ∃ x, (x ∈ A ∧ ball d x μ ∩ A ⊆ neighborhood d (boundary Aᶜ) ε) ∨
+        (x ∈ Aᶜ ∧ ball d x μ ∩ Aᶜ ⊆ neighborhood d (boundary A) ε))
 
 end Lax544225.BoundaryCoveringCharacterization

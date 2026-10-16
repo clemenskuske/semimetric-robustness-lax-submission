@@ -5,7 +5,7 @@ import Lax544225Proofs.Basic
 universe u
 namespace Lax544225Proofs.Existence
 open scoped NNReal
-open Lax544225 Semimetric Partitions PartitionRobustness Balls Covering
+open Lax544225 Semimetric Partitions PartitionRobustness Balls CoveringConditions
 
 lemma cut_partition {S : Type u} (A : Set S) (hA : A.Nonempty)
     (hAc : Aᶜ.Nonempty) : IsPartition ({A, Aᶜ} : Set (Set S)) := by

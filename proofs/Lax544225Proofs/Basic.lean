@@ -1,6 +1,6 @@
 import Lax544225.ClassifierRobustness
 import Lax544225.PartitionRobustness
-import Lax544225.Covering
+import Lax544225Proofs.CoveringConditions
 
 /-! Foundational proofs for classifier fibers, coverings, and zero relaxation. -/
 
@@ -10,7 +10,7 @@ namespace Lax544225Proofs.Basic
 
 open scoped NNReal
 open Lax544225.Semimetric Lax544225.Classifier Lax544225.ClassifierRobustness
-open Lax544225.Partitions Lax544225.PartitionRobustness Lax544225.Balls Lax544225.Covering
+open Lax544225.Partitions Lax544225.PartitionRobustness Lax544225.Balls Lax544225Proofs.CoveringConditions
 
 /-- The mathlib partition predicate preserves the finite-family formulation. -/
 lemma isPartition_iff {S : Type u} (P : Set (Set S)) :
