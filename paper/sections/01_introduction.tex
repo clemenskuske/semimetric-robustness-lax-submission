@@ -1,0 +1,53 @@
+\section{Introduction}
+
+Machine learning classifiers can change their prediction under small input perturbations, raising concerns about safety, security, and ethics. 
+A central notion for studying this phenomenon is \emph{global robustness}, which requires that similar inputs receive identical (or similar) outputs~\cite{casadio2022neural}. 
+Similarity is captured by a distance function, making the framework remarkably general: in computer vision it led to weaker notions, since similarity based on pixel intensities propagates by transitivity; but
+in fairness, where the distance encodes context-dependent similarity of individuals under ethical constraints (e.g., equally qualified for a job)~\cite{fairness-landscape,kusner2017counterfactual,ranking-fairness}, and in natural language processing, syntactic and semantic similarity is encoded under meaningful linguistic variation~\cite{levy2025statistical} remains central.
+Importantly, the notion of similarity may \emph{not} be metric, violating the triangle inequality~\cite{garcia2019learning,similarity-guide}.
+Motivated by this observation, we study robustness over arbitrary \emph{semimetric} spaces.
+A common observation is that exact global $\epsilon$-robustness is essentially unsatisfiable on connected domains such as $\mathbb{R}^n$: overlapping $\epsilon$-balls form chains that connect any two inputs, and force a robust classifier to be constant. 
+Existing work has addressed this limitation by weakening the guarantee: 
+local robustness concerns only individual inputs~\cite{li2024certifying}; confidence-based notions restrict robustness to high-confidence
+inputs~\cite{athavale2024verifying,leino2021globally}; probabilistic global robustness~\cite{mangal2019robustness,levy2023groma}.
+However, probabilistic notions constrain only the density of counterexamples, not their geometric structure (see Fig.~\ref{fig:grid}).
+
+To address this limitation, we introduce $(\mu,\epsilon)$-robustness:
+Every input must lie within distance $\mu$ of a same-label point at which the classifier is locally $\epsilon$-robust. 
+The definition recovers $\epsilon$-robustness at $\mu = 0$ and, unlike probabilistic
+relaxations, imposes an explicit coverage \emph{structure} on non-robust points.
+Two of our main results, a covering characterization of robustness and a necessary-and-sufficient criterion for the
+existence of a non-constant robust classifier, hold over arbitrary semimetric spaces,
+providing a domain-independent foundation.
+Further, the impossibility result above is a consequence of \emph{connected
+continuous} domains, whereas deployed classifiers compute over finite-precision
+arithmetic. In fact, verification methods reasoning over reals can be unsound 
+due to their abstraction~\cite{jia2021exploiting,cordeiro2025neural}. 
+Since deployed systems operate over finite representable values rather than continuous domains, robustness becomes a quantitative question.
+We show that the existence of a non-constant robust classifier is determined exactly 
+by the relationship between $\epsilon$ ($\mu$) and the gaps between consecutive representable values. 
+
+\paragraph{Contributions.}
+Studying $(\mu,\epsilon)$-robustness gives us domain-independent structural results and quantitative guarantees for finite-precision arithmetic:
+\begin{enumerate}
+\item \textbf{Covering characterization.}
+We introduce a covering characterization of $(\mu,\epsilon)$-robustness (Section~\ref{sec:partitions-covering}), extending the classical connection between $\epsilon$-robustness and separability. In the distribution-free setting, we establish separability as a necessary condition for global robustness~\cite{yang2020closer,mangal2023certifying}.
+
+\item \textbf{Existence criteria.}
+We derive necessary and sufficient conditions for the existence of a non-constant robust classifier (Section~\ref{sec:existence}), both for arbitrary semimetric spaces and for finite totally ordered domains.
+
+\item \textbf{Precision-dependent bounds.}
+We obtain bounds on $\epsilon$ and $\mu$ in terms of precision (ULP) metrics (Section~\ref{sec:upper-bounds}). These bounds identify the largest representable gap as the key quantity governing robustness, explain empirically observed robustness gains under coarser quantization~\cite{xiao2023robustmq,shrestha2024properties,duncan2020relative}, and extend to some partially ordered domains.
+\end{enumerate}
+Our analysis characterizes \emph{when} robust classifiers exist. 
+Whether an \emph{accurate} robust classifier exists, and thus the robustness-accuracy
+tradeoff~\cite{zhang2019theoretically}, is orthogonal to our focus. 
+Along the way, our framework provides a unified, non-probabilistic perspective on several results 
+concerning global robustness that have previously appeared in disparate parts of the literature.
+
+%\begin{enumerate}
+%    \item In Section~\ref{sec:new-robustness}, we define $(\mu,\epsilon)$-robustness and discuss alternative formulations of global classifier robustness.
+%    \item In Section~\ref{sec:partitions-covering}, we formalize $(\mu,\epsilon)$-robustness on induced by classifiers partitions and show its equivalence to a covering property.
+%    \item In Section~\ref{sec:existence}, we establish necessary and sufficient existence criteria for a non-constant robust classifier in general case and on finite totally ordered semimetric spaces, generalizing a line of finite precision numbers.
+%    \item In Section~\ref{sec:upper-bounds}, we present upper bounds on $\epsilon$ and $\mu$ for non-constant classifiers on finite totally ordered semimetric spaces as well as their products.
+%\end{enumerate}

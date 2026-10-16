@@ -15,8 +15,10 @@ Submission identity: **lax-544225**. The manifest requests an unlisted,
 replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
-This repository contains the submission source only. The supplied manuscript,
-private working history and unrelated formalizations are not included.
+This repository contains the Lean submission and the author-supplied TeX paper,
+attached at the user’s request on 16 October 2026. The paper viewer links 32
+passages to all 30 formalized concepts and results. Private working history and
+unrelated formalizations are not included.
 
 Validation:
 
