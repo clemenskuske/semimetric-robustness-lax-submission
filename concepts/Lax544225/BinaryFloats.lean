@@ -4,10 +4,28 @@ import Mathlib.Data.Int.Cast.Lemmas
 
 /-!
 ---
-title: Canonical binary floats and their embedding
+title: Binary Floating Point Format
 type: definition
 ---
-A binary format has p fractional mantissa bits and an exponent interval. Its canonical finite values are supplemented by signed zeros, signed infinities, and one NaN. The real embedding φ separates the special values as in Proposition 1 (p. 8).
+Let $\mathcal F$ be a binary floating point format with $p\in\mathbb N$
+mantissa bits. Its finite nonzero values are triples $(s,c,m)$ representing
+$(-1)^s2^cm$, where $s\in\{0,1\}$,
+$c\in\{c_{\min},\dots,c_{\max}\}\subset\mathbb Z$, and
+
+$$m\in\{k2^{-p}\mid k\in\{1,\dots,2^{p+1}-1\}\}.$$
+
+Each triple satisfies either $m\geq1$ (normal) or $c=c_{\min}$ (subnormal).
+The format also contains $\pm0$, $\mathrm{NaN}$ and $\pm\mathrm{Inf}$.
+Define $\phi:\mathcal F\rightarrow\mathbb R$ by
+
+- $\phi((s,c,m))=(-1)^s2^cm$;
+- $\phi(+0)=0$ and $\phi(-0)=-2^{c_{\min}-p-1}$;
+- $\phi(\mathrm{NaN})=2^{c_{\max}+1}+1$;
+- $\phi(\pm\mathrm{Inf})=\pm2^{c_{\max}+1}$.
+
+The two scalar distances are
+$d_1(f_1,f_2)=|\phi(f_1)-\phi(f_2)|$ and
+$d_2(f_1,f_2)=(\phi(f_1)-\phi(f_2))^2$, with the IEEE total order.
 
 # Formalization notes
 

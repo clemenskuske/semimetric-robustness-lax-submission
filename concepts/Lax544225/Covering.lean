@@ -2,10 +2,25 @@ import Lax544225.Balls
 
 /-!
 ---
-title: Covering obstructions
+title: Covering Conditions
 type: definition
 ---
-The partition covering condition says that the μ-ball of a point in a part is not covered by ε-balls centered outside that part. The global cut obstruction requires every nonempty proper subset to have a point on one side whose μ-ball is covered from the other side (Theorems 1–2, pp. 6, 9).
+Let $(S,d)$ be a semimetric space, $P$ a partition of $S$, and
+$\mu\geq0$, $\epsilon>0$. The partition covering condition is
+
+$$\forall S_i\in P\;\forall x\in S_i,\quad
+B(x,\mu)\not\subseteq\bigcup_{x^*\in S\setminus S_i}B(x^*,\epsilon).$$
+
+The cut covering condition requires that for every nonempty proper subset
+$S'\subset S$, there exists $x\in S$ such that either
+
+$$x\in S'\quad\text{and}\quad
+B(x,\mu)\subseteq\bigcup_{x'\in S\setminus S'}B(x',\epsilon),$$
+
+or
+
+$$x\in S\setminus S'\quad\text{and}\quad
+B(x,\mu)\subseteq\bigcup_{x'\in S'}B(x',\epsilon).$$
 
 # Formalization notes
 

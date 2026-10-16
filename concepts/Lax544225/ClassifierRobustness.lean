@@ -3,10 +3,21 @@ import Lax544225.Balls
 
 /-!
 ---
-title: Local and relaxed classifier robustness
+title: ε-Robustness and (μ,ε)-Robustness
 type: definition
 ---
-Local ε-robustness means that the ε-ball of an input has its label. Global ε-robustness requires this at every input. Relaxed (μ,ε)-robustness requires every input to have a same-label, locally ε-robust point within distance μ (Definitions 3–4, pp. 3–4).
+Let $(S,d)$ be a semimetric space. A classifier $c:S\rightarrow[n]$ is
+**locally robust** at a point $x^*\in S$ for $\epsilon>0$ if
+
+$$\forall x\in S\;[d(x,x^*)\leq\epsilon\rightarrow c(x)=c(x^*)].$$
+
+The classifier is **globally $\epsilon$-robust** if it is locally
+$\epsilon$-robust at every point.
+
+The classifier is **$(\mu,\epsilon)$-robust**, for
+$\mu\in\mathbb{R}_{\geq0}$ and $\epsilon\in\mathbb{R}_{>0}$, if for every
+$x\in S$ there exists $x'\in S$ with $d(x,x')\leq\mu$ such that
+$c(x)=c(x')$ and $c$ is locally $\epsilon$-robust at $x'$.
 
 # Formalization notes
 

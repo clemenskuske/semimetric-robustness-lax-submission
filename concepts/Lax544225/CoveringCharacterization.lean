@@ -6,7 +6,7 @@ import Lax544225.Covering
 title: Theorem 1 — Covering characterization of robustness
 type: theorem
 ---
-A finite partition is (μ,ε)-robust exactly when no μ-ball centered in a part is covered by ε-balls from its complement (Theorem 1, p. 6).
+A finite partition is (μ,ε)-robust exactly when no μ-ball centered in a part is covered by ε-balls from its complement.
 
 # Formalization notes
 
@@ -21,7 +21,7 @@ namespace Lax544225.CoveringCharacterization
 open scoped NNReal
 open Semimetric Partitions PartitionRobustness Covering
 
-/-- A finite partition is (μ,ε)-robust exactly when no μ-ball centered in a part is covered by ε-balls from its complement (Theorem 1, p. 6). -/
+/-- A finite partition is (μ,ε)-robust exactly when no μ-ball centered in a part is covered by ε-balls from its complement. -/
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetric d) (P : Set (Set S))
     (hP : IsPartition P) (μ ε : ℝ≥0) (hε : 0 < ε) :
     Robust d P μ ε ↔ Uncovered d P μ ε

@@ -6,7 +6,7 @@ import Lax544225.OrderedSemimetric
 title: Theorem 3 — Boundary covering characterization
 type: theorem
 ---
-In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary (Theorem 3, p. 10).
+In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary.
 
 # Formalization notes
 
@@ -21,7 +21,7 @@ namespace Lax544225.BoundaryCoveringCharacterization
 open scoped NNReal
 open Semimetric OrderedSemimetric Covering Boundary
 
-/-- In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary (Theorem 3, p. 10). -/
+/-- In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary. -/
 axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
     EveryCutCovered d μ ε ↔ EveryCutBoundaryCovered d μ ε

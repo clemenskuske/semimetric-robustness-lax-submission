@@ -3,10 +3,18 @@ import Mathlib.Order.Cover
 
 /-!
 ---
-title: Successors and cut boundaries
+title: Successor and Boundary
 type: definition
 ---
-In a total order, y is the immediate successor of x when x<y and no point lies strictly between them. The boundary of a subset consists of its points adjacent to a point outside it. The complement boundary is the boundary of the complement (Section 5.2, p. 10).
+In a totally ordered semimetric space $(S,<,d)$, $Succ(x,y)$ holds if
+$x<y$ and there is no $z$ with $x<z<y$.
+For each subset $S'\subseteq S$, its **boundary** is
+
+$$\partial S':=\{x\in S'\mid\exists y\notin S',\ Succ(x,y)\lor Succ(y,x)\},$$
+
+and its **complement boundary** is
+
+$$\overline{\partial}S':=\{x\notin S'\mid\exists y\in S',\ Succ(x,y)\lor Succ(y,x)\}.$$
 
 # Formalization notes
 

@@ -5,10 +5,18 @@ import Mathlib.Order.Interval.Set.Basic
 
 /-!
 ---
-title: Precision gap measures
+title: Precision Gap Metrics
 type: definition
 ---
-For a finite linearly ordered semimetric space with at least two points, Δ is the maximum of d(x,y)/(|[x,y]|−1), and δ is the maximum of the reciprocal ratio (Definition 10, pp. 11–12).
+Let $(S,<,d)$ be a finite totally ordered semimetric space with $|S|\geq2$.
+For $a\leq b$, write $[a,b]:=\{x\in S\mid a\leq x\leq b\}$.
+Define $\Delta$ and $\delta$ by
+
+$$\Delta:=\max\left\{\frac{d(x,y)}{|[x,y]|-1}\;\middle|\;x,y\in S,\ x<y\right\},$$
+
+$$\delta:=\max\left\{\frac{|[x,y]|-1}{d(x,y)}\;\middle|\;x,y\in S,\ x<y\right\},$$
+
+where $|\cdot|$ denotes set cardinality.
 
 # Formalization notes
 

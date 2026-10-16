@@ -4,10 +4,21 @@ import Mathlib.Data.Setoid.Partition
 
 /-!
 ---
-title: Finite partitions and classifier fibers
+title: Partition and Classifier Induced Partition
 type: definition
 ---
-A partition is a finite collection of nonempty pairwise disjoint subsets covering S. The trivial partition has the single part S. A classifier induces the collection of its label fibers (Definitions 5–6, p. 5).
+A collection of nonempty sets $\{P_1,\dots,P_p\}$ is a **partition** of a set
+$S$ if and only if
+
+1. $\bigcup_{i\in[p]}P_i=S$, and
+2. $P_i\cap P_j=\emptyset$ for all $i\neq j$.
+
+The partition $\{S\}$ on the set $S$ is called **trivial**.
+
+A classifier $c:S\rightarrow[n]$ induces a partition
+$P^c:=\{S^c_1,S^c_2,\dots,S^c_n\}$ with
+
+$$S^c_i:=\{x\in S\mid c(x)=i\}.$$
 
 # Formalization notes
 

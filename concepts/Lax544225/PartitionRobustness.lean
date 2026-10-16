@@ -3,14 +3,20 @@ import Lax544225.Balls
 
 /-!
 ---
-title: Robust and separated partitions
+title: (μ,ε)-Robustness of a Partition
 type: definition
 ---
-A partition is (μ,ε)-robust when each input x has a nearby center x′ whose ε-ball and x lie in one part (Definition 8, p. 5). A partition is ε-separated when points in distinct parts are more than ε apart.
+Let $(S,d)$ be a semimetric space. A partition $P:=\{S_1,\dots,S_p\}$ of $S$
+is **globally robust** for $\mu\geq0$, $\epsilon>0$ if and only if
+
+$$\forall x\in S\;\exists x'\in B(x,\mu)\;
+\left[\bigvee_{i\in[p]}\bigl(\{x\}\cup B(x',\epsilon)\subseteq S_i\bigr)\right].$$
 
 # Formalization notes
 
 Partition validity is a separate hypothesis, not built into the robustness predicate. Triviality of every robust partition quantifies over finite valid partitions. Separation uses a strict inequality because balls are closed.
+
+The auxiliary separation predicate requires $\epsilon<d(x,y)$ for points in distinct parts.
 -/
 
 universe u

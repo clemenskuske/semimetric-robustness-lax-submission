@@ -3,14 +3,20 @@ import Mathlib.Order.Defs.PartialOrder
 
 /-!
 ---
-title: Ordered semimetric spaces
+title: Ordered Semimetric Space
 type: definition
 ---
-An ordered semimetric space has a partial order with d(a,b)+d(b,c)≤d(a,c) whenever a≤b≤c (Definition 9, p. 7). An additive ordered distance satisfies equality on these chains.
+A tuple $(S,<,d)$ with a set $S$, a partial order $<$ on $S$, and
+$d:S\times S\rightarrow\mathbb{R}_{\geq0}$ is an **ordered semimetric space**
+if $(S,d)$ is a semimetric space and, for all $a,b,c\in S$,
+
+$$a\leq b\leq c\quad\Longrightarrow\quad d(a,c)\geq d(a,b)+d(b,c).$$
 
 # Formalization notes
 
 The order is an explicit non-strict relation. IsPartialOrder provides reflexivity, transitivity, and antisymmetry. The reverse triangle inequality is imposed only on ordered chains. Additivity is an additional property needed for synchronized maximum distances.
+
+The auxiliary `Additive` predicate replaces the chain inequality by equality.
 -/
 
 universe u

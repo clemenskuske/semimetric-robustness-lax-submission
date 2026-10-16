@@ -2,10 +2,11 @@ import Mathlib.Data.Fin.Basic
 
 /-!
 ---
-title: Classifiers
+title: Classifier
 type: definition
 ---
-A classifier on S with n classes is a total surjective function from S to the n labels (Definition 1, p. 3).
+Let $S$ be a set of inputs and $[n]$ a set of classes. A **classifier** is a
+total, surjective function $c:S\rightarrow[n]$.
 
 # Formalization notes
 

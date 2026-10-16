@@ -3,14 +3,20 @@ import Mathlib.Data.List.GetD
 
 /-!
 ---
-title: Padded list distances
+title: Finite List Distances and Orders
 type: definition
 ---
-For finite lists, distances compare coordinates through the longer length, padding missing entries by a chosen point. A distance penalty of 1 is added for different lengths. Orders compare only equal-length lists, using the product or synchronized relation (Proposition 1.5, p. 8).
+The sum and maximum product distances extend to arbitrary finite lists of
+floating-point numbers. For distance computation, the shorter list is padded
+with $\mathrm{NaN}$, and a penalty equal to $1$ is added whenever the list
+lengths differ. The partial orders compare only lists of the same length;
+lists of different lengths are incomparable.
 
 # Formalization notes
 
 The floating-point instance chooses NaN as padding. Without the length penalty, appending NaN would give distance zero between different lists. The list maximum construction uses an additive base distance just as the fixed-length construction does.
+
+The definitions allow an arbitrary base space and padding point, specializing to the paper by choosing floating-point values and NaN.
 -/
 
 universe u

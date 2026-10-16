@@ -4,10 +4,25 @@ import Mathlib.Data.Finset.Lattice.Fold
 
 /-!
 ---
-title: Sum and synchronized maximum product distances
+title: Product Distances and Orders
 type: definition
 ---
-On n-tuples, the sum distance uses the product partial order. The maximum distance uses the synchronized subrelation of that order: every coordinate changes by the same base distance. The maximum construction requires the base distance to be additive on chains (Proposition 1.3–1.4, p. 8).
+For an ordered semimetric space $(S,<,d)$, the sum distance on $S^n$ is
+
+$$d_3(f,g):=\sum_{i\in[n]}d(f_i,g_i),$$
+
+with the coordinatewise product partial order $<^n$.
+The maximum distance is
+
+$$d_4(f,g):=\max_{i\in[n]}d(f_i,g_i),$$
+
+with the synchronized order
+
+$$<^n_*:=\{(f,g)\in S^n\times S^n\mid f<^n g\ \land
+\forall i,j\in[n],\ d(f_i,g_i)=d(f_j,g_j)\}.$$
+
+The maximum construction assumes $d(a,c)=d(a,b)+d(b,c)$ whenever
+$a\leq b\leq c$. For floating-point tuples, take $S=\mathcal F$.
 
 # Formalization notes
 

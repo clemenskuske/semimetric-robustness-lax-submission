@@ -4,10 +4,17 @@ import Mathlib.Data.Set.Finite.Basic
 
 /-!
 ---
-title: Closed overlapping decompositions
+title: (μ,ε)-Decomposition
 type: definition
 ---
-A (μ,ε)-decomposition is a finite family of nonempty subsets whose members contain every μ-ball centered in them and which connect every pair of inputs through a finite chain of overlapping members (Definition 11, p. 13).
+A collection of nonempty sets $D:=\{D_1,\dots,D_p\}$ is a
+**$(\mu,\epsilon)$-decomposition** of a semimetric space $(S,d)$ if and only if
+
+1. For each $x\in D_i$, $B(x,\mu)\subseteq D_i$.
+2. For each $x_1,x_2\in S$, there is a sequence of sets
+   $D_{i_1},\dots,D_{i_n}\in D$ such that
+   $D_{i_j}\cap D_{i_{j+1}}\neq\emptyset$ for consecutive members,
+   $x_1\in D_{i_1}$, and $x_2\in D_{i_n}$.
 
 # Formalization notes
 

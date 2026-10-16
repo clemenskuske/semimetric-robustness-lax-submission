@@ -2,10 +2,20 @@ import Mathlib.Data.NNReal.Basic
 
 /-!
 ---
-title: Semimetric spaces
+title: Semimetric Space
 type: definition
 ---
-A semimetric space is a nonempty set equipped with a symmetric, nonnegative real distance that is zero exactly on equal inputs. No triangle inequality is imposed (Definition 2, p. 3).
+Let $(S,d)$ be a pair of a nonempty set and a function
+$d:S\times S\rightarrow\mathbb{R}_{\geq 0}$ such that, for all $x,y\in S$,
+
+$$d(x,y)=0\iff x=y$$
+
+(identity of indiscernibles) and
+
+$$d(x,y)=d(y,x)$$
+
+(symmetry). Then $(S,d)$ is a **semimetric space** and $d$ is a **distance**
+function on $S$.
 
 # Formalization notes
 

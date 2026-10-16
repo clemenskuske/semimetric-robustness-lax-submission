@@ -7,7 +7,7 @@ import Lax544225.OrderedSemimetric
 title: Corollary 2 — Precision obstruction
 type: corollary
 ---
-In a finite totally ordered semimetric space, ε≥Δδμ+Δ forces every (μ,ε)-robust partition to be trivial (Corollary 2, p. 12).
+In a finite totally ordered semimetric space, ε≥Δδμ+Δ forces every (μ,ε)-robust partition to be trivial.
 
 -/
 
@@ -19,7 +19,7 @@ open scoped NNReal
 
 open Semimetric OrderedSemimetric PartitionRobustness PrecisionGaps
 
-/-- In a finite totally ordered semimetric space, ε≥Δδμ+Δ forces every (μ,ε)-robust partition to be trivial (Corollary 2, p. 12). -/
+/-- In a finite totally ordered semimetric space, ε≥Δδμ+Δ forces every (μ,ε)-robust partition to be trivial. -/
 axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε)
     (hbound : threshold d μ ≤ ε) : OnlyTrivial d μ ε

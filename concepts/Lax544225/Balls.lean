@@ -3,14 +3,20 @@ import Mathlib.Data.Set.Lattice
 
 /-!
 ---
-title: Closed balls and neighborhoods
+title: ε-Ball
 type: definition
 ---
-The closed ball B(x,r) consists of inputs at distance at most r from x. The r-neighborhood of a set is the union of balls centered in that set (Definition 7, p. 5).
+Let $(S,d)$ be a semimetric space. Then
+
+$$B(x^*,\epsilon):=\{x\in S\mid d(x,x^*)\leq\epsilon\}$$
+
+is an **$\epsilon$-ball** around $x^*$.
 
 # Formalization notes
 
 Closed inequalities are essential: an input at distance exactly ε must have the same label. Ball membership uses d(y,x), matching the paper.
+
+The auxiliary neighborhood of a set $A$ is $\bigcup_{x\in A}B(x,r)$.
 -/
 
 universe u
