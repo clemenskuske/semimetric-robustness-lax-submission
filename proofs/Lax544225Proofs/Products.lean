@@ -1,5 +1,4 @@
-import Lax544225.SumProductSpace
-import Lax544225.MaximumProductSpace
+import Lax544225.ProductSpaces
 
 universe u
 
@@ -63,9 +62,6 @@ lemma max_product_semimetric {S : Type u} (d : Distance S)
     exact hd.2.2 (f i) (g i)
 
 /--
----
-conclusion: Lax544225.SumProductSpace.statement
----
 Finite sums preserve the ordered semimetric laws.
 
 # Proof strategy
@@ -125,9 +121,6 @@ lemma synchronized_max_additive {S : Type u} (d : Distance S) (le : S → S → 
     exact hadd (f i) (g i) (k i) (hfg.1 i) (hgk.1 i)
 
 /--
----
-conclusion: Lax544225.MaximumProductSpace.statement
----
 Synchronized finite maxima preserve the ordered semimetric laws.
 
 # Proof strategy

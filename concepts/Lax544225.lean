@@ -1,3 +1,4 @@
+import Lax544225.OrderedSemimetricConstructions
 import Lax544225.Balls
 import Lax544225.BinaryFloats
 import Lax544225.Boundary
@@ -9,12 +10,8 @@ import Lax544225.Covering
 import Lax544225.CoveringCharacterization
 import Lax544225.Decomposition
 import Lax544225.DecompositionObstruction
-import Lax544225.FloatAbsoluteSpace
-import Lax544225.FloatSquaredSpace
 import Lax544225.GeneralExistence
 import Lax544225.ListSpaces
-import Lax544225.MaximumListSpace
-import Lax544225.MaximumProductSpace
 import Lax544225.OrderedSemimetric
 import Lax544225.PartialOrderPrecisionBound
 import Lax544225.PartitionRobustness
@@ -25,6 +22,4 @@ import Lax544225.ProductSpaces
 import Lax544225.RestrictionCounterexample
 import Lax544225.Semimetric
 import Lax544225.SuccessorCovering
-import Lax544225.SumListSpace
-import Lax544225.SumProductSpace
 import Lax544225.UnionCounterexample

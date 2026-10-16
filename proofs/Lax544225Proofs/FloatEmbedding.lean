@@ -1,5 +1,4 @@
-import Lax544225.FloatAbsoluteSpace
-import Lax544225.FloatSquaredSpace
+import Lax544225.BinaryFloats
 import Mathlib.Algebra.Order.GroupWithZero.Basic
 import Mathlib.Tactic
 
@@ -288,9 +287,6 @@ lemma floatAbsoluteAdditivity (F : Format) : Additive (absDistance F) (ieeeLe F)
   ring
 
 /--
----
-conclusion: Lax544225.FloatAbsoluteSpace.statement
----
 Absolute embedded distance forms an ordered semimetric.
 
 # Proof strategy
@@ -334,9 +330,6 @@ private lemma squareDistance_eq_absDistance_sq (F : Format) (x y : Value F) :
   rw [sq_abs]
 
 /--
----
-conclusion: Lax544225.FloatSquaredSpace.statement
----
 Squared embedded distance forms an ordered semimetric.
 
 # Proof strategy
@@ -356,6 +349,6 @@ lemma floatSquaredSpace (F : Format) : IsOrdered (squareDistance F) (ieeeLe F) :
     funext x y
     exact squareDistance_eq_absDistance_sq F x y
   rw [hdist]
-  exact square_ordered (absDistance F) (ieeeLe F) (Lax544225.FloatAbsoluteSpace.statement F)
+  exact square_ordered (absDistance F) (ieeeLe F) (floatAbsoluteSpace F)
 
 end Lax544225Proofs.FloatEmbedding
