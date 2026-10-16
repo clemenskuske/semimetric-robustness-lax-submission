@@ -27,7 +27,7 @@ lemma distance_self {S : Type u} {d : Distance S} (hd : IsSemimetric d) (x : S) 
     d x x = 0 := (hd.2.1 x x).2 rfl
 
 lemma mem_ball_self {S : Type u} {d : Distance S} (hd : IsSemimetric d)
-    (x : S) (r : ℝ≥0) : x ∈ ball d x r := by
+    (x : S) (r : ℝ≥0) : x ∈ ball d hd x r := by
   change d x x ≤ r
   rw [distance_self hd x]
   exact zero_le
@@ -39,7 +39,7 @@ lemma part_eq_of_mem {S : Type u} {P : Set (Set S)} (hP : IsPartition P)
 
 lemma ball_subset_iff_not_mem_neighborhood {S : Type u} {d : Distance S}
     (hd : IsSemimetric d) (A : Set S) (x : S) (ε : ℝ≥0) :
-    ball d x ε ⊆ A ↔ x ∉ neighborhood d Aᶜ ε := by
+    ball d hd x ε ⊆ A ↔ x ∉ neighborhood d hd Aᶜ ε := by
   classical
   constructor
   · intro hball hneigh
@@ -102,13 +102,11 @@ Definitions 4 and 8 of the source paper.
 -/
 lemma classifierToPartition {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    RelaxedRobust d hd c μ ε → Robust d (induced c) μ ε := by
+    RelaxedRobust d hd c μ ε → Robust d hd (induced c) (inducedPartition c) μ ε := by
   intro hc x
   rcases hc x with ⟨x', hdist, hlabel, hlocal⟩
   refine ⟨x', ?_, fiber c (c.label x), ⟨c.label x, rfl⟩, rfl, ?_⟩
-  · change d x' x ≤ μ
-    rw [hd.2.2 x' x]
-    exact hdist
+  · exact hdist
   · intro y hy
     exact (hlocal y hy).trans hlabel.symm
 
@@ -126,15 +124,13 @@ Definitions 4 and 8 of the source paper.
 -/
 lemma partitionToClassifier {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    Robust d (induced c) μ ε → RelaxedRobust d hd c μ ε := by
+    Robust d hd (induced c) (inducedPartition c) μ ε → RelaxedRobust d hd c μ ε := by
   intro hP x
   rcases hP x with ⟨x', hdist, A, hA, hx, hball⟩
   rcases hA with ⟨i, rfl⟩
   have hx' : c.label x' = i := hball (mem_ball_self hd x' ε)
   refine ⟨x', ?_, hx.trans hx'.symm, ?_⟩
-  · change d x' x ≤ μ at hdist
-    rw [hd.2.2 x x']
-    exact hdist
+  · exact hdist
   · intro y hy
     exact (hball hy).trans hx'.symm
 
@@ -155,7 +151,10 @@ lemma zeroToGlobal {S : Type u} {n : ℕ} (d : Distance S)
     RelaxedRobust d hd c 0 ε → GloballyRobust d hd c ε := by
   intro h x
   rcases h x with ⟨x', hdist, _, hlocal⟩
-  have heq : x = x' := (hd.2.1 x x').1 (le_antisymm hdist zero_le)
+  have hdist' : d x x' ≤ 0 := by
+    rw [hd.2.2 x x']
+    exact hdist
+  have heq : x = x' := (hd.2.1 x x').1 (le_antisymm hdist' zero_le)
   simpa only [heq] using hlocal
 
 /--
@@ -190,7 +189,7 @@ The forward implication of Theorem 1 in the source paper.
 -/
 lemma robustToUncovered {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (P : Set (Set S)) (hP : IsPartition P) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    Robust d P μ ε → Uncovered d P μ ε := by
+    Robust d hd P hP μ ε → Uncovered d hd P μ ε := by
   intro hrob A hA x hx hcovered
   rcases hrob x with ⟨x', hx', B, hB, hxB, hball⟩
   have hAB : A = B := part_eq_of_mem hP hA hB hx hxB
@@ -212,7 +211,7 @@ The reverse implication of Theorem 1 in the source paper.
 -/
 lemma uncoveredToRobust {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (P : Set (Set S)) (hP : IsPartition P) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    Uncovered d P μ ε → Robust d P μ ε := by
+    Uncovered d hd P μ ε → Robust d hd P hP μ ε := by
   classical
   intro hunc x
   rcases hP.2.2 x with ⟨A, ⟨hA, hxA⟩, _⟩
@@ -235,7 +234,7 @@ The μ=0 consequence of Theorem 1 in the source paper.
 -/
 lemma zeroRobustToSeparated {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (P : Set (Set S)) (hP : IsPartition P) (ε : ℝ≥0) (_hε : 0 < ε) :
-    Robust d P 0 ε → Separated d P ε := by
+    Robust d hd P hP 0 ε → Separated d hd P hP ε := by
   intro hrob A hA B hB hAB x hx y hy
   apply lt_of_not_ge
   intro hdist
@@ -264,7 +263,7 @@ The μ=0 consequence of Theorem 1 in the source paper.
 -/
 lemma separatedToZeroRobust {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (P : Set (Set S)) (hP : IsPartition P) (ε : ℝ≥0) (_hε : 0 < ε) :
-    Separated d P ε → Robust d P 0 ε := by
+    Separated d hd P hP ε → Robust d hd P hP 0 ε := by
   classical
   intro hsep x
   rcases hP.2.2 x with ⟨A, ⟨hA, hxA⟩, _⟩

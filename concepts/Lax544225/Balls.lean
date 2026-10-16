@@ -31,11 +31,13 @@ open scoped NNReal
 
 open Semimetric
 /-- The closed ball centered at x with radius r. -/
-def ball {S : Type u} (d : Distance S) (x : S) (r : ℝ≥0) : Set S :=
+def ball {S : Type u} (d : Distance S) (_hd : IsSemimetric d)
+    (x : S) (r : ℝ≥0) : Set S :=
   {y | d y x ≤ r}
 
 /-- The union of closed r-balls with centers in A. -/
-def neighborhood {S : Type u} (d : Distance S) (A : Set S) (r : ℝ≥0) : Set S :=
-  {y | ∃ x ∈ A, y ∈ ball d x r}
+def neighborhood {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+    (A : Set S) (r : ℝ≥0) : Set S :=
+  {y | ∃ x ∈ A, y ∈ ball d hd x r}
 
 end Lax544225.Balls

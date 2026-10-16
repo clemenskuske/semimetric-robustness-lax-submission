@@ -28,13 +28,19 @@ open Semimetric Partitions PartitionRobustness
 
 /-- Counterexamples to both compositionality implications in Lemma 1. -/
 axiom statement :
-    (∃ (d : Distance (Fin 4)) (P : Set (Set (Fin 4))) (A : Set (Fin 4)),
-    IsSemimetric d ∧ IsPartition P ∧ Robust d P 1 1 ∧
-    A.Nonempty ∧ Aᶜ.Nonempty ∧ OnlyTrivial (fun x y : A => d x.val y.val) 1 1 ∧
+    (∃ (d : Distance (Fin 4)) (hd : IsSemimetric d)
+      (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
+    Robust d hd P hP 1 1 ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    (∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1) ∧
     ¬ ∃ B ∈ P, A ⊆ B) ∧
-    (∃ (d : Distance (Fin 4)) (A B : Set (Fin 4)) (P : Set (Set (Fin 4))),
-    IsSemimetric d ∧ Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧
-    A ∪ B = Set.univ ∧ OnlyTrivial (fun x y : A => d x.val y.val) 1 1 ∧
-    OnlyTrivial (fun x y : B => d x.val y.val) 1 1 ∧ IsPartition P ∧ Robust d P 1 1 ∧ ¬ IsTrivial P)
+    (∃ (d : Distance (Fin 4)) (hd : IsSemimetric d)
+      (A B : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
+    Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧ A ∪ B = Set.univ ∧
+    (∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1) ∧
+    (∀ hB : IsSemimetric (fun x y : B => d x.val y.val),
+      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 1) ∧
+    Robust d hd P hP 1 1 ∧ ¬ IsTrivial P)
 
 end Lax544225.Noncompositionality

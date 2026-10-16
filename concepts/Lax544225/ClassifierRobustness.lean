@@ -1,5 +1,5 @@
 import Lax544225.Classifier
-import Lax544225.Semimetric
+import Lax544225.Balls
 
 /-!
 ---
@@ -34,11 +34,11 @@ namespace Lax544225.ClassifierRobustness
 
 open scoped NNReal
 
-open Classifier Semimetric
+open Classifier Semimetric Balls
 /-- Local robustness of the classifier at x. -/
-def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S) (_hd : IsSemimetric d)
+def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
     (c : Classifier S n) (ε : ℝ≥0) (x : S) : Prop :=
-  ∀ y, d y x ≤ ε → c.label y = c.label x
+  ∀ y ∈ ball d hd x ε, c.label y = c.label x
 
 /-- Local robustness at every input. -/
 def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
@@ -48,6 +48,6 @@ def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
 /-- Coverage of each input by a same-label locally robust input. -/
 def RelaxedRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
     (c : Classifier S n) (μ ε : ℝ≥0) : Prop :=
-  ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyRobust d hd c ε x'
+  ∀ x, ∃ x', x' ∈ ball d hd x μ ∧ c.label x = c.label x' ∧ LocallyRobust d hd c ε x'
 
 end Lax544225.ClassifierRobustness

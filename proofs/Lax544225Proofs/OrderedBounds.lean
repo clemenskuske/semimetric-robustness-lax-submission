@@ -43,7 +43,7 @@ lemma crossing_pair {S : Type u} [Finite S] [LinearOrder S] (A : Set S)
 /-- Moving an opposite-side center towards the point gives a boundary center no farther away. -/
 lemma boundary_center {S : Type u} [Finite S] [LinearOrder S] {d : Distance S}
     (hd : IsOrdered d (· ≤ ·)) (A : Set S) {a b : S} (ha : a ∈ A) (hb : b ∉ A) :
-    ∃ z ∈ boundary Aᶜ, d a z ≤ d a b := by
+    ∃ z ∈ complementBoundary A, d a z ≤ d a b := by
   classical
   have hne : a ≠ b := by rintro rfl; exact hb ha
   rcases lt_or_gt_of_ne hne with hab | hba
@@ -70,7 +70,7 @@ Aleksandrov and Völlinger, Theorem 3, forward direction.
 -/
 lemma cutToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    EveryCutCovered d μ ε → EveryCutBoundaryCovered d μ ε := by
+    EveryCutCovered d hd.1 μ ε → EveryCutBoundaryCovered d hd.1 μ ε := by
   intro h A hA hAc
   obtain ⟨x, hx | hx⟩ := h A hA hAc
   · refine ⟨x, Or.inl ⟨hx.1, ?_⟩⟩
@@ -82,7 +82,7 @@ lemma cutToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distanc
     intro y hy
     obtain ⟨z, hz, hyz⟩ := hx.2 hy.1
     obtain ⟨b, hb, hyb⟩ := boundary_center hd Aᶜ hy.2 (by simpa using hz)
-    exact ⟨b, by simpa using hb, hyb.trans hyz⟩
+    exact ⟨b, by simpa [complementBoundary] using hb, hyb.trans hyz⟩
 
 /--
 Extend the side-restricted covering to the whole ball.
@@ -96,7 +96,7 @@ Aleksandrov and Völlinger, Theorem 3, reverse direction.
 -/
 lemma boundaryToCutCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    EveryCutBoundaryCovered d μ ε → EveryCutCovered d μ ε := by
+    EveryCutBoundaryCovered d hd.1 μ ε → EveryCutCovered d hd.1 μ ε := by
   classical
   intro h A hA hAc
   obtain ⟨x, hx | hx⟩ := h A hA hAc
@@ -161,32 +161,33 @@ lemma inverse_ratios_bounded {S : Type u} [Finite S] [LinearOrder S] (d : Distan
   exact ⟨(x, y), rfl⟩
 
 lemma distance_upper {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    {x y : S} (hxy : x < y) : d x y ≤ deltaUpper d * (steps x y : ℝ≥0) := by
-  have hratio : d x y / (steps x y : ℝ≥0) ≤ deltaUpper d :=
+    (hd : IsOrdered d (· ≤ ·)) {x y : S} (hxy : x < y) :
+    d x y ≤ deltaUpper d hd * (steps x y : ℝ≥0) := by
+  have hratio : d x y / (steps x y : ℝ≥0) ≤ deltaUpper d hd :=
     le_csSup (upper_ratios_bounded d) ⟨x, y, hxy, rfl⟩
   exact (div_le_iff₀ (by exact_mod_cast steps_pos hxy)).1 hratio
 
 lemma steps_inverse {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsSemimetric d) {x y : S} (hxy : x < y) :
-    (steps x y : ℝ≥0) ≤ deltaInverse d * d x y := by
+    (hd : IsOrdered d (· ≤ ·)) {x y : S} (hxy : x < y) :
+    (steps x y : ℝ≥0) ≤ deltaInverse d hd * d x y := by
   have hdpos : 0 < d x y := pos_iff_ne_zero.2 (by
     intro hz
-    exact hxy.ne ((hd.2.1 x y).1 hz))
-  have hratio : (steps x y : ℝ≥0) / d x y ≤ deltaInverse d :=
+    exact hxy.ne ((hd.1.2.1 x y).1 hz))
+  have hratio : (steps x y : ℝ≥0) / d x y ≤ deltaInverse d hd :=
     le_csSup (inverse_ratios_bounded d) ⟨x, y, hxy, rfl⟩
   exact (div_le_iff₀ hdpos).1 hratio
 
 lemma precision_product_ge_one {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsSemimetric d) {x y : S} (hxy : Successor x y) :
-    1 ≤ deltaUpper d * deltaInverse d := by
-  have hu := distance_upper d hxy.lt
+    (hd : IsOrdered d (· ≤ ·)) {x y : S} (hxy : Successor x y) :
+    1 ≤ deltaUpper d hd * deltaInverse d hd := by
+  have hu := distance_upper d hd hxy.lt
   have hi := steps_inverse d hd hxy.lt
   rw [steps_successor hxy] at hu hi
   simp only [Nat.cast_one, mul_one] at hu hi
   calc
-    1 ≤ deltaInverse d * d x y := hi
-    _ ≤ deltaInverse d * deltaUpper d := mul_le_mul_of_nonneg_left hu zero_le
-    _ = deltaUpper d * deltaInverse d := mul_comm _ _
+    1 ≤ deltaInverse d hd * d x y := hi
+    _ ≤ deltaInverse d hd * deltaUpper d hd := mul_le_mul_of_nonneg_left hu zero_le
+    _ = deltaUpper d hd * deltaInverse d hd := mul_comm _ _
 
 /--
 ---
@@ -204,36 +205,36 @@ Aleksandrov and Völlinger, Theorem 4.
 -/
 theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε)
-    (hbound : threshold d μ ≤ ε) (x y : S) (hxy : Successor x y) :
-    ball d x μ ⊆ ball d y ε := by
+    (hbound : threshold d hd μ ≤ ε) (x y : S) (hxy : Successor x y) :
+    ball d hd.1 x μ ⊆ ball d hd.1 y ε := by
   intro z hz
   change d z x ≤ μ at hz
   change d z y ≤ ε
   rcases lt_trichotomy z x with hzx | rfl | hxz
   · calc
-      d z y ≤ deltaUpper d * (steps z y : ℝ≥0) := distance_upper d (hzx.trans hxy.lt)
-      _ = deltaUpper d * (steps z x : ℝ≥0) + deltaUpper d := by
+      d z y ≤ deltaUpper d hd * (steps z y : ℝ≥0) := distance_upper d hd (hzx.trans hxy.lt)
+      _ = deltaUpper d hd * (steps z x : ℝ≥0) + deltaUpper d hd := by
         rw [steps_successor_add hzx.le hxy, Nat.cast_add, Nat.cast_one]
         ring
-      _ ≤ deltaUpper d * (deltaInverse d * d z x) + deltaUpper d := by
+      _ ≤ deltaUpper d hd * (deltaInverse d hd * d z x) + deltaUpper d hd := by
         gcongr
-        exact steps_inverse d hd.1 hzx
-      _ = deltaUpper d * deltaInverse d * d z x + deltaUpper d := by ring
-      _ ≤ threshold d μ := by
+        exact steps_inverse d hd hzx
+      _ = deltaUpper d hd * deltaInverse d hd * d z x + deltaUpper d hd := by ring
+      _ ≤ threshold d hd μ := by
         unfold threshold
         gcongr
       _ ≤ ε := hbound
-  · have hu := distance_upper d hxy.lt
+  · have hu := distance_upper d hd hxy.lt
     rw [steps_successor hxy, Nat.cast_one, mul_one] at hu
-    exact hu.trans ((le_add_of_nonneg_left (show 0 ≤ deltaUpper d * deltaInverse d * μ
+    exact hu.trans ((le_add_of_nonneg_left (show 0 ≤ deltaUpper d hd * deltaInverse d hd * μ
       from zero_le)).trans hbound)
   · have hyz : y ≤ z := hxy.ge_of_gt hxz
-    have hμ : μ ≤ threshold d μ := by
+    have hμ : μ ≤ threshold d hd μ := by
       calc
         μ = 1 * μ := (one_mul μ).symm
-        _ ≤ (deltaUpper d * deltaInverse d) * μ :=
-          mul_le_mul_of_nonneg_right (precision_product_ge_one d hd.1 hxy) zero_le
-        _ ≤ threshold d μ := le_add_of_nonneg_right zero_le
+        _ ≤ (deltaUpper d hd * deltaInverse d hd) * μ :=
+          mul_le_mul_of_nonneg_right (precision_product_ge_one d hd hxy) zero_le
+        _ ≤ threshold d hd μ := le_add_of_nonneg_right zero_le
     rw [hd.1.2.2 z y, hd.1.2.2 z x] at *
     exact ((le_add_of_nonneg_left (show 0 ≤ d x y from zero_le)).trans
       (hd.2.2 x y z hxy.le hyz)).trans (hz.trans (hμ.trans hbound))
@@ -254,7 +255,7 @@ Aleksandrov and Völlinger, Corollary 2.
 -/
 lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε)
-    (hbound : threshold d μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d μ ε := by
+    (hbound : threshold d hd μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
   apply (Lax544225.BoundaryExistence.statement d hd μ ε hε).mpr
   intro A hA hAc
   obtain ⟨a, ha⟩ := hA
@@ -283,7 +284,7 @@ Aleksandrov and Völlinger, Corollary 1, forward direction.
 -/
 lemma trivialityToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    Lax544225.PartitionRobustness.OnlyTrivial d μ ε → EveryCutBoundaryCovered d μ ε := by
+    Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε → EveryCutBoundaryCovered d hd.1 μ ε := by
   intro h
   exact (Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε hε).mp
     ((Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mp h)
@@ -299,7 +300,7 @@ Aleksandrov and Völlinger, Corollary 1, reverse direction.
 -/
 lemma boundaryCoveringToTriviality {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutBoundaryCovered d μ ε → Lax544225.PartitionRobustness.OnlyTrivial d μ ε := by
+    EveryCutBoundaryCovered d hd.1 μ ε → Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
   intro h
   exact (Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mpr
     ((Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε hε).mpr h)

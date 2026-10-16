@@ -35,8 +35,8 @@ lemma part_disjoint {S : Type u} {P : Set (Set S)} (hP : IsPartition P)
   intro x hx hxb
   exact (hP.2.pairwiseDisjoint hA hB hne).le_bot ⟨hx, hxb⟩
 
-lemma neighborhood_mono {S : Type u} (d : Distance S) (r : ℝ≥0)
-    {A B : Set S} (h : A ⊆ B) : neighborhood d A r ⊆ neighborhood d B r := by
+lemma neighborhood_mono {S : Type u} (d : Distance S) (hd : IsSemimetric d) (r : ℝ≥0)
+    {A B : Set S} (h : A ⊆ B) : neighborhood d hd A r ⊆ neighborhood d hd B r := by
   rintro x ⟨y, hy, hxy⟩
   exact ⟨y, h hy, hxy⟩
 
@@ -55,12 +55,12 @@ on Semimetric Spaces*, supplied FSEN 2027 manuscript, p. 9.
 -/
 lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d μ ε → EveryCutCovered d μ ε := by
+    OnlyTrivial d hd μ ε → EveryCutCovered d hd μ ε := by
   classical
   intro htr A hA hAc
   by_contra hn
   have hP := cut_partition A hA hAc
-  have hun : Uncovered d ({A, Aᶜ} : Set (Set S)) μ ε := by
+  have hun : Uncovered d hd ({A, Aᶜ} : Set (Set S)) μ ε := by
     intro B hB x hx hcov
     rcases Set.mem_insert_iff.mp hB with rfl | hB
     · exact hn ⟨x, Or.inl ⟨hx, hcov⟩⟩
@@ -93,7 +93,7 @@ on Semimetric Spaces*, supplied FSEN 2027 manuscript, p. 9.
 -/
 lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutCovered d μ ε → OnlyTrivial d μ ε := by
+    EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε := by
   classical
   intro hcut P hP hrob
   have hun := (CoveringCharacterization.statement d hd P hP μ ε hε).mp hrob
@@ -109,7 +109,7 @@ lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetric d
         intro heq
         exact hx (heq ▸ hxB)
       exact hun B hB x hxB
-        (hcov.trans (neighborhood_mono d ε (part_disjoint hP hA hB hAB)))
+        (hcov.trans (neighborhood_mono d hd ε (part_disjoint hP hA hB hAB)))
   change P = {Set.univ}
   apply Set.ext
   intro A

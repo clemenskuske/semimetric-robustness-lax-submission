@@ -1,4 +1,4 @@
-import Lax544225.Semimetric
+import Lax544225.OrderedSemimetric
 import Mathlib.Data.Set.Card
 import Mathlib.Data.NNReal.Defs
 import Mathlib.Order.Interval.Set.Basic
@@ -24,7 +24,7 @@ where $|\cdot|$ denotes set cardinality.
 
 # Formalization notes
 
-The formulas are defined for partial orders and used only on finite totally ordered carriers or pieces. The interval uses the ambient order of that carrier or piece. Natural cardinalities are cast into ℝ≥0 before division. Suprema of the finite ratio sets are their maxima. On a singleton the ratio sets are empty and Δ=δ=0, extending the paper’s undefined singleton case so decomposition pieces of size one need no arbitrary parameters. Δ equals the largest adjacent gap only for an additive distance; no such equality is presumed for general semimetrics.
+The formulas take an ordered semimetric on a finite partially ordered carrier. The paper applies them to totally ordered carriers or pieces. The interval uses the ambient order of that carrier or piece. Natural cardinalities are cast into ℝ≥0 before division. Suprema of the finite ratio sets are their maxima. On a singleton the ratio sets are empty and Δ=δ=0, extending the paper’s undefined singleton case so decomposition pieces of size one need no arbitrary parameters. Δ equals the largest adjacent gap only for an additive distance; no such equality is presumed for general semimetrics.
 -/
 
 universe u
@@ -33,21 +33,23 @@ namespace Lax544225.PrecisionGaps
 
 open scoped NNReal
 
-open Semimetric
+open Semimetric OrderedSemimetric
 /-- The number of consecutive steps between the endpoints of a closed interval. -/
 noncomputable def steps {S : Type u} [PartialOrder S] (x y : S) : ℕ :=
   (Set.Icc x y).ncard - 1
 
 /-- The largest average distance per ordered step. -/
-noncomputable def deltaUpper {S : Type u} [PartialOrder S] (d : Distance S) : ℝ≥0 :=
+noncomputable def deltaUpper {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
+    (_hd : IsOrdered d (· ≤ ·)) : ℝ≥0 :=
   sSup {r | ∃ x y, x < y ∧ r = d x y / (steps x y : ℝ≥0)}
 
 /-- The largest number of ordered steps per unit distance. -/
-noncomputable def deltaInverse {S : Type u} [PartialOrder S] (d : Distance S) : ℝ≥0 :=
+noncomputable def deltaInverse {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
+    (_hd : IsOrdered d (· ≤ ·)) : ℝ≥0 :=
   sSup {r | ∃ x y, x < y ∧ r = (steps x y : ℝ≥0) / d x y}
 
 /-- The paper’s precision-dependent obstruction threshold Δδμ+Δ. -/
-noncomputable def threshold {S : Type u} [PartialOrder S] (d : Distance S)
-    (μ : ℝ≥0) : ℝ≥0 := deltaUpper d * deltaInverse d * μ + deltaUpper d
+noncomputable def threshold {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
+    (hd : IsOrdered d (· ≤ ·)) (μ : ℝ≥0) : ℝ≥0 := deltaUpper d hd * deltaInverse d hd * μ + deltaUpper d hd
 
 end Lax544225.PrecisionGaps

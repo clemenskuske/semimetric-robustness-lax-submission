@@ -33,9 +33,10 @@ open scoped NNReal
 
 open Semimetric Balls
 /-- A finite family of nonempty μ-closed pieces connected by overlaps. -/
-def IsDecomposition {S : Type u} (d : Distance S) (D : Set (Set S)) (μ : ℝ≥0) : Prop :=
+def IsDecomposition {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+    (D : Set (Set S)) (μ : ℝ≥0) : Prop :=
   D.Finite ∧ (∀ A ∈ D, A.Nonempty) ∧
-    (∀ A ∈ D, ∀ x ∈ A, ball d x μ ⊆ A) ∧
+    (∀ A ∈ D, ∀ x ∈ A, ball d hd x μ ⊆ A) ∧
     (∀ x y, ∃ A ∈ D, ∃ B ∈ D, x ∈ A ∧ y ∈ B ∧
       Relation.ReflTransGen (fun C E => C ∈ D ∧ E ∈ D ∧ (C ∩ E).Nonempty) A B)
 

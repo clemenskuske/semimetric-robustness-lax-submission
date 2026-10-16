@@ -38,3 +38,9 @@ Source references are recorded in `manifest.yaml`; source code uses Apache 2.0.
 Each of Theorems 1–5 is one concept with its full paper statement and one PDF
 passage. Covering conditions are written directly in theorem statements; named
 shorthands for these conditions are confined to the proof package.
+
+Space-dependent definitions consistently require semimetric or ordered-semimetric
+evidence. Partition robustness also requires a valid finite partition. Theorem
+statements and proofs pass their existing assumptions through these concepts;
+classifier robustness reuses balls, and boundary results reuse the named
+complement boundary. Subspace certificates remain proof helpers.

@@ -28,10 +28,11 @@ private lemma trace_partition {S : Type u} (A : Set S) {P : Set (Set S)}
     have hEB : E = B := hu E ⟨hE.1, hxE⟩
     rw [hEB]
 
-private lemma trace_robust {S : Type u} (d : Distance S) {P : Set (Set S)}
-    (A : Set S) (μ ε : ℝ≥0) (hrob : Robust d P μ ε)
-    (hclosed : ∀ x ∈ A, ball d x μ ⊆ A) :
-    Robust (restrict d A) (traceFamily A P) μ ε := by
+private lemma trace_robust {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+    {P : Set (Set S)} (hP : IsPartition P) (A : Set S) (hA : IsSemimetric (restrict d A))
+    (μ ε : ℝ≥0) (hrob : Robust d hd P hP μ ε)
+    (hclosed : ∀ x ∈ A, ball d hd x μ ⊆ A) :
+    Robust (restrict d A) hA (traceFamily A P) (trace_partition A hP) μ ε := by
   intro x
   obtain ⟨y, hxy, B, hB, hxB, hball⟩ := hrob x.val
   have hyA := hclosed x.val x.property hxy
@@ -41,14 +42,14 @@ private lemma trace_robust {S : Type u} (d : Distance S) {P : Set (Set S)}
     exact hball hz
 
 private lemma piece_monochromatic {S : Type u} (d : Distance S)
-    {P : Set (Set S)} (hP : IsPartition P) (μ ε : ℝ≥0)
-    (hrob : Robust d P μ ε) (A : Set S)
-    (hclosed : ∀ x ∈ A, ball d x μ ⊆ A)
-    (hlocal : OnlyTrivial (restrict d A) μ ε) :
+    (hd : IsSemimetric d) {P : Set (Set S)} (hP : IsPartition P) (μ ε : ℝ≥0)
+    (hrob : Robust d hd P hP μ ε) (A : Set S) (hA : IsSemimetric (restrict d A))
+    (hclosed : ∀ x ∈ A, ball d hd x μ ⊆ A)
+    (hlocal : OnlyTrivial (restrict d A) hA μ ε) :
     ∀ B ∈ P, (A ∩ B).Nonempty → A ⊆ B := by
   intro B hB hAB
   have heq := hlocal (traceFamily A P) (trace_partition A hP)
-    (trace_robust d A μ ε hrob hclosed)
+    (trace_robust d hd hP A hA μ ε hrob hclosed)
   obtain ⟨x, hxA, hxB⟩ := hAB
   have hmem : trace A B ∈ traceFamily A P :=
     ⟨B, ⟨hB, ⟨⟨x, hxA⟩, hxB⟩⟩, rfl⟩
@@ -77,13 +78,18 @@ Theorem 5 of Aleksandrov and Völlinger, *Relaxing Global Classifier Robustness
 on Semimetric Spaces*, supplied FSEN 2027 manuscript, pp. 13–14.
 -/
 theorem decompositionObstruction {S : Type u} (d : Distance S) (hd : IsSemimetric d)
-    (D : Set (Set S)) (μ ε : ℝ≥0) (_hε : 0 < ε) (hD : IsDecomposition d D μ)
-    (hlocal : ∀ A ∈ D, OnlyTrivial (restrict d A) μ ε) : OnlyTrivial d μ ε := by
+    (D : Set (Set S)) (μ ε : ℝ≥0) (_hε : 0 < ε)
+    (hD : IsDecomposition d hd D μ)
+    (hlocal : ∀ A ∈ D, ∀ hA : IsSemimetric (restrict d A),
+      OnlyTrivial (restrict d A) hA μ ε) : OnlyTrivial d hd μ ε := by
   classical
   intro P hP hrob
   have hmono : ∀ A ∈ D, ∀ B ∈ P, (A ∩ B).Nonempty → A ⊆ B := by
     intro A hA
-    exact piece_monochromatic d hP μ ε hrob A (hD.2.2.1 A hA) (hlocal A hA)
+    have hsm : IsSemimetric (restrict d A) :=
+      restrict_isSemimetric d hd A (hD.2.1 A hA)
+    exact piece_monochromatic d hd hP μ ε hrob A hsm (hD.2.2.1 A hA)
+      (hlocal A hA hsm)
   have hall : ∀ B ∈ P, B = Set.univ := by
     intro B hB
     obtain ⟨x, hx⟩ := Setoid.nonempty_of_mem_partition hP.2 hB
@@ -130,29 +136,21 @@ on Semimetric Spaces*, supplied FSEN 2027 manuscript, p. 14.
 -/
 lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S]
     (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (D : Set (Set S))
-    (μ ε : ℝ≥0) (hε : 0 < ε) (hD : IsDecomposition d D μ)
+    (μ ε : ℝ≥0) (hε : 0 < ε) (hD : IsDecomposition d hd.1 D μ)
     (hchain : ∀ A ∈ D, ∀ x ∈ A, ∀ y ∈ A, x ≤ y ∨ y ≤ x)
-    (hbound : ∀ A ∈ D, threshold (restrict d A) μ ≤ ε) : OnlyTrivial d μ ε := by
+    (hbound : ∀ A ∈ D, ∀ hA : IsOrdered (restrict d A) (· ≤ ·),
+      threshold (restrict d A) hA μ ≤ ε) : OnlyTrivial d hd.1 μ ε := by
   classical
   apply DecompositionObstruction.statement d hd.1 D μ ε hε hD
-  intro A hA
+  intro A hA hsm
   let : LinearOrder A := {
     (inferInstance : PartialOrder A) with
     le_total := fun x y => hchain A hA x.val x.property y.val y.property
     toDecidableLE := Classical.decRel _ }
-  have hsm : IsSemimetric (restrict d A) := by
-    obtain ⟨x, hx⟩ := hD.2.1 A hA
-    refine ⟨⟨⟨x, hx⟩⟩, ?_, ?_⟩
-    · intro x y
-      change d x.val y.val = 0 ↔ x = y
-      rw [hd.1.2.1]
-      exact Subtype.val_injective.eq_iff
-    · intro x y
-      exact hd.1.2.2 x.val y.val
   have ho : IsOrdered (restrict d A) (· ≤ ·) := by
     refine ⟨hsm, inferInstance, ?_⟩
     intro x y z hxy hyz
     exact hd.2.2 x.val y.val z.val hxy hyz
-  exact PrecisionObstruction.statement (restrict d A) ho μ ε hε (hbound A hA)
+  exact PrecisionObstruction.statement (restrict d A) ho μ ε hε (hbound A hA ho)
 
 end Lax544225Proofs.Decomposition

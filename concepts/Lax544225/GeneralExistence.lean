@@ -38,8 +38,8 @@ open Semimetric PartitionRobustness Balls
 /-- The trivial partition is the only robust partition exactly when every nonempty proper cut admits a covering point on one side from ε-balls centered on the other side. -/
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d μ ε ↔ (∀ A : Set S, A.Nonempty → Aᶜ.Nonempty →
-      ∃ x, (x ∈ A ∧ ball d x μ ⊆ neighborhood d Aᶜ ε) ∨
-        (x ∈ Aᶜ ∧ ball d x μ ⊆ neighborhood d A ε))
+    OnlyTrivial d hd μ ε ↔ (∀ A : Set S, A.Nonempty → Aᶜ.Nonempty →
+      ∃ x, (x ∈ A ∧ ball d hd x μ ⊆ neighborhood d hd Aᶜ ε) ∨
+        (x ∈ Aᶜ ∧ ball d hd x μ ⊆ neighborhood d hd A ε))
 
 end Lax544225.GeneralExistence

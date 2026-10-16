@@ -26,7 +26,8 @@ private lemma split_partition : IsPartition split := by
   · exact ⟨0, by norm_num [low]⟩
   · exact ⟨3, by norm_num [low]⟩
 
-private lemma split_robust : Robust line split 1 1 := by
+private lemma split_robust (hd : IsSemimetric line) (hP : IsPartition split) :
+    Robust line hd split hP 1 1 := by
   intro x
   by_cases hx : x.val < 2
   · refine ⟨0, ?_, low, by simp [split], hx, ?_⟩
@@ -47,8 +48,9 @@ private lemma split_nontrivial : ¬ IsTrivial split := by
   norm_num [low] at this
 
 /-- If every ε-ball contains a common point, robustness forces a trivial partition. -/
-private lemma common_ball_trivial {S : Type*} (d : Distance S) (pivot : S)
-    (μ ε : ℝ≥0) (hcommon : ∀ x, d pivot x ≤ ε) : OnlyTrivial d μ ε := by
+private lemma common_ball_trivial {S : Type*} (d : Distance S) (hd : IsSemimetric d)
+    (pivot : S) (μ ε : ℝ≥0) (hcommon : ∀ x, d pivot x ≤ ε) :
+    OnlyTrivial d hd μ ε := by
   intro P hP hrob
   have hpart : ∀ B ∈ P, pivot ∈ B := by
     intro B hB
@@ -89,15 +91,18 @@ so the common-ball lemma forces triviality. The pair is in neither global part.
 Lemma 1.1 of Aleksandrov and Völlinger, *Relaxing Global Classifier Robustness
 on Semimetric Spaces*, supplied FSEN 2027 manuscript, p. 13.
 -/
-lemma restrictionCounterexample : ∃ (d : Distance (Fin 4))
-    (P : Set (Set (Fin 4))) (A : Set (Fin 4)),
-    IsSemimetric d ∧ IsPartition P ∧ Robust d P 1 1 ∧
-    A.Nonempty ∧ Aᶜ.Nonempty ∧ OnlyTrivial (restrict d A) 1 1 ∧
+lemma restrictionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetric d)
+    (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
+    Robust d hd P hP 1 1 ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    (∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1) ∧
     ¬ ∃ B ∈ P, A ⊆ B := by
   let A : Set (Fin 4) := {x | x.val = 1 ∨ x.val = 2}
-  refine ⟨line, split, A, line_semimetric, split_partition, split_robust,
+  refine ⟨line, line_semimetric, split, split_partition, A,
+    split_robust line_semimetric split_partition,
     ⟨1, by simp [A]⟩, ⟨0, by simp [A]⟩, ?_, ?_⟩
-  · apply common_ball_trivial (restrict line A) ⟨1, by simp [A]⟩ 1 1
+  · intro hA
+    apply common_ball_trivial (restrict line A) hA ⟨1, by simp [A]⟩ 1 1
     intro x
     obtain ⟨x, hx⟩ := x
     change x.val = 1 ∨ x.val = 2 at hx
@@ -128,28 +133,33 @@ triple and verify their overlap and union directly.
 Lemma 1.2 of Aleksandrov and Völlinger, *Relaxing Global Classifier Robustness
 on Semimetric Spaces*, supplied FSEN 2027 manuscript, p. 13.
 -/
-lemma unionCounterexample : ∃ (d : Distance (Fin 4))
-    (A B : Set (Fin 4)) (P : Set (Set (Fin 4))),
-    IsSemimetric d ∧ Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧
-    A ∪ B = Set.univ ∧ OnlyTrivial (restrict d A) 1 1 ∧
-    OnlyTrivial (restrict d B) 1 1 ∧ IsPartition P ∧ Robust d P 1 1 ∧ ¬ IsTrivial P := by
+lemma unionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetric d)
+    (A B : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
+    Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧ A ∪ B = Set.univ ∧
+    (∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1) ∧
+    (∀ hB : IsSemimetric (fun x y : B => d x.val y.val),
+      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 1) ∧
+    Robust d hd P hP 1 1 ∧ ¬ IsTrivial P := by
   let A : Set (Fin 4) := {x | x.val < 3}
   let B : Set (Fin 4) := {x | 0 < x.val}
-  refine ⟨line, A, B, split, line_semimetric,
+  refine ⟨line, line_semimetric, A, B, split, split_partition,
     ⟨3, by simp [A]⟩, ⟨0, by simp [B]⟩, ⟨1, by simp [A, B]⟩,
-    ?_, ?_, ?_, split_partition, split_robust, split_nontrivial⟩
+    ?_, ?_, ?_, split_robust line_semimetric split_partition, split_nontrivial⟩
   · apply Set.eq_univ_of_forall
     intro x
     change x.val < 3 ∨ 0 < x.val
     fin_cases x <;> norm_num
-  · apply common_ball_trivial (restrict line A) ⟨1, by simp [A]⟩ 1 1
+  · intro hA
+    apply common_ball_trivial (restrict line A) hA ⟨1, by simp [A]⟩ 1 1
     intro x
     obtain ⟨x, hx⟩ := x
     change x.val < 3 at hx
     fin_cases x
     all_goals norm_num [restrict, line, Nat.dist] at *
     all_goals simp_all
-  · apply common_ball_trivial (restrict line B) ⟨2, by simp [B]⟩ 1 1
+  · intro hB
+    apply common_ball_trivial (restrict line B) hB ⟨2, by simp [B]⟩ 1 1
     intro x
     obtain ⟨x, hx⟩ := x
     change 0 < x.val at hx
@@ -174,14 +184,20 @@ criterion; their subsets witness the two failures separately.
 Lemma 1 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript, p. 13.
 -/
 lemma noncompositionality :
-    (∃ (d : Distance (Fin 4)) (P : Set (Set (Fin 4))) (A : Set (Fin 4)),
-    IsSemimetric d ∧ IsPartition P ∧ Robust d P 1 1 ∧
-    A.Nonempty ∧ Aᶜ.Nonempty ∧ OnlyTrivial (restrict d A) 1 1 ∧
+    (∃ (d : Distance (Fin 4)) (hd : IsSemimetric d)
+      (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
+    Robust d hd P hP 1 1 ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    (∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1) ∧
     ¬ ∃ B ∈ P, A ⊆ B) ∧
-    (∃ (d : Distance (Fin 4)) (A B : Set (Fin 4)) (P : Set (Set (Fin 4))),
-    IsSemimetric d ∧ Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧
-    A ∪ B = Set.univ ∧ OnlyTrivial (restrict d A) 1 1 ∧
-    OnlyTrivial (restrict d B) 1 1 ∧ IsPartition P ∧ Robust d P 1 1 ∧ ¬ IsTrivial P) := by
+    (∃ (d : Distance (Fin 4)) (hd : IsSemimetric d)
+      (A B : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
+    Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧ A ∪ B = Set.univ ∧
+    (∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1) ∧
+    (∀ hB : IsSemimetric (fun x y : B => d x.val y.val),
+      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 1) ∧
+    Robust d hd P hP 1 1 ∧ ¬ IsTrivial P) := by
   exact ⟨restrictionCounterexample, unionCounterexample⟩
 
 end Lax544225Proofs.Counterexamples

@@ -26,8 +26,9 @@ open Semimetric OrderedSemimetric Decomposition PartitionRobustness PrecisionGap
 /-- In a finite partially ordered semimetric space, a (μ,ε)-decomposition into totally ordered pieces admits only trivial robust partitions if ε≥Δᵢδᵢμ+Δᵢ for every piece. -/
 axiom statement {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (D : Set (Set S)) (μ ε : ℝ≥0) (hε : 0 < ε)
-    (hD : IsDecomposition d D μ)
+    (hD : IsDecomposition d hd.1 D μ)
     (hchain : ∀ A ∈ D, ∀ x ∈ A, ∀ y ∈ A, x ≤ y ∨ y ≤ x)
-    (hbound : ∀ A ∈ D, threshold (fun x y : A => d x.val y.val) μ ≤ ε) : OnlyTrivial d μ ε
+    (hbound : ∀ A ∈ D, ∀ hA : IsOrdered (fun x y : A => d x.val y.val) (· ≤ ·),
+      threshold (fun x y : A => d x.val y.val) hA μ ≤ ε) : OnlyTrivial d hd.1 μ ε
 
 end Lax544225.PartialOrderPrecisionBound

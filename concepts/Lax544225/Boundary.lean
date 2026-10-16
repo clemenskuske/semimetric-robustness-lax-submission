@@ -41,5 +41,8 @@ abbrev Successor {S : Type u} [LinearOrder S] (x y : S) : Prop :=
 def boundary {S : Type u} [LinearOrder S] (A : Set S) : Set S :=
   {x | x ∈ A ∧ ∃ y ∈ Aᶜ, Successor x y ∨ Successor y x}
 
+/-- Points outside A adjacent to A in the ambient order. -/
+def complementBoundary {S : Type u} [LinearOrder S] (A : Set S) : Set S :=
+  boundary Aᶜ
 
 end Lax544225.Boundary
