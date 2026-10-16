@@ -76,20 +76,18 @@ For $\epsilon$-robustness ($\mu=0$), we see that $\epsilon \geq \Delta$ is an up
 \label{subsec:bounds-partial}
 
 Usually, classifiers are not defined on a single floating-point number line but on multi-dimensional vectors that potentially consist of numbers with different precision (e.g. integers and floats). The total order given by an arithmetic over each vector dimension creates a partial order over the entire vector space. This multi-dimensional setting demands an extended result on the achievable robustness of a classifier. Unfortunately, $(\mu,\epsilon)$-robustness shows non-compositional behavior which we want to illustrate with a lemma:
+% lax begin Lax544225.Noncompositionality
 \begin{lemma}
 \label{lem:noncompositional}
 Given a semimetric space $(S, d)$ let $S_1, S_2 \subset S$ with $S_1 \cap S_2 \neq \emptyset$ as well as $\mu \geq 0, \epsilon > 0$. The following statements are \textbf{false}:
 \begin{enumerate}
-% lax begin Lax544225.RestrictionCounterexample
     \item If the only $(\mu, \epsilon)$-robust partition on $S_1$ is trivial, all $(\mu, \epsilon)$-robust partitions $P$ on $S$ include a superset of $S_1$.
-% lax end
 
-% lax begin Lax544225.UnionCounterexample
     \item If the only $(\mu, \epsilon)$-robust partitions on $S_1$ and $S_2$ trivial, the only $(\mu, \epsilon)$-robust partition on $S_1 \cup S_2$ is trivial.
-% lax end
 
 \end{enumerate}
 \end{lemma}
+% lax end
 \begin{proof}
 We provide counterexamples for $S := \{a,b,c,d\}$ with $d(a,b) = d(b,c) = d(c,d) = 1$, $d(a,c) = d(b,d) = 2$ and $d(a,d) = 3$. Note that $S$ has a nontrivial robust partition for $\mu = \epsilon = 1$: $\{\{a,b\},\{c,d\}\}$.
 \begin{enumerate}

@@ -1,5 +1,4 @@
-import Lax544225.RestrictionCounterexample
-import Lax544225.UnionCounterexample
+import Lax544225.Noncompositionality
 import Lax544225Proofs.Basic
 import Lax544225Proofs.Existence
 import Mathlib.Data.Nat.Dist
@@ -75,9 +74,6 @@ private lemma common_ball_trivial {S : Type*} (d : Distance S) (pivot : S)
     simpa [hBu, hall A hA] using hA
 
 /--
----
-conclusion: Lax544225.RestrictionCounterexample.statement
----
 The four-point line has a robust two-part partition, while its middle pair is
 locally trivial and crosses both global parts.
 
@@ -117,9 +113,6 @@ lemma restrictionCounterexample : ∃ (d : Distance (Fin 4))
       norm_num [low] at this
 
 /--
----
-conclusion: Lax544225.UnionCounterexample.statement
----
 The overlapping triples of the four-point line are locally trivial, although
 their union has a nontrivial robust partition.
 
@@ -162,5 +155,32 @@ lemma unionCounterexample : ∃ (d : Distance (Fin 4))
     fin_cases x
     all_goals norm_num [restrict, line, Nat.dist] at *
     all_goals simp_all
+
+/--
+---
+conclusion: Lax544225.Noncompositionality.statement
+---
+Both compositionality implications fail.
+
+# Proof strategy
+
+Combine the restriction and union counterexample lemmas. Both reuse the same
+four-point semimetric, robust two-part partition, and common-ball triviality
+criterion; their subsets witness the two failures separately.
+
+# Attribution
+
+Lemma 1 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript, p. 13.
+-/
+lemma noncompositionality :
+    (∃ (d : Distance (Fin 4)) (P : Set (Set (Fin 4))) (A : Set (Fin 4)),
+    IsSemimetric d ∧ IsPartition P ∧ Robust d P 1 1 ∧
+    A.Nonempty ∧ Aᶜ.Nonempty ∧ OnlyTrivial (restrict d A) 1 1 ∧
+    ¬ ∃ B ∈ P, A ⊆ B) ∧
+    (∃ (d : Distance (Fin 4)) (A B : Set (Fin 4)) (P : Set (Set (Fin 4))),
+    IsSemimetric d ∧ Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧
+    A ∪ B = Set.univ ∧ OnlyTrivial (restrict d A) 1 1 ∧
+    OnlyTrivial (restrict d B) 1 1 ∧ IsPartition P ∧ Robust d P 1 1 ∧ ¬ IsTrivial P) := by
+  exact ⟨restrictionCounterexample, unionCounterexample⟩
 
 end Lax544225Proofs.Counterexamples
