@@ -28,9 +28,9 @@ Validation:
 lax build . --replay
 ```
 
-The nine unused helper warnings are intentional: these lemmas validate the
-classifier/partition and zero-relaxation definitions without adding public
-result entries.
+Unused helper warnings are intentional: these lemmas validate the
+classifier/partition and zero-relaxation definitions and the Flocq correspondence
+without adding public result entries.
 
 Formalization credit: Clemens Kuske and Codex (OpenAI).
 Source references are recorded in `manifest.yaml`; source code uses Apache 2.0.
@@ -44,3 +44,15 @@ evidence. Partition robustness also requires a valid finite partition. Theorem
 statements and proofs pass their existing assumptions through these concepts;
 classifier robustness reuses balls, and boundary results reuse the named
 complement boundary. Subspace certificates remain proof helpers.
+
+The proof package also translates the floating-point mathematics from the
+[reference Flocq development](https://github.com/verinncoq/mueps-robustness-proofs/blob/d0d81caa28f9ffd166ffd245510c99b0db1c2962/flocq_ordered_spaces/semimetrics.v).
+`FlocqBridge` maps total precision/exponent parameters and proves exact rational
+embeddings agree with the existing real definitions. `FlocqStrict` proves the
+strict squared-distance inequality. `FlocqExamples` checks binary64 special
+values, list padding and the failure of maximum distance with ordinary pointwise
+order, reusing the existing product/list construction proofs. These are
+proof-side helpers; the 25 concepts and 14 public claims are unchanged.
+This is an independent Lean proof of that mathematical model, not an import of
+Rocq proofs or a port of Flocq's rounding library. The reference repository's
+standalone `first_formalization/lean` package is maintained separately.
