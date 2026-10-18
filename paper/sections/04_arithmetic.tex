@@ -18,7 +18,13 @@ With these considerations, we arrive at our mathematical model standing for comp
 % lax end
 
 
-\paragraph{Model Validation.} After defining ordered semimetric spaces, the question remains whether such spaces indeed exist on floating point numbers and can resemble common distances. To verify this, we utilized Mistral Vibe to generate provably correct instances of ordered semimetric spaces with respect to the IEEE 754 total order on lists of Flocq~\cite{boldo2011flocq} floating point numbers within the Rocq proof asisstant~\cite{rocq}, re-implement the resulting distances for Python  64 bit \texttt{float} and produce a script for differential testing between Rocq and Python using fixed edge cases and randomly generated instances. The task was successfully done by Mistral Vibe in 6 hours and did cost approximately 45 euro. The output was reviewed by humans afterwards and is avaliable on GitHub\footnote{\url{https://github.com/verinncoq/mueps-robustness-proofs/tree/main/flocq_ordered_spaces}}. The following proposition summarizes the findings.
+% lax begin Lax544225Proofs.FloatEmbedding.floatAbsoluteSpace
+\paragraph{Model Validation.} After defining ordered semimetric spaces, the question remains whether such spaces indeed exist on floating point numbers and can resemble common distances.
+% lax end
+% lax begin Lax544225Proofs.listSpaces
+To verify this, we utilized Mistral Vibe to generate provably correct instances of ordered semimetric spaces with respect to the IEEE 754 total order on lists of Flocq~\cite{boldo2011flocq} floating point numbers within the Rocq proof asisstant~\cite{rocq},
+% lax end
+re-implement the resulting distances for Python  64 bit \texttt{float} and produce a script for differential testing between Rocq and Python using fixed edge cases and randomly generated instances. The task was successfully done by Mistral Vibe in 6 hours and did cost approximately 45 euro. The output was reviewed by humans afterwards and is avaliable on GitHub\footnote{\url{https://github.com/verinncoq/mueps-robustness-proofs/tree/main/flocq_ordered_spaces}}. The following proposition summarizes the findings.
 
 \begin{proposition} 
 \label{prop:fp-space}

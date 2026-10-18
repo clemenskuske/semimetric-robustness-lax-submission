@@ -18,7 +18,7 @@ replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
-attached at the user’s request on 16 October 2026. The paper viewer links 27
+attached at the user’s request on 16 October 2026. The paper viewer links 29
 passages to all 25 formalized concepts and results. Private working history and
 unrelated formalizations are not included.
 
@@ -56,3 +56,7 @@ proof-side helpers; the 25 concepts and 14 public claims are unchanged.
 This is an independent Lean proof of that mathematical model, not an import of
 Rocq proofs or a port of Flocq's rounding library. The reference repository's
 standalone `first_formalization/lean` package is maintained separately.
+
+Two Model Validation passage markers open the existing scalar/list proof cards,
+which name and link eight checked Flocq-related Lean lemmas. Paper wording is
+preserved; these annotations add no concepts or claims.
