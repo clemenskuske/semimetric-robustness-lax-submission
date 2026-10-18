@@ -241,6 +241,15 @@ conclusion: Lax544225.ListSpaces.statement
 ---
 Both finite-list extensions form ordered semimetric spaces.
 
+**Lean statements for Model Validation**
+
+Concrete counterparts of the Rocq binary64 list instances and examples:
+
+- [`binary64SumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L225): the sum-distance list instance is an ordered semimetric space.
+- [`binary64MaximumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L231): the maximum-distance list instance is ordered under the synchronized order.
+- [`binary64NaNListLengthPenalty`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L207): appending the NaN padding value still incurs distance one.
+- [`binary64PointwiseMaximumFailure`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L194): ordinary pointwise order fails the maximum-distance antitriangle law.
+
 # Proof strategy
 
 Combine the sum-list and maximum-list lemmas. Each transfers the corresponding
@@ -251,14 +260,7 @@ lists of different lengths, while comparable lists have equal lengths.
 
 Proposition 1.5 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript.
 
-# Lean statements for Model Validation
 
-Concrete counterparts of the Rocq binary64 list instances and examples:
-
-- [`binary64SumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L225): the sum-distance list instance is an ordered semimetric space.
-- [`binary64MaximumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L231): the maximum-distance list instance is ordered under the synchronized order.
-- [`binary64NaNListLengthPenalty`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L207): appending the NaN padding value still incurs distance one.
-- [`binary64PointwiseMaximumFailure`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L194): ordinary pointwise order fails the maximum-distance antitriangle law.
 -/
 lemma listSpaces :
     (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
