@@ -1,7 +1,7 @@
-# Relaxing Global Classifier Robustness on Semimetric Spaces
+# (μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds
 
-Lean 4 formalization of the mathematical statements in Andrei Aleksandrov and
-Kim Völlinger’s supplied FSEN 2027 manuscript.
+Lean 4 formalization of the mathematical statements in Andrei Aleksandrov,
+Clemens Kuske and Kim Völlinger’s revised FSEN 2027 manuscript (9 November 2026).
 
 The package contains 25 concepts: 16 definitions, five theorems, three
 corollaries, and one lemma combining Lemma 1's two counterexamples. Each of
@@ -18,7 +18,7 @@ replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
-attached at the user’s request on 16 October 2026. The paper viewer links 29
+updated from the user-supplied TeX archive on 9 November 2026. The paper viewer links 29
 passages to all 25 formalized concepts and results. Private working history and
 unrelated formalizations are not included.
 
@@ -29,7 +29,7 @@ lax build . --replay
 ```
 
 Unused helper warnings are intentional: these lemmas validate the
-classifier/partition and zero-relaxation definitions and the Flocq correspondence
+classifier/partition and zero-relaxation definitions the Flocq correspondence, and the revised paper’s illustrative examples
 without adding public result entries.
 
 Formalization credit: Clemens Kuske and Codex (OpenAI).
@@ -60,3 +60,9 @@ standalone `first_formalization/lean` package is maintained separately.
 Two Model Validation passage markers open the existing scalar/list proof cards,
 which name and link eight checked Flocq-related Lean lemmas. Paper wording is
 preserved; these annotations add no concepts or claims.
+
+The revised manuscript's real-line examples (absolute and squared distance,
+including failure of the triangle inequality) are proved in `PaperExamples`.
+`FourPointExample` proves that `{0,2,4,6}` with ordinary distance admits a
+nontrivial robust partition for every μ ≥ 0 at ε = 1. Both reuse the paper's
+existing concepts and remain supporting lemmas.

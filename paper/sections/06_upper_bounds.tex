@@ -1,7 +1,7 @@
 \section{Precision-Related Upper Bounds}
 \label{sec:upper-bounds}
 
-An interesting empirically supported fact for $\epsilon$-robustness is that quantization, a process of reducing numerical precision of classifier's inputs and parameters, causes classifier to become more robust~\cite{xiao2023robustmq,shrestha2024properties,duncan2020relative}. The explanation is simple: larger distances between input space points raises the threshold on admissible $\epsilon$-values and thereby makes $\epsilon$-robustness easier to satisfy. Mathematically, one can show that with larger gaps maximum $\epsilon$ for nontrivial robust partitions increases. In this section, our goal is to derive such upper bounds on $\mu$ and $\epsilon$ based on precision measures: in Section~\ref{subsec:bounds-total} for totally ordered semimetric spaces and in Section~\ref{subsec:bounds-partial} for general partial orders such as multidimensional inputs common to classifiers such as neural networks.
+An interesting empirically supported fact for $\epsilon$-robustness is that quantization, a process of reducing numerical precision of classifier's inputs and parameters, causes classifier to become more robust~\cite{xiao2023robustmq,shrestha2024properties,duncan2020relative}. The explanation is simple: larger distances between input space points raises the threshold on admissible $\epsilon$-values and thereby makes $\epsilon$-robustness easier to satisfy. Mathematically, one can show that with larger gaps, the maximum $\epsilon$ for nontrivial robust partitions increases. In this section, our goal is to derive such upper bounds on $\mu$ and $\epsilon$ based on precision measures: in Section~\ref{subsec:bounds-total} for totally ordered semimetric spaces and in Section~\ref{subsec:bounds-partial} for general partial orders such as multidimensional inputs common to classifiers such as neural networks.
 
 \subsection{Upper Bounds on Totally Ordered Spaces}
 \label{subsec:bounds-total}
@@ -18,7 +18,6 @@ We start with upper bounds on totally ordered semimetric spaces introduced in Se
     where $|\cdot|$ is set cardinality.
 \end{definition}
 % lax end
-
 For floating-point numbers when $d(x,y) = |x - y|$ is used as the distance, $\Delta$ corresponds to the maximal and $\delta$ to the reciprocal of minimal \emph{unit in the last place} (ULP)~\cite{deDinechin2024}. Now, we show how $\Delta$ and $\delta$ define maximum possible $\mu$ and $\epsilon$ for nontrivial robust partitions.
 % lax begin Lax544225.SuccessorCovering
 \begin{theorem}
@@ -26,7 +25,6 @@ For floating-point numbers when $d(x,y) = |x - y|$ is used as the distance, $\De
     Let $(S, <, d)$ a finite totally ordered semimetric space and $\mu \geq 0, \epsilon > 0$. If $\epsilon \geq \Delta \cdot \delta \cdot \mu + \Delta$ then for all $x, x' \in S$ with $Succ(x,x')$, it holds that $B(x, \mu) \subseteq B(x', \epsilon)$. 
 \end{theorem}
 % lax end
-
 \begin{proof}
     First, observe that $B(x, \mu) \subseteq B(x', \epsilon)$ can be restated as: for all $x^* \in S$ with $d(x^*,x) \leq \mu$ holds $d(x^*,x') \leq \epsilon$. Now, fix any $x^*, x, x' \in S$ with $Succ(x,x')$. If $x^* = x$ then $d(x^*, x') = d(x, x') \leq \Delta \leq \epsilon$. If $x^* = x'$, $d(x^*, x') = 0 \leq \epsilon$. We are left with two cases:
     \begin{itemize}
@@ -51,7 +49,6 @@ For floating-point numbers when $d(x,y) = |x - y|$ is used as the distance, $\De
     Let $(S, <, d)$ a finite totally ordered semimetric space and $\mu \geq 0, \epsilon > 0$. If $\epsilon \geq \Delta \cdot \delta \cdot \mu + \Delta$ then the only $(\mu, \epsilon)$-robust partition is trivial. 
 \end{corollary}
 % lax end
-
 \begin{proof}
    We show that conclusion of the Theorem~\ref{thm:bounds-total} implies condition (2.) of Theorem~\ref{thm:existence-total}. 
    Fix a nonempty $S' \subset S$. 
@@ -82,9 +79,7 @@ Usually, classifiers are not defined on a single floating-point number line but 
 Given a semimetric space $(S, d)$ let $S_1, S_2 \subset S$ with $S_1 \cap S_2 \neq \emptyset$ as well as $\mu \geq 0, \epsilon > 0$. The following statements are \textbf{false}:
 \begin{enumerate}
     \item If the only $(\mu, \epsilon)$-robust partition on $S_1$ is trivial, all $(\mu, \epsilon)$-robust partitions $P$ on $S$ include a superset of $S_1$.
-
     \item If the only $(\mu, \epsilon)$-robust partitions on $S_1$ and $S_2$ trivial, the only $(\mu, \epsilon)$-robust partition on $S_1 \cup S_2$ is trivial.
-
 \end{enumerate}
 \end{lemma}
 % lax end
@@ -109,7 +104,6 @@ Still, it is possible to find a general but relatively weak decomposition princi
 \end{definition}
 % lax end
 
-
 Now, we are ready to show that $(\mu, \epsilon)$-decompositions allow us to focus on considering $(\mu, \epsilon)$-robustness of individual decomposition elements only.
 
 % lax begin Lax544225.DecompositionObstruction
@@ -118,7 +112,6 @@ Now, we are ready to show that $(\mu, \epsilon)$-decompositions allow us to focu
     Given a semimetric space $(S, d)$ with $\mu \geq 0, \epsilon > 0$, let $D$ be a $(\mu, \epsilon)$-decomposition of $S$. If, each $D_i \in D$ has the trivial partition as its only $(\mu, \epsilon)$-robust partition then the only $(\mu, \epsilon)$-robust partition on $S$ is trivial.
 \end{theorem}
 % lax end
-
 \begin{proof}   
     We prove the condition (2.) from Theorem~\ref{thm:existence} directly in two steps. Pick a nonempty $S' \subset S$. In the first step, we rule out existence of some $S'$ and in the second, construct the witness $x \in S$ that satisfies Theorem~\ref{thm:existence} (2.).
     
@@ -138,7 +131,6 @@ We specialize the result from Theorem~\ref{thm:decomposition} to ordered semimet
     Let $(S, <, d)$ a finite partially ordered semimetric space with $|S| \geq 2$ and $\mu \geq 0, \epsilon > 0$. Let $D := \{D_1, \dots, D_n\}$ be a $(\mu, \epsilon)$-decomposition of $S$ such that all $D_i \in D$ form a totally ordered semimetric space $(D_i, <, d)$ with corresponding $\Delta_i, \delta_i$. If $\epsilon \geq \max_{i \in [n]}(\Delta_i \cdot \delta_i \cdot \mu + \Delta_i)$ then the only $(\mu, \epsilon)$-robust partition of $S$ is trivial.
 \end{corollary}
 % lax end
-
 \begin{proof}
     First, observe that each $D_i \in D$ does not have a nontrivial $(\mu, \epsilon)$-robust partition by Corollary~\ref{cor:bounds-total}. This implies by Theorem~\ref{thm:decomposition} that every $(\mu, \epsilon)$-robust partition on $S$ is trivial.
 \end{proof}

@@ -183,7 +183,7 @@ lengths coincide, so the sum-product antitriangle result applies directly.
 
 # Attribution
 
-Proposition 1.5 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript.
+Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manuscript.
 -/
 lemma sumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
     (hd : IsOrdered d le) (pad : S) :
@@ -214,7 +214,7 @@ and the chain distance bound from the corresponding tuple construction.
 
 # Attribution
 
-Proposition 1.5 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript;
+Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manuscript;
 the padded length-penalty construction is also present in the cited Rocq reference.
 -/
 lemma maximumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
@@ -258,7 +258,7 @@ lists of different lengths, while comparable lists have equal lengths.
 
 # Attribution
 
-Proposition 1.5 of Aleksandrov and Völlinger's supplied FSEN 2027 manuscript.
+Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manuscript.
 
 
 -/

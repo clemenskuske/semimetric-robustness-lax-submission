@@ -17,14 +17,12 @@ A collection of nonempty sets $\{P_1,\dots,P_p\}$ is a partition of a set $S$ if
 The partition $\{S\}$ on the set $S$ is called \emph{trivial}.
 \end{definition}
 % lax end
-
 % lax begin Lax544225.Partitions
 \begin{definition}[Classifier Induced Partition]
 \label{def:induced-partition}
     A classifier $c: S \rightarrow [n]$ induces a partition $P^c := \{S^c_1, S^c_2, \dots S^c_n\}$ with $S^c_i := \{x \in S\,|\,c(x) = i\}$.
 \end{definition}
 % lax end
-
 Robustness is often described as invariance under $\epsilon$-sized perturbations. This perspective allows us to reformulate robustness, for which we define the close neighborhood around an input as an $\epsilon$-ball:
 % lax begin Lax544225.Balls
 \begin{definition}[$\epsilon$-Ball]
@@ -32,23 +30,21 @@ Robustness is often described as invariance under $\epsilon$-sized perturbations
 Let $(S, d)$ be a semimetric space. Then $B(x^*, \epsilon) := \{x \in S\,|\,d(x,x^*) \leq \epsilon\}$ is an \emph{$\epsilon$-ball} around $x^*$.
 \end{definition}
 % lax end
-
 Despite the name, $B(x^*, \epsilon)$ may not resemble a geometric ball. In fairness notions, for example, the distance function may capture similarity in qualification of individuals rather than geometric proximity of their attribute vectors.
 % lax begin Lax544225.PartitionRobustness
 \begin{definition}[$(\mu,\epsilon)$-Robustness of a Partition]
 \label{def:mueps-robustness-partition}
 Let $(S,d)$ be a semimetric space. Then a partition $P := \{S_1,\dots,S_p\}$ of $S$
-is \emph{globally robust} for $\mu \geq 0, \epsilon > 0$ if and only if:
+is \emph{globally $(\mu, \epsilon)$-robust} for $\mu \geq 0, \epsilon > 0$ if and only if:
 $$\forall x \in S\,\exists x' \in B(x,\mu) \,[\bigvee_{i \in [p]} (\{x\} \cup B(x', \epsilon) \subseteq S_i)].$$
 \end{definition}
 % lax end
-
 This subtle reformulation completely shifts $(\mu,\epsilon)$-robustness to a property of the induced partition. 
 By working with partitions, our framework does not require the number of classes to be specified a priori, unlike some existing approaches~\cite{yang2024geometric}. To streamline subsequent results, we will use the term \emph{$(\mu,\epsilon)$-robust partition} for partitions that satisfy Definition~\ref{def:mueps-robustness-partition}. If parameters are clear from the context, we will omit $(\mu,\epsilon)$.
 
 \subsection{From Separability to Covering}
 
-A folklore fact about global robustness is its equivalence to \emph{$\epsilon$-separability}~\cite{yang2020closer,mangal2023certifying} and we can to extend this property to our new robustness notion, albeit in a more complicated form. 
+A folklore characterization of global robustness is through its equivalence to \emph{$\epsilon$-separability}~\cite{yang2020closer,mangal2023certifying}. We can extend this property to our new robustness notion, albeit in a more complicated form as a covering condition. 
 % lax begin Lax544225.CoveringCharacterization
 \begin{theorem}
 \label{thm:separability}
@@ -56,7 +52,6 @@ A folklore fact about global robustness is its equivalence to \emph{$\epsilon$-s
     \begin{enumerate}
         \item $P$ is $(\mu,\epsilon)$-robust.
         \item for all $S_i \in P$ and all $x \in S_i$ holds that $B(x, \mu) \not\subseteq \bigcup_{x^* \in S \setminus S_i} B(x^*, \epsilon)$.
-
     \end{enumerate}
 \end{theorem}
 % lax end
@@ -64,10 +59,11 @@ A folklore fact about global robustness is its equivalence to \emph{$\epsilon$-s
     We prove both directions separately.
 
     $(1.) \Rightarrow (2.)$: 
-    For contradiction, assume that (1.) holds but (2.) does not. In this case, there exists $S_i \in P$ with $x \in S_i$ such that $B(x,\mu) \subseteq \bigcup_{x^* \in S \setminus S_i} B(x^*, \epsilon)$. From Defintion~\ref{def:mueps-robustness-partition}, there exists $x' \in B(x,\mu)$ with $B(x',\epsilon) \subseteq S_i$. From symmetry of distance (Definition~\ref{def:distance}), it follows that $x' \notin \bigcup_{x^* \in S \setminus S_i} B(x^*, \epsilon)$, leading to a contradiction with (1.).
+    For contradiction, assume that (1.) holds but (2.) does not. In this case, there exists $S_i \in P$ with $x \in S_i$ such that $B(x,\mu) \subseteq \bigcup_{x^* \in S \setminus S_i} B(x^*, \epsilon)$. From Definition~\ref{def:mueps-robustness-partition}, there exists $x' \in B(x,\mu)$ with $B(x',\epsilon) \subseteq S_i$. From symmetry of distance (Definition~\ref{def:distance}), it follows that $x' \notin \bigcup_{x^* \in S \setminus S_i} B(x^*, \epsilon)$, leading to a contradiction with (1.).
 
     $(2.) \Rightarrow (1.)$:
-    Similarly, assume that (2.) holds but not (1.). By Defintion~\ref{def:mueps-robustness-partition}, there exists $x \in S$ such that for all $x' \in B(x,\mu)$ have $B(x', \epsilon) \not\subseteq S_i$ for all $S_i \in P$. Pick a specific $S_i' \in P$ such that $x \in S_i'$. By symmetry of distance, each $x' \in B(x,\mu)$ is also contained in some $B(x^*,\epsilon)$ with $x^* \notin S_i'$. This implies $B(x, \mu) \subseteq \bigcup_{x^* \in S \setminus S_i'} B(x^*, \epsilon)$, raising a contradiction to (2.).
+    
+    Similarly, assume that (2.) holds but not (1.). By negating the robustness condition in Definition~\ref{def:mueps-robustness-partition}, there exists $x \in S$ such that for all $x' \in B(x,\mu)$ have $B(x', \epsilon) \not\subseteq S_i$ for all $S_i \in P$. Pick a specific $S_i' \in P$ such that $x \in S_i'$. By symmetry of distance, each $x' \in B(x,\mu)$ is also contained in some $B(x^*,\epsilon)$ with $x^* \notin S_i'$. This implies $B(x, \mu) \subseteq \bigcup_{x^* \in S \setminus S_i'} B(x^*, \epsilon)$, raising a contradiction to (2.).
     \qed
 \end{proof}
 
@@ -176,7 +172,7 @@ A folklore fact about global robustness is its equivalence to \emph{$\epsilon$-s
   \label{fig:covering}
 \end{figure}
 
-The condition (2.) in Theorem~\ref{thm:separability} can be stated as: no $\mu$-neighbourhood is covered by $\epsilon$-neighbourhoods of points with a different label. An example when it is not the case is illustated in Figure~\ref{fig:covering}. As $(\mu, \epsilon)$-robustness is a generalization of $\epsilon$-robustness, our proof is also a formalization of separability for $\epsilon$-robustness. For $\mu = 0$, the condition (2.) reduces to each point (0-neighbourhood) being $\epsilon$-far from any point with a different label. Separability is established here in a general, non-probabilistic setting without distributional assumptions. Unlike prior work, we show that separability is a \emph{necessary} condition for global robustness. 
+The condition (2.) in Theorem~\ref{thm:separability} can be stated as: no $\mu$-neighbourhood is covered by $\epsilon$-neighbourhoods of points with a different label. An example when it is not the case is illustrated in Figure~\ref{fig:covering}. As $(\mu, \epsilon)$-robustness is a generalization of $\epsilon$-robustness, our proof is also a formalization of separability for $\epsilon$-robustness. For $\mu = 0$, the condition (2.) reduces to each point (0-neighbourhood) being $\epsilon$-far from any point with a different label. Separability is established here in a general, non-probabilistic setting without distributional assumptions. Unlike prior work, we show that separability is a \emph{necessary} condition for global robustness. 
 
 The characterization of robustness from Theorem~\ref{thm:separability} is central to future results and we will use it as a primary criterion of partition robustness.
 

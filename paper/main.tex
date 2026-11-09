@@ -30,21 +30,24 @@
 %
 \begin{document}
 %
-\title{Relaxing Global Classifier Robustness on Semimetric Spaces}
+\title{$(\mu,\epsilon)$-Robustness: Characterization, Existence, and Precision-Dependent Bounds}
 %
-%\titlerunning{Global Robustness: A Feasibility Threshold and its Relaxation}
+\titlerunning{$(\mu,\epsilon)$-Robustness}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{Andrei Aleksandrov\inst{1,2}\orcidID{0000-0002-4717-4206} \and
-Kim Völlinger\inst{2}\orcidID{0000-0002-8988-0053}}
+\author{Andrei Aleksandrov\inst{1,3}\orcidID{0000-0002-4717-4206} \and
+Clemens Kuske\inst{2}\orcidID{0009-0002-0314-6147} \and
+Kim Völlinger\inst{3}\orcidID{0000-0002-8988-0053}}
 %
-\authorrunning{A. Aleksandrov and K. Völlinger}
+\authorrunning{A. Aleksandrov et al.}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
 %
 \institute{Fraunhofer Institute for Open Communication Systems, Berlin, Germany \\
 \email{andrei.aleksandrov@fokus.fraunhofer.de} \and
+Hasso Plattner Institute, University of Potsdam, Potsdam, Germany \\
+\email{clemens.kuske@hpi.de} \and
 Technische Universität Berlin, Berlin, Germany \\
 \email{voellinger@tu-berlin.de}}
 %
@@ -52,10 +55,18 @@ Technische Universität Berlin, Berlin, Germany \\
 %
 \begin{abstract}
 A classifier is $\epsilon$-robust if it assigns the same label to any two inputs within distance $\epsilon$.
-On continuous domains, every $\epsilon$-robust classifier is constant, motivating existing local and probabilistic relaxations.
-We introduce $(\mu,\epsilon)$-robustness, which requires every input to lie within distance $\mu$ of a same-label point at which the classifier is locally $\epsilon$-robust. This notion recovers $\epsilon$-robustness when $\mu=0$ and, unlike probabilistic relaxations, imposes explicit coverage of the domain by robust points. We study robustness over semimetric spaces, with a focus on the finite, totally ordered domains serving as a model of finite-precision arithmetic. We analyze the feasibility of $(\mu,\epsilon)$-robustness independently of accuracy. In particular, we prove a covering characterization of robustness, derive necessary and sufficient existence criteria for robust non-constant classifiers, and establish upper bounds on $\epsilon$ and $\mu$. 
+On connected domains such as $\mathbb{R}^n$, every $\epsilon$-robust classifier is constant.
+Existing relaxations therefore weaken the guarantee to hand-picked or high-confidence inputs, or impose a bound on the probability of violations.
+Probabilistic bounds, however, constrain how many inputs are non-robust, not where they lie.
+To bridge this gap, we introduce $(\mu,\epsilon)$-robustness, which requires every input to lie within the distance $\mu$ of a point with the same label at which the classifier is locally $\epsilon$-robust. It coincides with $\epsilon$-robustness at $\mu=0$.
+We study $(\mu,\epsilon)$-robustness over semimetric spaces, which capture non-metric similarity notions used in fairness and natural language processing. 
+Since deployed classifiers operate on finitely many representable inputs, we pay particular attention to finite domains such as IEEE 754 floating-point numbers.
+We characterize $(\mu,\epsilon)$-robustness by a covering condition that extends the classical equivalence between $\epsilon$-robustness and separability, and we give necessary and sufficient conditions for the existence of a non-constant robust classifier.
+We derive bounds on $\epsilon$ and $\mu$, in terms of the spacing between consecutive representable values, beyond which every $(\mu, \epsilon)$-robust classifier is constant; 
+they hold on totally ordered domains and on partially ordered ones admitting a suitable decomposition.
+All results are mechanized in Lean~4: machine-checked proofs were developed with AI assistance; formal statements were validated against the paper by hand.
 
-\keywords{Classifier \and Robustness \and Computer Arithmetic.}
+\keywords{Classifier Specification \and Global Robustness \and Finite-Precision Arithmetic  \and Semimetric Spaces \and Neural Network Verification}
 \end{abstract}
 
 \input{sections/01_introduction}
@@ -65,6 +76,10 @@ We introduce $(\mu,\epsilon)$-robustness, which requires every input to lie with
 \input{sections/05_existence}
 \input{sections/06_upper_bounds}
 \input{sections/07_conclusion}
+
+\subsection*{AI Use Disclosure}
+
+In addition to the uses mentioned in the text, AI tools were also used to draft and edit the text of the article, simulate peer review, and generate LaTeX code for the figures. The tools used were Mistral Vibe, Microsoft Copilot, Overleaf AI assistant, as well as Claude Code. After using these tools, the authors reviewed and edited the content as needed and assume full responsibility for the content of the publication.
 
 %
 % ---- Bibliography ----

@@ -66,7 +66,7 @@ Find a consecutive crossing between each covered point and its opposite-side cen
 The ordered antitriangle inequality makes the boundary center no farther away.
 
 # Attribution
-Aleksandrov and Völlinger, Theorem 3, forward direction.
+Aleksandrov, Kuske and Völlinger, Theorem 3, forward direction.
 -/
 lemma cutToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε) :
@@ -92,7 +92,7 @@ Points on the center's side use the given boundary covering. Opposite-side point
 belong to their own closed epsilon-ball because their self-distance is zero.
 
 # Attribution
-Aleksandrov and Völlinger, Theorem 3, reverse direction.
+Aleksandrov, Kuske and Völlinger, Theorem 3, reverse direction.
 -/
 lemma boundaryToCutCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε) :
@@ -201,7 +201,7 @@ steps by delta times distance. A successor adds exactly one interval step. On th
 other side of the successor, the ordered antitriangle inequality gives monotonicity.
 
 # Attribution
-Aleksandrov and Völlinger, Theorem 4.
+Aleksandrov, Kuske and Völlinger, Theorem 4.
 -/
 theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε)
@@ -251,7 +251,7 @@ ball at the lower point inside an epsilon-ball centered on the opposite boundary
 Restrict this covering to the lower point's side and apply BoundaryExistence.
 
 # Attribution
-Aleksandrov and Völlinger, Corollary 2.
+Aleksandrov, Kuske and Völlinger, Corollary 2.
 -/
 lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε)
@@ -280,7 +280,7 @@ Only-trivial robustness gives opposite-boundary covering.
 Compose the general existence criterion with its finite-order boundary reduction.
 
 # Attribution
-Aleksandrov and Völlinger, Corollary 1, forward direction.
+Aleksandrov, Kuske and Völlinger, Corollary 1, forward direction.
 -/
 lemma trivialityToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
@@ -296,7 +296,7 @@ Opposite-boundary covering excludes nontrivial robust partitions.
 Compose the boundary extension with the previously established general cut criterion.
 
 # Attribution
-Aleksandrov and Völlinger, Corollary 1, reverse direction.
+Aleksandrov, Kuske and Völlinger, Corollary 1, reverse direction.
 -/
 lemma boundaryCoveringToTriviality {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
