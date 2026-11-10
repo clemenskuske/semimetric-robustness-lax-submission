@@ -1,4 +1,5 @@
 import Lax544225Proofs.CoveringConditions
+import Lax544225Proofs.Basic
 import Lax544225.GeneralExistence
 import Lax544225.BoundaryCoveringCharacterization
 import Lax544225.BoundaryExistence
@@ -13,9 +14,6 @@ namespace Lax544225Proofs.OrderedBounds
 
 open scoped NNReal
 open Lax544225 Semimetric OrderedSemimetric Balls CoveringConditions Boundary PrecisionGaps
-
-lemma distance_self {S : Type u} {d : Distance S} (hd : IsSemimetric d) (x : S) :
-    d x x = 0 := (hd.2.1 x x).2 rfl
 
 /-- The standard cover relation is the paper's strict no-between successor relation. -/
 lemma successor_iff {S : Type u} [LinearOrder S] (x y : S) :
@@ -105,11 +103,11 @@ lemma boundaryToCutCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distanc
     by_cases hyA : y ∈ A
     · obtain ⟨z, hz, hyz⟩ := hx.2 ⟨hy, hyA⟩
       exact ⟨z, hz.1, hyz⟩
-    · exact ⟨y, hyA, by simp [ball, distance_self hd.1]⟩
+    · exact ⟨y, hyA, by simp [ball, Basic.distance_self hd.1]⟩
   · refine ⟨x, Or.inr ⟨hx.1, ?_⟩⟩
     intro y hy
     by_cases hyA : y ∈ A
-    · exact ⟨y, hyA, by simp [ball, distance_self hd.1]⟩
+    · exact ⟨y, hyA, by simp [ball, Basic.distance_self hd.1]⟩
     · obtain ⟨z, hz, hyz⟩ := hx.2 ⟨hy, hyA⟩
       exact ⟨z, hz.1, hyz⟩
 
