@@ -13,4 +13,3 @@ import Lax544225Proofs.FlocqStrict
 import Lax544225Proofs.FlocqBridge
 import Lax544225Proofs.FlocqExamples
 import Lax544225Proofs.PaperExamples
-import Lax544225Proofs.FourPointExample

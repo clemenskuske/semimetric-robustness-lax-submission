@@ -63,6 +63,6 @@ preserved; these annotations add no concepts or claims.
 
 The revised manuscript's real-line examples (absolute and squared distance,
 including failure of the triangle inequality) are proved in `PaperExamples`.
-`FourPointExample` proves that `{0,2,4,6}` with ordinary distance admits a
-nontrivial robust partition for every μ ≥ 0 at ε = 1. Both reuse the paper's
-existing concepts and remain supporting lemmas.
+These reuse the paper's existing concepts and remain supporting lemmas.
+The unnumbered `{0,2,4,6}` illustration remains in the manuscript without a
+separate Lean proof, as requested.
