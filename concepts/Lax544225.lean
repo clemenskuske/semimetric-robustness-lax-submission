@@ -5,6 +5,7 @@ import Lax544225.Boundary
 import Lax544225.BoundaryCoveringCharacterization
 import Lax544225.BoundaryExistence
 import Lax544225.Classifier
+import Lax544225.ClassifierPartitionEquivalence
 import Lax544225.EpsilonRobustness
 import Lax544225.CoveringCharacterization
 import Lax544225.Decomposition

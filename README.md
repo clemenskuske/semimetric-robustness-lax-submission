@@ -3,11 +3,11 @@
 Lean 4 formalization of the mathematical statements in Andrei Aleksandrov,
 Clemens Kuske and Kim Völlinger’s revised FSEN 2027 manuscript (TeX update received 11 November 2026).
 
-The package contains 25 concepts: 16 definitions, five theorems, three
+The package contains 26 concepts: 16 definitions, six theorem concepts, three
 corollaries, and one lemma combining Lemma 1's two counterexamples. Each of
 Proposition 1's five constructions has its own definition card and proof that
 it is an ordered semimetric space. The fifth contains both list extensions, with a separate statement and proof for each.
-All 15 claims are proved, with squared distance reusing absolute distance and
+All 17 claims are proved, with squared distance reusing absolute distance and
 the list extensions reusing the product results. Supporting facts are lemmas.
 
 Environment: Lean v4.33.0 and mathlib
@@ -20,7 +20,8 @@ this source repository is public. Registration requires a separate instruction.
 This repository contains the Lean submission and the author-supplied TeX paper,
 updated from the user-supplied TeX archive and revised to match the subsequent
 `Bounds-11.pdf` received on 11 November 2026. The paper viewer links 27
-passages to all 25 formalized concepts and results. Private working history and
+passages to the 25 paper concepts and results. The supplementary classifier–partition
+equivalence concept has no PDF marker. Private working history and
 unrelated formalizations are not included.
 
 Validation:
@@ -54,7 +55,7 @@ embeddings agree with the existing real definitions. `FlocqStrict` proves the
 strict squared-distance inequality. `FlocqExamples` checks binary64 special
 values, list padding and the failure of maximum distance with ordinary pointwise
 order, reusing the existing product/list construction proofs. These are
-proof-side helpers; the 25 concepts and 15 public claims are unchanged.
+proof-side helpers and add no public claims.
 This is an independent Lean proof of that mathematical model, not an import of
 Rocq proofs or a port of Flocq's rounding library. The reference repository's
 standalone `first_formalization/lean` package is maintained separately.
@@ -74,3 +75,9 @@ including failure of the triangle inequality) are proved in `PaperExamples`.
 These reuse the paper's existing concepts and remain supporting lemmas.
 The unnumbered `{0,2,4,6}` illustration remains in the manuscript without a
 separate Lean proof, as requested.
+
+`ClassifierPartitionEquivalence` proves that every classifier induces a valid
+partition and that its (μ,ε)-robustness is equivalent to robustness of that
+partition. Both statements reuse the existing foundational lemmas. This exposes
+the connection needed to apply the partition theorems to classifiers, without
+changing the paper or its markers.
