@@ -31,7 +31,7 @@ open scoped NNReal
 
 open SemimetricSpace Partitions Balls
 /-- Coverage by monochromatic balls whose centers are μ-close to the input. -/
-def MuEpsilonRobust {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
+def MuEpsilonRobustPartition {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (P : Set (Set S)) (_hP : IsPartition P) (μ : ℝ≥0) (ε : ℝ>0) : Prop :=
   ∀ x, ∃ x', x' ∈ ball d hd x μ ∧ ∃ A ∈ P, x ∈ A ∧ ball d hd x' ε ⊆ A
 
@@ -42,6 +42,6 @@ def Separated {S : Type u} (d : Distance S) (_hd : IsSemimetricSpace d)
 
 /-- Every robust finite partition of the carrier has only the whole carrier as a part. -/
 def OnlyTrivial {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (μ : ℝ≥0) (ε : ℝ>0) : Prop :=
-  ∀ P (hP : IsPartition P), MuEpsilonRobust d hd P hP μ ε → IsTrivial P
+  ∀ P (hP : IsPartition P), MuEpsilonRobustPartition d hd P hP μ ε → IsTrivial P
 
 end Lax544225.PartitionRobustness

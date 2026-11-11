@@ -27,7 +27,7 @@ private lemma split_partition : IsPartition split := by
   · exact ⟨3, by norm_num [low]⟩
 
 private lemma split_robust (hd : IsSemimetricSpace line) (hP : IsPartition split) :
-    MuEpsilonRobust line hd split hP 1 ⟨1, zero_lt_one⟩ := by
+    MuEpsilonRobustPartition line hd split hP 1 ⟨1, zero_lt_one⟩ := by
   intro x
   by_cases hx : x.val < 2
   · refine ⟨0, ?_, low, by simp [split], hx, ?_⟩
@@ -92,7 +92,7 @@ Lemma 1.1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 -/
 lemma restrictionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
     (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
-    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    MuEpsilonRobustPartition d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
     (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
       OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     ¬ ∃ B ∈ P, A ⊆ B := by
@@ -138,7 +138,7 @@ lemma unionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d
       OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     (∀ hB : IsSemimetricSpace (fun x y : B => d x.val y.val),
       OnlyTrivial (fun x y : B => d x.val y.val) hB 1 ⟨1, zero_lt_one⟩) ∧
-    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P := by
+    MuEpsilonRobustPartition d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P := by
   let A : Set (Fin 4) := {x | x.val < 3}
   let B : Set (Fin 4) := {x | 0 < x.val}
   refine ⟨line, line_semimetric, A, B, split, split_partition,
@@ -184,7 +184,7 @@ Lemma 1 of Aleksandrov, Kuske and Völlinger's revised FSEN 2027 manuscript (9 N
 lemma noncompositionality :
     (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
       (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
-    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    MuEpsilonRobustPartition d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
     (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
       OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     ¬ ∃ B ∈ P, A ⊆ B) ∧
@@ -195,7 +195,7 @@ lemma noncompositionality :
       OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     (∀ hB : IsSemimetricSpace (fun x y : B => d x.val y.val),
       OnlyTrivial (fun x y : B => d x.val y.val) hB 1 ⟨1, zero_lt_one⟩) ∧
-    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P) := by
+    MuEpsilonRobustPartition d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P) := by
   exact ⟨restrictionCounterexample, unionCounterexample⟩
 
 end Lax544225Proofs.Counterexamples

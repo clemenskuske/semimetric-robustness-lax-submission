@@ -22,7 +22,7 @@ $$\overline{\partial}S':=\{x\notin S'\mid\exists y\in S',\ Succ(x,y)\lor Succ(y,
 
 # Formalization notes
 
-Successor is the standard mathlib cover relation `CovBy`, with the paper's name retained as an alias.
+Successor is the standard mathlib cover relation `CovBy`, with the paper's name retained as an alias. The complement boundary is written directly as `boundary S'ᶜ`.
 
 -/
 
@@ -40,9 +40,5 @@ abbrev Successor {S : Type u} [LinearOrder S] (x y : S) : Prop :=
 /-- Points of S' adjacent to its complement in the ambient order. -/
 def boundary {S : Type u} [LinearOrder S] (S' : Set S) : Set S :=
   {x | x ∈ S' ∧ ∃ y ∈ S'ᶜ, Successor x y ∨ Successor y x}
-
-/-- Points outside S' adjacent to S' in the ambient order. -/
-def complementBoundary {S : Type u} [LinearOrder S] (S' : Set S) : Set S :=
-  boundary S'ᶜ
 
 end Lax544225.Boundary

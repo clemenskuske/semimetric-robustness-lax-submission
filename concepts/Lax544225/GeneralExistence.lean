@@ -39,7 +39,7 @@ open SemimetricSpace PartitionRobustness Balls
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ : ℝ≥0) (ε : ℝ>0) :
     OnlyTrivial d hd μ ε ↔ (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →
-      ∃ x, (x ∈ S' ∧ ball d hd x μ ⊆ neighborhood d hd S'ᶜ ε) ∨
-        (x ∈ S'ᶜ ∧ ball d hd x μ ⊆ neighborhood d hd S' ε))
+      ∃ x, (x ∈ S' ∧ ball d hd x μ ⊆ unionOfBalls d hd S'ᶜ ε) ∨
+        (x ∈ S'ᶜ ∧ ball d hd x μ ⊆ unionOfBalls d hd S' ε))
 
 end Lax544225.GeneralExistence

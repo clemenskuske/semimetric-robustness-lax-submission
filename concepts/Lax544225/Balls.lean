@@ -20,7 +20,7 @@ is an **$\epsilon$-ball** around $x^*$.
 
 Closed inequalities are essential: an input at distance exactly ε must have the same label. Ball membership uses d(x,x*), matching the paper; Lean spells the center `x_star`.
 
-The auxiliary neighborhood of a set $A$ is $\bigcup_{x\in A}B(x,r)$.
+The union of balls with centers in a set $A$ is $\bigcup_{x\in A}B(x,r)$.
 -/
 
 universe u
@@ -36,7 +36,7 @@ def ball {S : Type u} (d : Distance S) (_hd : IsSemimetricSpace d)
   {x | d x x_star ≤ ε}
 
 /-- The union of closed r-balls with centers in A. -/
-def neighborhood {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
+def unionOfBalls {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (A : Set S) (r : ℝ≥0) : Set S :=
   {y | ∃ x ∈ A, y ∈ ball d hd x r}
 

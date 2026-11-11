@@ -41,7 +41,7 @@ lemma crossing_pair {S : Type u} [Finite S] [LinearOrder S] (A : Set S)
 /-- Moving an opposite-side center towards the point gives a boundary center no farther away. -/
 lemma boundary_center {S : Type u} [Finite S] [LinearOrder S] {d : Distance S}
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (A : Set S) {a b : S} (ha : a ∈ A) (hb : b ∉ A) :
-    ∃ z ∈ complementBoundary A, d a z ≤ d a b := by
+    ∃ z ∈ boundary Aᶜ, d a z ≤ d a b := by
   classical
   have hne : a ≠ b := by rintro rfl; exact hb ha
   rcases lt_or_gt_of_ne hne with hab | hba
@@ -80,7 +80,7 @@ lemma cutToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distanc
     intro y hy
     obtain ⟨z, hz, hyz⟩ := hx.2 hy.1
     obtain ⟨b, hb, hyb⟩ := boundary_center hd Aᶜ hy.2 (by simpa using hz)
-    exact ⟨b, by simpa [complementBoundary] using hb, hyb.trans hyz⟩
+    exact ⟨b, by simpa only [compl_compl] using hb, hyb.trans hyz⟩
 
 /--
 Extend the side-restricted covering to the whole ball.

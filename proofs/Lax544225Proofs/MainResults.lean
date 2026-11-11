@@ -33,7 +33,7 @@ Theorem 1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 theorem coveringCharacterization {S : Type u} (d : Distance S)
     (hd : IsSemimetricSpace d) (P : Set (Set S)) (hP : IsPartition P)
     (μ : ℝ≥0) (ε : ℝ>0) :
-    MuEpsilonRobust d hd P hP μ ε ↔ Uncovered d hd P μ ε :=
+    MuEpsilonRobustPartition d hd P hP μ ε ↔ Uncovered d hd P μ ε :=
   ⟨Basic.robustToUncovered d hd P hP μ ε,
     Basic.uncoveredToRobust d hd P hP μ ε⟩
 

@@ -6,8 +6,8 @@ Clemens Kuske and Kim Völlinger’s revised FSEN 2027 manuscript (9 November 20
 The package contains 25 concepts: 16 definitions, five theorems, three
 corollaries, and one lemma combining Lemma 1's two counterexamples. Each of
 Proposition 1's five constructions has its own definition card and proof that
-it is an ordered semimetric space. The fifth contains both list extensions.
-All 14 claims are proved, with squared distance reusing absolute distance and
+it is an ordered semimetric space. The fifth contains both list extensions, with a separate statement and proof for each.
+All 15 claims are proved, with squared distance reusing absolute distance and
 the list extensions reusing the product results. Supporting facts are lemmas.
 
 Environment: Lean v4.33.0 and mathlib
@@ -18,7 +18,7 @@ replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
-updated from the user-supplied TeX archive on 9 November 2026. The paper viewer links 29
+updated from the user-supplied TeX archive on 9 November 2026. The paper viewer links 27
 passages to all 25 formalized concepts and results. Private working history and
 unrelated formalizations are not included.
 
@@ -44,8 +44,7 @@ evidence. Partition robustness also requires a valid finite partition. The
 definitions of classifier and partition robustness use a strictly positive
 subtype for ε and a nonnegative real type for μ. Theorem statements and proofs pass their existing assumptions through these concepts;
 classifier robustness uses the paper’s distance inequalities directly, with
-ball characterizations in the proof package. Boundary results reuse the named
-complement boundary. Subspace certificates remain proof helpers.
+ball characterizations in the proof package. Boundary results use the boundary of the complement directly. Subspace certificates remain proof helpers.
 
 The proof package also translates the floating-point mathematics from the
 [reference Flocq development](https://github.com/verinncoq/mueps-robustness-proofs/blob/d0d81caa28f9ffd166ffd245510c99b0db1c2962/flocq_ordered_spaces/semimetrics.v).
@@ -54,14 +53,13 @@ embeddings agree with the existing real definitions. `FlocqStrict` proves the
 strict squared-distance inequality. `FlocqExamples` checks binary64 special
 values, list padding and the failure of maximum distance with ordinary pointwise
 order, reusing the existing product/list construction proofs. These are
-proof-side helpers; the 25 concepts and 14 public claims are unchanged.
+proof-side helpers; the 25 concepts and 15 public claims are unchanged.
 This is an independent Lean proof of that mathematical model, not an import of
 Rocq proofs or a port of Flocq's rounding library. The reference repository's
 standalone `first_formalization/lean` package is maintained separately.
 
-Two Model Validation passage markers open the existing scalar/list proof cards,
-which name and link eight checked Flocq-related Lean lemmas. Paper wording is
-preserved; these annotations add no concepts or claims.
+The Model Validation passage has no proof-card markers; its paper wording is
+preserved. The scalar and list proofs remain available through their concepts.
 
 The revised manuscript's real-line examples (absolute and squared distance,
 including failure of the triangle inequality) are proved in `PaperExamples`.

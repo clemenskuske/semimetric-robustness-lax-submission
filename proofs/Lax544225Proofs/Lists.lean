@@ -172,7 +172,15 @@ private lemma max_list_equal_length {S : Type u} (d : Distance S) (pad : S)
     (coordinates pad m f) (coordinates pad m g)) hm
 
 /--
+---
+conclusion: Lax544225.ListSpaces.sumDistance_isOrderedSemimetricSpace
+---
 Padded finite sums with a length penalty form an ordered semimetric space.
+
+**Lean statements for Model Validation**
+
+- [`binary64SumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L225): the sum-distance list instance is an ordered semimetric space.
+- [`binary64NaNListLengthPenalty`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L207): appending the NaN padding value still incurs distance one.
 
 # Proof strategy
 
@@ -203,7 +211,15 @@ lemma sumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
     (listLe_to_product le pad f.length g k hgf hgk)
 
 /--
+---
+conclusion: Lax544225.ListSpaces.maxDistance_isOrderedSemimetricSpace
+---
 Padded synchronized maxima with a length penalty form an ordered semimetric space.
+
+**Lean statements for Model Validation**
+
+- [`binary64MaximumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L231): the maximum-distance list instance is ordered under the synchronized order.
+- [`binary64PointwiseMaximumFailure`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L194): ordinary pointwise order fails the maximum-distance antitriangle law.
 
 # Proof strategy
 
@@ -234,42 +250,5 @@ lemma maximumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
   exact (htuple f.length).2.2 _ _ _
     (synchronizedListLe_to_product d le pad f.length f g rfl hfg)
     (synchronizedListLe_to_product d le pad f.length g k hgf hgk)
-
-/--
----
-conclusion: Lax544225.ListSpaces.statement
----
-Both finite-list extensions form ordered semimetric spaces.
-
-**Lean statements for Model Validation**
-
-Concrete counterparts of the Rocq binary64 list instances and examples:
-
-- [`binary64SumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L225): the sum-distance list instance is an ordered semimetric space.
-- [`binary64MaximumListOrdered`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L231): the maximum-distance list instance is ordered under the synchronized order.
-- [`binary64NaNListLengthPenalty`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L207): appending the NaN padding value still incurs distance one.
-- [`binary64PointwiseMaximumFailure`](https://github.com/clemenskuske/semimetric-robustness-lax-submission/blob/6a0ab4b1b173c95435637d859b8fb1c698647781/proofs/Lax544225Proofs/FlocqExamples.lean#L194): ordinary pointwise order fails the maximum-distance antitriangle law.
-
-# Proof strategy
-
-Combine the sum-list and maximum-list lemmas. Each transfers the corresponding
-product construction through padded coordinates; the length penalty separates
-lists of different lengths, while comparable lists have equal lengths.
-
-# Attribution
-
-Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manuscript.
-
-
--/
-lemma listSpaces :
-    (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
-      IsOrderedSemimetricSpace d le → ∀ pad : S,
-        IsOrderedSemimetricSpace (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
-    (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
-      IsOrderedSemimetricSpace d le → Additive d le → ∀ pad : S,
-        IsOrderedSemimetricSpace (Lax544225.ListSpaces.maxDistance d pad)
-          (Lax544225.ListSpaces.synchronizedListLe d le pad)) := by
-  exact ⟨sumListSpace, maximumListSpace⟩
 
 end Lax544225Proofs

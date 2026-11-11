@@ -46,7 +46,7 @@ def GloballyEpsilonRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemime
   ∀ x, LocallyEpsilonRobust d hd c ε x
 
 /-- (μ,ε)-robustness: each input is μ-close to a same-label locally ε-robust input. -/
-def MuEpsilonRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetricSpace d)
+def MuEpsilonRobustClassifier {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetricSpace d)
     (c : Classifier S n) (μ : ℝ≥0) (ε : ℝ>0) : Prop :=
   ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyEpsilonRobust d hd c ε x'
 

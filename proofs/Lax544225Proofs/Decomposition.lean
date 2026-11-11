@@ -30,9 +30,9 @@ private lemma trace_partition {S : Type u} (A : Set S) {P : Set (Set S)}
 
 private lemma trace_robust {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     {P : Set (Set S)} (hP : IsPartition P) (A : Set S) (hA : IsSemimetricSpace (restrict d A))
-    (μ : ℝ≥0) (ε : ℝ>0) (hrob : MuEpsilonRobust d hd P hP μ ε)
+    (μ : ℝ≥0) (ε : ℝ>0) (hrob : MuEpsilonRobustPartition d hd P hP μ ε)
     (hclosed : ∀ x ∈ A, ball d hd x μ ⊆ A) :
-    MuEpsilonRobust (restrict d A) hA (traceFamily A P) (trace_partition A hP) μ ε := by
+    MuEpsilonRobustPartition (restrict d A) hA (traceFamily A P) (trace_partition A hP) μ ε := by
   intro x
   obtain ⟨y, hxy, B, hB, hxB, hball⟩ := hrob x.val
   have hyA := hclosed x.val x.property hxy
@@ -43,7 +43,7 @@ private lemma trace_robust {S : Type u} (d : Distance S) (hd : IsSemimetricSpace
 
 private lemma piece_monochromatic {S : Type u} (d : Distance S)
     (hd : IsSemimetricSpace d) {P : Set (Set S)} (hP : IsPartition P) (μ : ℝ≥0) (ε : ℝ>0)
-    (hrob : MuEpsilonRobust d hd P hP μ ε) (A : Set S) (hA : IsSemimetricSpace (restrict d A))
+    (hrob : MuEpsilonRobustPartition d hd P hP μ ε) (A : Set S) (hA : IsSemimetricSpace (restrict d A))
     (hclosed : ∀ x ∈ A, ball d hd x μ ⊆ A)
     (hlocal : OnlyTrivial (restrict d A) hA μ ε) :
     ∀ B ∈ P, (A ∩ B).Nonempty → A ⊆ B := by

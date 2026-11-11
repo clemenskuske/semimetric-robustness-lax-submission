@@ -26,7 +26,7 @@ open SemimetricSpace OrderedSemimetric PartitionRobustness Boundary Balls
 axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
     OnlyTrivial d hd.1 μ ε ↔ (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →
-      ∃ x, (x ∈ S' ∧ ball d hd.1 x μ ∩ S' ⊆ neighborhood d hd.1 (complementBoundary S') ε) ∨
-        (x ∈ S'ᶜ ∧ ball d hd.1 x μ ∩ S'ᶜ ⊆ neighborhood d hd.1 (boundary S') ε))
+      ∃ x, (x ∈ S' ∧ ball d hd.1 x μ ∩ S' ⊆ unionOfBalls d hd.1 (boundary S'ᶜ) ε) ∨
+        (x ∈ S'ᶜ ∧ ball d hd.1 x μ ∩ S'ᶜ ⊆ unionOfBalls d hd.1 (boundary S') ε))
 
 end Lax544225.BoundaryExistence

@@ -35,8 +35,8 @@ lemma part_disjoint {S : Type u} {P : Set (Set S)} (hP : IsPartition P)
   intro x hx hxb
   exact (hP.2.pairwiseDisjoint hA hB hne).le_bot ⟨hx, hxb⟩
 
-lemma neighborhood_mono {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (r : ℝ≥0)
-    {A B : Set S} (h : A ⊆ B) : neighborhood d hd A r ⊆ neighborhood d hd B r := by
+lemma unionOfBalls_mono {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (r : ℝ≥0)
+    {A B : Set S} (h : A ⊆ B) : unionOfBalls d hd A r ⊆ unionOfBalls d hd B r := by
   rintro x ⟨y, hy, hxy⟩
   exact ⟨y, h hy, hxy⟩
 
@@ -107,7 +107,7 @@ lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetricSp
         intro heq
         exact hx (heq ▸ hxB)
       exact hun B hB x hxB
-        (hcov.trans (neighborhood_mono d hd ε (part_disjoint hP hA hB hAB)))
+        (hcov.trans (unionOfBalls_mono d hd ε (part_disjoint hP hA hB hAB)))
   change P = {Set.univ}
   apply Set.ext
   intro A
