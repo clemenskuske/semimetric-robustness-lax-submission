@@ -15,6 +15,7 @@ import Lax544225.ListSpaces
 import Lax544225.OrderedSemimetric
 import Lax544225.PartialOrderPrecisionBound
 import Lax544225.PartitionRobustness
+import Lax544225.PartitionSeparability
 import Lax544225.Partitions
 import Lax544225.PrecisionGaps
 import Lax544225.PrecisionObstruction

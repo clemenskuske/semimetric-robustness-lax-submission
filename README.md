@@ -3,11 +3,11 @@
 Lean 4 formalization of the mathematical statements in Andrei Aleksandrov,
 Clemens Kuske and Kim Völlinger’s revised FSEN 2027 manuscript (TeX update received 11 November 2026).
 
-The package contains 26 concepts: 16 definitions, six theorem concepts, three
-corollaries, and one lemma combining Lemma 1's two counterexamples. Each of
+The package contains 27 concepts: 16 definitions, six theorem concepts, three
+corollaries, and two lemma concepts, including Lemma 1's two counterexamples. Each of
 Proposition 1's five constructions has its own definition card and proof that
 it is an ordered semimetric space. The fifth contains both list extensions, with a separate statement and proof for each.
-All 17 claims are proved, with squared distance reusing absolute distance and
+All 18 claims are proved, with squared distance reusing absolute distance and
 the list extensions reusing the product results. Supporting facts are lemmas.
 
 Environment: Lean v4.33.0 and mathlib
@@ -21,7 +21,7 @@ This repository contains the Lean submission and the author-supplied TeX paper,
 updated from the user-supplied TeX archive and revised to match the subsequent
 `Bounds-11.pdf` received on 11 November 2026. The paper viewer links 27
 passages to the 25 paper concepts and results. The supplementary classifier–partition
-equivalence concept has no PDF marker. Private working history and
+and separability equivalence concepts have no PDF markers. Private working history and
 unrelated formalizations are not included.
 
 Validation:
@@ -81,3 +81,7 @@ partition and that its (μ,ε)-robustness is equivalent to robustness of that
 partition. Both statements reuse the existing foundational lemmas. This exposes
 the connection needed to apply the partition theorems to classifiers, without
 changing the paper or its markers.
+
+`PartitionSeparability` proves that ε-separation is equivalent to (0,ε)-robustness.
+It combines the direct proofs from the partition definitions, independently of
+Theorem 1, and has no additional PDF marker.
