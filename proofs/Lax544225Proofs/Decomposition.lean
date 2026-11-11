@@ -61,7 +61,7 @@ private lemma piece_monochromatic {S : Type u} (d : Distance S)
 
 /--
 ---
-conclusion: Lax544225.DecompositionObstruction.statement
+conclusion: Lax544225.DecompositionObstruction.theorem5
 ---
 Local triviality propagates through a closed overlap decomposition.
 
@@ -99,11 +99,12 @@ theorem decompositionObstruction {S : Type u} (d : Distance S) (hd : IsSemimetri
     have hend : E ⊆ B := by
       clear hyE hE
       unfold Chain at hpath
+      rcases hpath with ⟨_, _, hpath⟩
       induction hpath with
       | refl => exact hstart
       | @tail C E hpath hCE ih =>
           obtain ⟨z, hzC, hzE⟩ := hCE.2.2
-          exact hmono E hCE.2.1 B hB ⟨z, hzE, ih hzC⟩
+          exact hmono E hCE.2.1 B hB ⟨z, hzE, ih hCE.1 hzC⟩
     exact hend hyE
   change P = {Set.univ}
   apply Set.ext
@@ -119,7 +120,7 @@ theorem decompositionObstruction {S : Type u} (d : Distance S) (hd : IsSemimetri
 
 /--
 ---
-conclusion: Lax544225.PartialOrderPrecisionBound.statement
+conclusion: Lax544225.PartialOrderPrecisionBound.corollary3
 ---
 Precision bounds on totally ordered decomposition pieces imply global triviality.
 
@@ -133,15 +134,17 @@ piece, then use the closed overlap decomposition theorem.
 
 Corollary 3 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
-lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S]
+lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S] [Nontrivial S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (D : Set (Set S))
     (μ : ℝ≥0) (ε : ℝ>0) (hD : IsDecomposition d hd.1 D μ)
     (hchain : ∀ A ∈ D, IsChain (· ≤ ·) A)
-    (hbound : ∀ A ∈ D, ∀ hA : IsOrderedSemimetricSpace (restrict d A) (· ≤ ·),
+    (hsize : ∀ A ∈ D, Nontrivial A)
+    (hbound : ∀ A ∈ D, ∀ [Std.Total (α := A) (· ≤ ·)] [Nontrivial A], ∀ hA : IsOrderedSemimetricSpace (restrict d A) (· ≤ ·),
       threshold (restrict d A) hA μ ≤ ε) : OnlyTrivial d hd.1 μ ε := by
   classical
-  apply DecompositionObstruction.statement d hd.1 D μ ε hD
+  apply DecompositionObstruction.theorem5 d hd.1 D μ ε hD
   intro A hA hsm
+  let : Nontrivial A := hsize A hA
   let : LinearOrder A := {
     (inferInstance : PartialOrder A) with
     le_total := fun x y => (hchain A hA).total x.property y.property
@@ -150,6 +153,6 @@ lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S]
     refine ⟨hsm, inferInstance, ?_⟩
     intro x y z hxy hyz
     exact hd.2.2 x.val y.val z.val hxy hyz
-  exact PrecisionObstruction.statement (restrict d A) ho μ ε (hbound A hA ho)
+  exact PrecisionObstruction.corollary2 (restrict d A) ho μ ε (hbound A hA ho)
 
 end Lax544225Proofs.Decomposition

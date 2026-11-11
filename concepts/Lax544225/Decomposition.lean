@@ -34,7 +34,8 @@ open scoped NNReal
 open SemimetricSpace Balls
 /-- A finite chain of overlap steps between members of D, allowing zero steps. -/
 def Chain {S : Type u} (D : Set (Set S)) (A B : Set S) : Prop :=
-  Relation.ReflTransGen (fun C E => C ∈ D ∧ E ∈ D ∧ (C ∩ E).Nonempty) A B
+  A ∈ D ∧ B ∈ D ∧
+    Relation.ReflTransGen (fun C E => C ∈ D ∧ E ∈ D ∧ (C ∩ E).Nonempty) A B
 
 /-- A finite family of nonempty μ-closed pieces connected by overlaps. -/
 def IsDecomposition {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)

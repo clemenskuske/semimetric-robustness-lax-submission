@@ -158,14 +158,14 @@ lemma inverse_ratios_bounded {S : Type u} [Finite S] [LinearOrder S] (d : Distan
   rintro r ⟨x, y, _, rfl⟩
   exact ⟨(x, y), rfl⟩
 
-lemma distance_upper {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+lemma distance_upper {S : Type u} [Finite S] [LinearOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) {x y : S} (hxy : x < y) :
     d x y ≤ deltaUpper d hd * (steps x y : ℝ≥0) := by
   have hratio : d x y / (steps x y : ℝ≥0) ≤ deltaUpper d hd :=
     le_csSup (upper_ratios_bounded d) ⟨x, y, hxy, rfl⟩
   exact (div_le_iff₀ (by exact_mod_cast steps_pos hxy)).1 hratio
 
-lemma steps_inverse {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+lemma steps_inverse {S : Type u} [Finite S] [LinearOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) {x y : S} (hxy : x < y) :
     (steps x y : ℝ≥0) ≤ deltaInverse d hd * d x y := by
   have hdpos : 0 < d x y := pos_iff_ne_zero.2 (by
@@ -175,7 +175,7 @@ lemma steps_inverse {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     le_csSup (inverse_ratios_bounded d) ⟨x, y, hxy, rfl⟩
   exact (div_le_iff₀ hdpos).1 hratio
 
-lemma precision_product_ge_one {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+lemma precision_product_ge_one {S : Type u} [Finite S] [LinearOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) {x y : S} (hxy : Successor x y) :
     1 ≤ deltaUpper d hd * deltaInverse d hd := by
   have hu := distance_upper d hd hxy.lt
@@ -189,7 +189,7 @@ lemma precision_product_ge_one {S : Type u} [Finite S] [LinearOrder S] (d : Dist
 
 /--
 ---
-conclusion: Lax544225.SuccessorCovering.statement
+conclusion: Lax544225.SuccessorCovering.theorem4
 ---
 The precision threshold covers a ball from the next ordered point.
 
@@ -201,7 +201,7 @@ other side of the successor, the ordered antitriangle inequality gives monotonic
 # Attribution
 Aleksandrov, Kuske and Völlinger, Theorem 4.
 -/
-theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0)
     (hbound : threshold d hd μ ≤ ε) (x y : S) (hxy : Successor x y) :
     ball d hd.1 x μ ⊆ ball d hd.1 y ε := by
@@ -239,7 +239,7 @@ theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance 
 
 /--
 ---
-conclusion: Lax544225.PrecisionObstruction.statement
+conclusion: Lax544225.PrecisionObstruction.corollary2
 ---
 The precision threshold excludes every nontrivial robust partition.
 
@@ -251,10 +251,10 @@ Restrict this covering to the lower point's side and apply BoundaryExistence.
 # Attribution
 Aleksandrov, Kuske and Völlinger, Corollary 2.
 -/
-lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0)
     (hbound : threshold d hd μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
-  apply (Lax544225.BoundaryExistence.statement d hd μ ε).mpr
+  apply (Lax544225.BoundaryExistence.corollary1 d hd μ ε).mpr
   intro A hA hAc
   obtain ⟨a, ha⟩ := hA
   obtain ⟨b, hb⟩ := hAc
@@ -264,12 +264,12 @@ lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance
     refine ⟨p, Or.inl ⟨hpA, ?_⟩⟩
     intro z hz
     exact ⟨q, ⟨hqA, p, by simpa using hpA, Or.inr hpq⟩,
-      Lax544225.SuccessorCovering.statement d hd μ ε hbound p q hpq hz.1⟩
+      Lax544225.SuccessorCovering.theorem4 d hd μ ε hbound p q hpq hz.1⟩
   · obtain ⟨p, q, _, _, hpA, hqA, hpq⟩ := crossing_pair Aᶜ hba hb (by simpa using ha)
     refine ⟨p, Or.inr ⟨hpA, ?_⟩⟩
     intro z hz
     exact ⟨q, ⟨by simpa using hqA, p, hpA, Or.inr hpq⟩,
-      Lax544225.SuccessorCovering.statement d hd μ ε hbound p q hpq hz.1⟩
+      Lax544225.SuccessorCovering.theorem4 d hd μ ε hbound p q hpq hz.1⟩
 
 /--
 Only-trivial robustness gives opposite-boundary covering.
@@ -284,8 +284,8 @@ lemma trivialityToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
     Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε → EveryCutBoundaryCovered d hd.1 μ ε := by
   intro h
-  exact (Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε).mp
-    ((Lax544225.GeneralExistence.statement d hd.1 μ ε).mp h)
+  exact (Lax544225.BoundaryCoveringCharacterization.theorem3 d hd μ ε).mp
+    ((Lax544225.GeneralExistence.theorem2 d hd.1 μ ε).mp h)
 
 /--
 Opposite-boundary covering excludes nontrivial robust partitions.
@@ -300,7 +300,7 @@ lemma boundaryCoveringToTriviality {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
     EveryCutBoundaryCovered d hd.1 μ ε → Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
   intro h
-  exact (Lax544225.GeneralExistence.statement d hd.1 μ ε).mpr
-    ((Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε).mpr h)
+  exact (Lax544225.GeneralExistence.theorem2 d hd.1 μ ε).mpr
+    ((Lax544225.BoundaryCoveringCharacterization.theorem3 d hd μ ε).mpr h)
 
 end Lax544225Proofs.OrderedBounds

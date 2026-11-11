@@ -28,6 +28,6 @@ noncomputable def squareDistance (F : Format) (f₁ f₂ : Value F) : ℝ≥0 :=
   Real.toNNReal ((phi F f₁ - phi F f₂) ^ 2)
 
 /-- The squared-distance construction is an ordered semimetric space. -/
-axiom statement (F : Format) : IsOrderedSemimetricSpace (squareDistance F) (ieeeLe F)
+axiom proposition1_squared (F : Format) : IsOrderedSemimetricSpace (squareDistance F) (ieeeLe F)
 
 end Lax544225.FloatSquaredSpace

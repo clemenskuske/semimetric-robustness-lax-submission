@@ -41,7 +41,7 @@ noncomputable def maxDistance {S : Type u} (d : Distance S) (n : ℕ) : Distance
   fun f g => Finset.univ.sup (fun i => d (f i) (g i))
 
 /-- Synchronized maximum products preserve ordered semimetric spaces. -/
-axiom statement {S : Type u} (d : Distance S) (le : S → S → Prop)
+axiom proposition1_maximumProduct {S : Type u} (d : Distance S) (le : S → S → Prop)
     (hd : IsOrderedSemimetricSpace d le) (hadd : Additive d le) (n : ℕ) :
     IsOrderedSemimetricSpace (maxDistance d n) (synchronizedLe d le n)
 

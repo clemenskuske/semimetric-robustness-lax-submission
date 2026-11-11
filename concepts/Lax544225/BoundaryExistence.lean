@@ -23,7 +23,7 @@ open scoped NNReal
 open SemimetricSpace OrderedSemimetric PartitionRobustness Boundary Balls
 
 /-- In a finite totally ordered semimetric space, only-trivial robustness is equivalent to opposite-boundary covering of every nonempty proper cut. -/
-axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+axiom corollary1 {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
     OnlyTrivial d hd.1 μ ε ↔ (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →
       ∃ x, (x ∈ S' ∧ ball d hd.1 x μ ∩ S' ⊆ unionOfBalls d hd.1 (boundary S'ᶜ) ε) ∨

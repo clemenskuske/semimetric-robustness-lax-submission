@@ -167,7 +167,7 @@ lemma unionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d
 
 /--
 ---
-conclusion: Lax544225.Noncompositionality.statement
+conclusion: Lax544225.Noncompositionality.lemma1
 ---
 Both compositionality implications fail.
 

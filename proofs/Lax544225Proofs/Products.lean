@@ -64,7 +64,7 @@ lemma max_product_semimetric {S : Type u} (d : Distance S)
 
 /--
 ---
-conclusion: Lax544225.SumProductSpace.statement
+conclusion: Lax544225.SumProductSpace.proposition1_sumProduct
 ---
 Finite sums preserve the ordered semimetric laws.
 
@@ -126,7 +126,7 @@ lemma synchronized_max_additive {S : Type u} (d : Distance S) (le : S → S → 
 
 /--
 ---
-conclusion: Lax544225.MaximumProductSpace.statement
+conclusion: Lax544225.MaximumProductSpace.proposition1_maximumProduct
 ---
 Synchronized finite maxima preserve the ordered semimetric laws.
 

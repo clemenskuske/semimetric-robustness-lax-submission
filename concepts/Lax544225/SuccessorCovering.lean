@@ -30,7 +30,7 @@ open scoped NNReal
 open SemimetricSpace OrderedSemimetric Balls Boundary PrecisionGaps
 
 /-- In a finite totally ordered semimetric space, ε≥Δδμ+Δ implies B(x,μ)⊆B(x',ε) whenever x' is the immediate successor of x. -/
-axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
+axiom theorem4 {S : Type u} [Finite S] [LinearOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0)
     (hbound : threshold d hd μ ≤ ε) (x x' : S) (hsucc : Successor x x') :
     ball d hd.1 x μ ⊆ ball d hd.1 x' ε

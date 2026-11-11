@@ -66,7 +66,7 @@ lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetricSp
     · have hB' : B = Aᶜ := Set.mem_singleton_iff.mp hB
       subst B
       exact hn ⟨x, Or.inr ⟨hx, by simpa using hcov⟩⟩
-  have hrob := (CoveringCharacterization.statement d hd _ hP μ ε).mpr hun
+  have hrob := (CoveringCharacterization.theorem1 d hd _ hP μ ε).mpr hun
   have heq := htr _ hP hrob
   have hAu : A = Set.univ := by
     have hmem : A ∈ ({A, Aᶜ} : Set (Set S)) := by simp
@@ -94,7 +94,7 @@ lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetricSp
     EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε := by
   classical
   intro hcut P hP hrob
-  have hun := (CoveringCharacterization.statement d hd P hP μ ε).mp hrob
+  have hun := (CoveringCharacterization.theorem1 d hd P hP μ ε).mp hrob
   have hall : ∀ A ∈ P, A = Set.univ := by
     intro A hA
     by_contra hne

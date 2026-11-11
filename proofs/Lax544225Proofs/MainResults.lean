@@ -16,7 +16,7 @@ open Lax544225 SemimetricSpace Partitions PartitionRobustness CoveringConditions
 
 /--
 ---
-conclusion: Lax544225.CoveringCharacterization.statement
+conclusion: Lax544225.CoveringCharacterization.theorem1
 ---
 Theorem 1: robustness is equivalent to failure of opposite-part coverage.
 
@@ -39,7 +39,7 @@ theorem coveringCharacterization {S : Type u} (d : Distance S)
 
 /--
 ---
-conclusion: Lax544225.GeneralExistence.statement
+conclusion: Lax544225.GeneralExistence.theorem2
 ---
 Theorem 2: only-trivial robustness is equivalent to coverage of every proper cut.
 
@@ -61,7 +61,7 @@ theorem generalExistence {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d
 
 /--
 ---
-conclusion: Lax544225.BoundaryCoveringCharacterization.statement
+conclusion: Lax544225.BoundaryCoveringCharacterization.theorem3
 ---
 Theorem 3: cut covering is equivalent to covering from opposite boundaries.
 
@@ -84,7 +84,7 @@ theorem boundaryCoveringCharacterization {S : Type u} [Finite S] [LinearOrder S]
 
 /--
 ---
-conclusion: Lax544225.BoundaryExistence.statement
+conclusion: Lax544225.BoundaryExistence.corollary1
 ---
 Corollary 1: only-trivial robustness is equivalent to opposite-boundary covering.
 

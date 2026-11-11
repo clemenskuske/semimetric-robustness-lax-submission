@@ -290,7 +290,7 @@ lemma floatAbsoluteAdditivity (F : Format) : Additive (absDistance F) (ieeeLe F)
 
 /--
 ---
-conclusion: Lax544225.FloatAbsoluteSpace.statement
+conclusion: Lax544225.FloatAbsoluteSpace.proposition1_absolute
 ---
 Absolute embedded distance forms an ordered semimetric.
 
@@ -347,7 +347,7 @@ private lemma squareDistance_eq_absDistance_sq (F : Format) (x y : Value F) :
 
 /--
 ---
-conclusion: Lax544225.FloatSquaredSpace.statement
+conclusion: Lax544225.FloatSquaredSpace.proposition1_squared
 ---
 Squared embedded distance forms an ordered semimetric.
 
@@ -368,6 +368,6 @@ lemma floatSquaredSpace (F : Format) : IsOrderedSemimetricSpace (squareDistance 
     funext x y
     exact squareDistance_eq_absDistance_sq F x y
   rw [hdist]
-  exact square_ordered (absDistance F) (ieeeLe F) (Lax544225.FloatAbsoluteSpace.statement F)
+  exact square_ordered (absDistance F) (ieeeLe F) (Lax544225.FloatAbsoluteSpace.proposition1_absolute F)
 
 end Lax544225Proofs.FloatEmbedding

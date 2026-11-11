@@ -59,12 +59,12 @@ noncomputable def maxDistance {S : Type u} (d : Distance S) (pad : S) : Distance
     (Finset.range (max f.length g.length)).sup (fun i => d (f.getD i pad) (g.getD i pad))
 
 /-- The sum-distance list extension is an ordered semimetric space. -/
-axiom sumDistance_isOrderedSemimetricSpace {S : Type u} (d : Distance S)
+axiom proposition1_sumList {S : Type u} (d : Distance S)
     (le : S → S → Prop) (hd : IsOrderedSemimetricSpace d le) (pad : S) :
     IsOrderedSemimetricSpace (sumDistance d pad) (listLe le pad)
 
 /-- The maximum-distance list extension is ordered when the base is additive. -/
-axiom maxDistance_isOrderedSemimetricSpace {S : Type u} (d : Distance S)
+axiom proposition1_maximumList {S : Type u} (d : Distance S)
     (le : S → S → Prop) (hd : IsOrderedSemimetricSpace d le)
     (hadd : Additive d le) (pad : S) :
     IsOrderedSemimetricSpace (maxDistance d pad) (synchronizedListLe d le pad)

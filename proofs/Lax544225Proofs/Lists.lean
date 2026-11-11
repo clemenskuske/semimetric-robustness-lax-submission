@@ -173,7 +173,7 @@ private lemma max_list_equal_length {S : Type u} (d : Distance S) (pad : S)
 
 /--
 ---
-conclusion: Lax544225.ListSpaces.sumDistance_isOrderedSemimetricSpace
+conclusion: Lax544225.ListSpaces.proposition1_sumList
 ---
 Padded finite sums with a length penalty form an ordered semimetric space.
 
@@ -196,7 +196,7 @@ Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manusc
 lemma sumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
     (hd : IsOrderedSemimetricSpace d le) (pad : S) :
     IsOrderedSemimetricSpace (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad) := by
-  have htuple := Lax544225.SumProductSpace.statement d le hd
+  have htuple := Lax544225.SumProductSpace.proposition1_sumProduct d le hd
   refine ⟨padded_semimetric pad (Lax544225.SumProductSpace.sumDistance d)
       (fun n => (htuple n).1) _ (sum_list_as_product d pad),
     list_partialOrder le pad (fun n => (htuple n).2.1), ?_⟩
@@ -212,7 +212,7 @@ lemma sumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
 
 /--
 ---
-conclusion: Lax544225.ListSpaces.maxDistance_isOrderedSemimetricSpace
+conclusion: Lax544225.ListSpaces.proposition1_maximumList
 ---
 Padded synchronized maxima with a length penalty form an ordered semimetric space.
 
@@ -237,7 +237,7 @@ lemma maximumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
     (hd : IsOrderedSemimetricSpace d le) (hadd : Additive d le) (pad : S) :
     IsOrderedSemimetricSpace (Lax544225.ListSpaces.maxDistance d pad)
       (Lax544225.ListSpaces.synchronizedListLe d le pad) := by
-  have htuple := Lax544225.MaximumProductSpace.statement d le hd hadd
+  have htuple := Lax544225.MaximumProductSpace.proposition1_maximumProduct d le hd hadd
   refine ⟨padded_semimetric pad (Lax544225.MaximumProductSpace.maxDistance d)
       (fun n => (htuple n).1) _ (max_list_as_product d pad),
     synchronized_list_partialOrder d le pad (fun n => (htuple n).2.1), ?_⟩

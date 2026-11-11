@@ -27,7 +27,7 @@ open scoped NNReal
 open SemimetricSpace Partitions PartitionRobustness
 
 /-- Neither restriction nor gluing preserves the stated triviality properties in general. -/
-axiom statement :
+axiom lemma1 :
     (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
       (μ : ℝ≥0) (ε : ℝ>0) (S₁ : Set S)
       (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val)),

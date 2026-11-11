@@ -36,7 +36,7 @@ open scoped NNReal
 open SemimetricSpace PartitionRobustness Balls
 
 /-- The trivial partition is the only robust partition exactly when every nonempty proper cut admits a covering point on one side from ε-balls centered on the other side. -/
-axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
+axiom theorem2 {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ : ℝ≥0) (ε : ℝ>0) :
     OnlyTrivial d hd μ ε ↔ (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →
       ∃ x, (x ∈ S' ∧ ball d hd x μ ⊆ unionOfBalls d hd S'ᶜ ε) ∨
