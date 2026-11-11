@@ -27,7 +27,8 @@ open SemimetricSpace Decomposition PartitionRobustness
 /-- If a semimetric space has a (μ,ε)-decomposition and each induced subspace admits only trivial (μ,ε)-robust partitions, then the whole space admits only trivial (μ,ε)-robust partitions. -/
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (D : Set (Set S))
     (μ : ℝ≥0) (ε : ℝ>0) (hD : IsDecomposition d hd D μ)
-    (hlocal : ∀ Dᵢ ∈ D, ∀ hDᵢ : IsSemimetricSpace (fun x y : Dᵢ => d x.val y.val),
+    (hlocal : ∀ (Dᵢ : Set S) (_hmem : Dᵢ ∈ D)
+      (hDᵢ : IsSemimetricSpace (fun x y : Dᵢ => d x.val y.val)),
       OnlyTrivial (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ε) : OnlyTrivial d hd μ ε
 
 end Lax544225.DecompositionObstruction

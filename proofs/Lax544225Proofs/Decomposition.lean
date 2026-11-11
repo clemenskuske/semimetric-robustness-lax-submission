@@ -98,6 +98,7 @@ theorem decompositionObstruction {S : Type u} (d : Distance S) (hd : IsSemimetri
     have hstart : A ⊆ B := hmono A hA B hB ⟨x, hxA, hx⟩
     have hend : E ⊆ B := by
       clear hyE hE
+      unfold Chain at hpath
       induction hpath with
       | refl => exact hstart
       | @tail C E hpath hCE ih =>
@@ -135,7 +136,7 @@ Corollary 3 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Character
 lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (D : Set (Set S))
     (μ : ℝ≥0) (ε : ℝ>0) (hD : IsDecomposition d hd.1 D μ)
-    (hchain : ∀ A ∈ D, ∀ x ∈ A, ∀ y ∈ A, x ≤ y ∨ y ≤ x)
+    (hchain : ∀ A ∈ D, IsChain (· ≤ ·) A)
     (hbound : ∀ A ∈ D, ∀ hA : IsOrderedSemimetricSpace (restrict d A) (· ≤ ·),
       threshold (restrict d A) hA μ ≤ ε) : OnlyTrivial d hd.1 μ ε := by
   classical
@@ -143,7 +144,7 @@ lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S]
   intro A hA hsm
   let : LinearOrder A := {
     (inferInstance : PartialOrder A) with
-    le_total := fun x y => hchain A hA x.val x.property y.val y.property
+    le_total := fun x y => (hchain A hA).total x.property y.property
     toDecidableLE := Classical.decRel _ }
   have ho : IsOrderedSemimetricSpace (restrict d A) (· ≤ ·) := by
     refine ⟨hsm, inferInstance, ?_⟩

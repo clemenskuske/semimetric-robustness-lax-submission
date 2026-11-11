@@ -182,20 +182,33 @@ criterion; their subsets witness the two failures separately.
 Lemma 1 of Aleksandrov, Kuske and Völlinger's revised FSEN 2027 manuscript (9 November 2026).
 -/
 lemma noncompositionality :
-    (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
-      (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
-    MuEpsilonRobustPartition d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
-    (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
-    ¬ ∃ B ∈ P, A ⊆ B) ∧
-    (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
-      (A B : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
-    Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧ A ∪ B = Set.univ ∧
-    (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
-    (∀ hB : IsSemimetricSpace (fun x y : B => d x.val y.val),
-      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 ⟨1, zero_lt_one⟩) ∧
-    MuEpsilonRobustPartition d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P) := by
-  exact ⟨restrictionCounterexample, unionCounterexample⟩
+    (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
+      (μ : ℝ≥0) (ε : ℝ>0) (S₁ : Set S)
+      (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val)),
+      S₁ᶜ.Nonempty →
+      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ μ ε →
+      ∀ (P : Set (Set S)) (hP : IsPartition P),
+        MuEpsilonRobustPartition d hd P hP μ ε → ∃ Sᵢ ∈ P, S₁ ⊆ Sᵢ) ∧
+    (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
+      (μ : ℝ≥0) (ε : ℝ>0) (S₁ S₂ : Set S)
+      (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val))
+      (hS₂ : IsSemimetricSpace (fun x y : S₂ => d x.val y.val)),
+      S₁ᶜ.Nonempty → S₂ᶜ.Nonempty → (S₁ ∩ S₂).Nonempty → S₁ ∪ S₂ = Set.univ →
+      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ μ ε →
+      OnlyTrivial (fun x y : S₂ => d x.val y.val) hS₂ μ ε →
+      OnlyTrivial d hd μ ε) := by
+  constructor
+  · intro h
+    obtain ⟨d, hd, P, hP, A, hrob, hA, hAc, hlocal, hno⟩ := restrictionCounterexample
+    have hsm := restrict_isSemimetric d hd A hA
+    exact hno (h (Fin 4) d hd 1 ⟨1, zero_lt_one⟩ A hsm hAc (hlocal hsm) P hP hrob)
+  · intro h
+    obtain ⟨d, hd, A, B, P, hP, hAc, hBc, hoverlap, hcover, hlocalA, hlocalB,
+      hrob, hnontrivial⟩ := unionCounterexample
+    have hsmA := restrict_isSemimetric d hd A (hoverlap.mono Set.inter_subset_left)
+    have hsmB := restrict_isSemimetric d hd B (hoverlap.mono Set.inter_subset_right)
+    have htrivial := h (Fin 4) d hd 1 ⟨1, zero_lt_one⟩ A B hsmA hsmB
+      hAc hBc hoverlap hcover (hlocalA hsmA) (hlocalB hsmB)
+    exact hnontrivial (htrivial P hP hrob)
 
 end Lax544225Proofs.Counterexamples
