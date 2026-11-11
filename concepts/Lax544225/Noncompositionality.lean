@@ -15,9 +15,11 @@ $\mu\geq 0$, $\epsilon>0$, the following implications are false in general:
 
 # Formalization notes
 
-Each clause negates a proposed universal implication. In the second clause,
-the ambient carrier is the union of the two subsets. Concrete spaces, radii,
-and partitions belong to the proof.
+The two proposed universal implications are named `RestrictionPrinciple` and
+`UnionPrinciple`. Lemma 1 states that both are false. For the union principle,
+the ambient carrier is the union of the two subsets. The local distances `d₁`
+and `d₂` are inherited from `d`. Concrete spaces, radii, and partitions belong
+to the proof.
 -/
 
 namespace Lax544225.Noncompositionality
@@ -26,22 +28,35 @@ open scoped NNReal
 
 open SemimetricSpace Partitions PartitionRobustness
 
-/-- Neither restriction nor gluing preserves the stated triviality properties in general. -/
-axiom lemma1 :
-    (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
-      (μ : ℝ≥0) (ε : ℝ>0) (S₁ : Set S)
-      (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val)),
-      S₁ᶜ.Nonempty →
-      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ μ ε →
-      ∀ (P : Set (Set S)) (hP : IsPartition P),
-        MuEpsilonRobustPartition d hd P hP μ ε → ∃ Sᵢ ∈ P, S₁ ⊆ Sᵢ) ∧
-    (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
-      (μ : ℝ≥0) (ε : ℝ>0) (S₁ S₂ : Set S)
-      (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val))
-      (hS₂ : IsSemimetricSpace (fun x y : S₂ => d x.val y.val)),
-      S₁ᶜ.Nonempty → S₂ᶜ.Nonempty → (S₁ ∩ S₂).Nonempty → S₁ ∪ S₂ = Set.univ →
-      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ μ ε →
-      OnlyTrivial (fun x y : S₂ => d x.val y.val) hS₂ μ ε →
-      OnlyTrivial d hd μ ε)
+/-- Proposed restriction principle: local triviality forces every robust ambient
+partition to contain the subset in a single part. Lemma 1 refutes this principle. -/
+def RestrictionPrinciple : Prop :=
+  ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
+    (μ : ℝ≥0) (ε : ℝ>0) (S₁ : Set S),
+    let d₁ : Distance S₁ := fun x y => d x.val y.val
+    ∀ (hS₁ : IsSemimetricSpace d₁)
+      (_proper : S₁ᶜ.Nonempty)
+      (_local : OnlyTrivial d₁ hS₁ μ ε)
+      (P : Set (Set S)) (hP : IsPartition P)
+      (_robust : MuEpsilonRobustPartition d hd P hP μ ε),
+      ∃ Sᵢ ∈ P, S₁ ⊆ Sᵢ
+
+/-- Proposed union principle: local triviality on two overlapping proper subsets
+forces triviality on their union. Lemma 1 refutes this principle. -/
+def UnionPrinciple : Prop :=
+  ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
+    (μ : ℝ≥0) (ε : ℝ>0) (S₁ S₂ : Set S),
+    let d₁ : Distance S₁ := fun x y => d x.val y.val
+    let d₂ : Distance S₂ := fun x y => d x.val y.val
+    ∀ (hS₁ : IsSemimetricSpace d₁) (hS₂ : IsSemimetricSpace d₂)
+      (_proper₁ : S₁ᶜ.Nonempty) (_proper₂ : S₂ᶜ.Nonempty)
+      (_overlap : (S₁ ∩ S₂).Nonempty)
+      (_cover : S₁ ∪ S₂ = Set.univ)
+      (_local₁ : OnlyTrivial d₁ hS₁ μ ε)
+      (_local₂ : OnlyTrivial d₂ hS₂ μ ε),
+      OnlyTrivial d hd μ ε
+
+/-- Neither the restriction principle nor the union principle holds in general. -/
+axiom lemma1 : ¬ RestrictionPrinciple ∧ ¬ UnionPrinciple
 
 end Lax544225.Noncompositionality

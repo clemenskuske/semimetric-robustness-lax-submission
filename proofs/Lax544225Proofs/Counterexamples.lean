@@ -182,21 +182,7 @@ criterion; their subsets witness the two failures separately.
 Lemma 1 of Aleksandrov, Kuske and Völlinger's revised FSEN 2027 manuscript (9 November 2026).
 -/
 lemma noncompositionality :
-    (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
-      (μ : ℝ≥0) (ε : ℝ>0) (S₁ : Set S)
-      (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val)),
-      S₁ᶜ.Nonempty →
-      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ μ ε →
-      ∀ (P : Set (Set S)) (hP : IsPartition P),
-        MuEpsilonRobustPartition d hd P hP μ ε → ∃ Sᵢ ∈ P, S₁ ⊆ Sᵢ) ∧
-    (¬ ∀ (S : Type) (d : Distance S) (hd : IsSemimetricSpace d)
-      (μ : ℝ≥0) (ε : ℝ>0) (S₁ S₂ : Set S)
-      (hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val))
-      (hS₂ : IsSemimetricSpace (fun x y : S₂ => d x.val y.val)),
-      S₁ᶜ.Nonempty → S₂ᶜ.Nonempty → (S₁ ∩ S₂).Nonempty → S₁ ∪ S₂ = Set.univ →
-      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ μ ε →
-      OnlyTrivial (fun x y : S₂ => d x.val y.val) hS₂ μ ε →
-      OnlyTrivial d hd μ ε) := by
+    ¬ Noncompositionality.RestrictionPrinciple ∧ ¬ Noncompositionality.UnionPrinciple := by
   constructor
   · intro h
     obtain ⟨d, hd, P, hP, A, hrob, hA, hAc, hlocal, hno⟩ := restrictionCounterexample
