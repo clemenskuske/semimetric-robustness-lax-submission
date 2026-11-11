@@ -19,8 +19,9 @@ this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
 updated from the user-supplied TeX archive and revised to match the subsequent
-`Bounds-11.pdf` received on 11 November 2026. The paper viewer links 27
-passages to the 25 paper concepts and results. The supplementary classifier–partition
+`Bounds-12.pdf` received on 11 November 2026. Its text and rendered pages
+are identical to `Bounds-11.pdf`; the compiled LAX paper matches this revision.
+The paper viewer links 27 passages to the 25 paper concepts and results. The supplementary classifier–partition
 and separability equivalence concepts have no PDF markers. Private working history and
 unrelated formalizations are not included.
 
@@ -85,3 +86,7 @@ changing the paper or its markers.
 `PartitionSeparability` proves that ε-separation is equivalent to (0,ε)-robustness.
 It combines the direct proofs from the partition definitions, independently of
 Theorem 1, and has no additional PDF marker.
+
+Lemma 1 uses `OnlyTrivialOn` in its own concept to express local triviality on
+subsets. Both principles are equivalent to their previous expanded statements.
+Theorem 5 names the inherited distance locally to keep its premise readable.
