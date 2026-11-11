@@ -1,4 +1,4 @@
-import Lax544225.Semimetric
+import Lax544225.SemimetricSpace
 import Mathlib.Order.Defs.PartialOrder
 
 /-!
@@ -27,7 +27,7 @@ universe u
 
 namespace Lax544225.OrderedSemimetric
 
-open Semimetric
+open SemimetricSpace
 /-- The semimetric, partial-order, and ordered-chain distance laws. -/
 def IsOrdered {S : Type u} (d : Distance S) (le : S → S → Prop) : Prop :=
   IsSemimetric d ∧ IsPartialOrder S le ∧

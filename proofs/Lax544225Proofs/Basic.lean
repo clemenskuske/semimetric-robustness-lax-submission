@@ -1,4 +1,4 @@
-import Lax544225.ClassifierRobustness
+import Lax544225.EpsilonRobustness
 import Lax544225.PartitionRobustness
 import Lax544225Proofs.CoveringConditions
 
@@ -9,8 +9,22 @@ universe u
 namespace Lax544225Proofs.Basic
 
 open scoped NNReal
-open Lax544225.Semimetric Lax544225.Classifier Lax544225.ClassifierRobustness
+open Lax544225.SemimetricSpace Lax544225.Classifier Lax544225.EpsilonRobustness
 open Lax544225.Partitions Lax544225.PartitionRobustness Lax544225.Balls Lax544225Proofs.CoveringConditions
+
+/-- The paper's distance formulation is equivalent to constancy on its closed ball. -/
+lemma locallyRobust_iff_ball {S : Type u} {n : ℕ} (d : Distance S)
+    (hd : IsSemimetric d) (c : Classifier S n) (ε : ℝ≥0) (x_star : S) :
+    LocallyRobust d hd c ε x_star ↔
+      ∀ x ∈ ball d hd x_star ε, c.label x = c.label x_star := Iff.rfl
+
+/-- Symmetry connects the paper's d(x,x') bound to membership of x' in B(x,μ). -/
+lemma relaxedRobust_iff_ball {S : Type u} {n : ℕ} (d : Distance S)
+    (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) :
+    RelaxedRobust d hd c μ ε ↔
+      ∀ x, ∃ x', x' ∈ ball d hd x μ ∧ c.label x = c.label x' ∧
+        LocallyRobust d hd c ε x' := by
+  simp only [RelaxedRobust, ball, Set.mem_setOf_eq, hd.2.2]
 
 /-- The mathlib partition predicate preserves the finite-family formulation. -/
 lemma isPartition_iff {S : Type u} (P : Set (Set S)) :
@@ -104,11 +118,11 @@ lemma classifierToPartition {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
     RelaxedRobust d hd c μ ε → Robust d hd (induced c) (inducedPartition c) μ ε := by
   intro hc x
-  rcases hc x with ⟨x', hdist, hlabel, hlocal⟩
+  rcases (relaxedRobust_iff_ball d hd c μ ε).mp hc x with ⟨x', hdist, hlabel, hlocal⟩
   refine ⟨x', ?_, fiber c (c.label x), ⟨c.label x, rfl⟩, rfl, ?_⟩
   · exact hdist
   · intro y hy
-    exact (hlocal y hy).trans hlabel.symm
+    exact ((locallyRobust_iff_ball d hd c ε x').mp hlocal y hy).trans hlabel.symm
 
 /--
 Robustness of the fiber partition gives relaxed classifier robustness.
@@ -125,7 +139,9 @@ Definitions 4 and 8 of the source paper.
 lemma partitionToClassifier {S : Type u} {n : ℕ} (d : Distance S)
     (hd : IsSemimetric d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
     Robust d hd (induced c) (inducedPartition c) μ ε → RelaxedRobust d hd c μ ε := by
-  intro hP x
+  intro hP
+  apply (relaxedRobust_iff_ball d hd c μ ε).mpr
+  intro x
   rcases hP x with ⟨x', hdist, A, hA, hx, hball⟩
   rcases hA with ⟨i, rfl⟩
   have hx' : c.label x' = i := hball (mem_ball_self hd x' ε)
@@ -151,10 +167,7 @@ lemma zeroToGlobal {S : Type u} {n : ℕ} (d : Distance S)
     RelaxedRobust d hd c 0 ε → GloballyRobust d hd c ε := by
   intro h x
   rcases h x with ⟨x', hdist, _, hlocal⟩
-  have hdist' : d x x' ≤ 0 := by
-    rw [hd.2.2 x x']
-    exact hdist
-  have heq : x = x' := (hd.2.1 x x').1 (le_antisymm hdist' zero_le)
+  have heq : x = x' := (hd.2.1 x x').1 (le_antisymm hdist zero_le)
   simpa only [heq] using hlocal
 
 /--

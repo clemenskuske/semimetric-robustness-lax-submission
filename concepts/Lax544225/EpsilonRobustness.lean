@@ -1,9 +1,9 @@
 import Lax544225.Classifier
-import Lax544225.Balls
+import Lax544225.SemimetricSpace
 
 /-!
 ---
-title: ε-Robustness and (μ,ε)-Robustness
+title: ε-Robustness
 type: definition
 ---
 Local robustness means that all inputs sufficiently close to a given input have the same label. Global robustness requires this at every input. Relaxed robustness allows each input to move a short distance to a locally robust input with the same label.
@@ -25,20 +25,20 @@ $c(x)=c(x')$ and $c$ is locally $\epsilon$-robust at $x'$.
 
 # Formalization notes
 
-Each predicate requires evidence that the distance defines a semimetric space. Radii are nonnegative reals. The predicates also make sense at ε=0; the paper’s results below explicitly require ε>0. The same-label requirement is present even when μ>ε.
+Each predicate requires evidence that the distance defines a semimetric space. Radii are nonnegative reals. The predicates also make sense at ε=0; the paper’s results below explicitly require ε>0. The same-label requirement is present even when μ>ε. In Lean, `x_star` denotes the paper’s reference point $x^*$ and `x` the quantified input. Both robustness definitions use the paper’s distance inequalities directly; their ball characterizations are proved in the proof package.
 -/
 
 universe u
 
-namespace Lax544225.ClassifierRobustness
+namespace Lax544225.EpsilonRobustness
 
 open scoped NNReal
 
-open Classifier Semimetric Balls
-/-- Local robustness of the classifier at x. -/
-def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
-    (c : Classifier S n) (ε : ℝ≥0) (x : S) : Prop :=
-  ∀ y ∈ ball d hd x ε, c.label y = c.label x
+open Classifier SemimetricSpace
+/-- Local robustness at the paper’s reference point x*. -/
+def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S) (_hd : IsSemimetric d)
+    (c : Classifier S n) (ε : ℝ≥0) (x_star : S) : Prop :=
+  ∀ x, d x x_star ≤ ε → c.label x = c.label x_star
 
 /-- Local robustness at every input. -/
 def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
@@ -48,6 +48,6 @@ def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
 /-- Coverage of each input by a same-label locally robust input. -/
 def RelaxedRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
     (c : Classifier S n) (μ ε : ℝ≥0) : Prop :=
-  ∀ x, ∃ x', x' ∈ ball d hd x μ ∧ c.label x = c.label x' ∧ LocallyRobust d hd c ε x'
+  ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyRobust d hd c ε x'
 
-end Lax544225.ClassifierRobustness
+end Lax544225.EpsilonRobustness

@@ -8,7 +8,7 @@ import Mathlib.Tactic.NormNum
 
 namespace Lax544225Proofs.Counterexamples
 open scoped NNReal
-open Lax544225 Semimetric Partitions PartitionRobustness Balls
+open Lax544225 SemimetricSpace Partitions PartitionRobustness Balls
 
 private def line (x y : Fin 4) : ℝ≥0 := Nat.dist x.val y.val
 private def low : Set (Fin 4) := {x | x.val < 2}

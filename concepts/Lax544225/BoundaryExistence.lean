@@ -20,13 +20,13 @@ universe u
 namespace Lax544225.BoundaryExistence
 
 open scoped NNReal
-open Semimetric OrderedSemimetric PartitionRobustness Boundary Balls
+open SemimetricSpace OrderedSemimetric PartitionRobustness Boundary Balls
 
 /-- In a finite totally ordered semimetric space, only-trivial robustness is equivalent to opposite-boundary covering of every nonempty proper cut. -/
 axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d hd.1 μ ε ↔ (∀ A : Set S, A.Nonempty → Aᶜ.Nonempty →
-      ∃ x, (x ∈ A ∧ ball d hd.1 x μ ∩ A ⊆ neighborhood d hd.1 (complementBoundary A) ε) ∨
-        (x ∈ Aᶜ ∧ ball d hd.1 x μ ∩ Aᶜ ⊆ neighborhood d hd.1 (boundary A) ε))
+    OnlyTrivial d hd.1 μ ε ↔ (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →
+      ∃ x, (x ∈ S' ∧ ball d hd.1 x μ ∩ S' ⊆ neighborhood d hd.1 (complementBoundary S') ε) ∨
+        (x ∈ S'ᶜ ∧ ball d hd.1 x μ ∩ S'ᶜ ⊆ neighborhood d hd.1 (boundary S') ε))
 
 end Lax544225.BoundaryExistence

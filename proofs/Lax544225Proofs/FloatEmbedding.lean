@@ -11,7 +11,7 @@ namespace Lax544225Proofs.FloatEmbedding
 
 open scoped NNReal
 open Lax544225.FloatAbsoluteSpace Lax544225.FloatSquaredSpace
-open Lax544225.BinaryFloats Lax544225.Semimetric Lax544225.OrderedSemimetric
+open Lax544225.BinaryFloats Lax544225.SemimetricSpace Lax544225.OrderedSemimetric
 
 noncomputable def magnitude {F : Format} (f : FiniteValue F) : ℝ :=
   (f.mantissa : ℝ) * (2 : ℝ) ^ (f.exponent - (F.precision : ℤ))

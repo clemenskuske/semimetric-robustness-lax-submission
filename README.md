@@ -29,7 +29,7 @@ lax build . --replay
 ```
 
 Unused helper warnings are intentional: these lemmas validate the
-classifier/partition and zero-relaxation definitions the Flocq correspondence, and the revised paper’s illustrative examples
+classifier/partition and zero-relaxation definitions, the Flocq correspondence, and the revised paper’s illustrative examples
 without adding public result entries.
 
 Formalization credit: Clemens Kuske and Codex (OpenAI).
@@ -42,7 +42,8 @@ shorthands for these conditions are confined to the proof package.
 Space-dependent definitions consistently require semimetric or ordered-semimetric
 evidence. Partition robustness also requires a valid finite partition. Theorem
 statements and proofs pass their existing assumptions through these concepts;
-classifier robustness reuses balls, and boundary results reuse the named
+classifier robustness uses the paper’s distance inequalities directly, with
+ball characterizations in the proof package. Boundary results reuse the named
 complement boundary. Subspace certificates remain proof helpers.
 
 The proof package also translates the floating-point mathematics from the

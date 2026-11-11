@@ -29,7 +29,7 @@ universe u
 
 namespace Lax544225.MaximumProductSpace
 
-open Semimetric OrderedSemimetric SumProductSpace
+open SemimetricSpace OrderedSemimetric SumProductSpace
 
 /-- Coordinatewise order restricted to equal distances in every coordinate. -/
 def synchronizedLe {S : Type u} (d : Distance S) (le : S → S → Prop) (n : ℕ)

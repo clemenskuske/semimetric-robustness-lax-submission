@@ -13,7 +13,7 @@ universe u
 namespace Lax544225Proofs.OrderedBounds
 
 open scoped NNReal
-open Lax544225 Semimetric OrderedSemimetric Balls CoveringConditions Boundary PrecisionGaps
+open Lax544225 SemimetricSpace OrderedSemimetric Balls CoveringConditions Boundary PrecisionGaps
 
 /-- The standard cover relation is the paper's strict no-between successor relation. -/
 lemma successor_iff {S : Type u} [LinearOrder S] (x y : S) :

@@ -5,7 +5,7 @@ universe u
 
 namespace Lax544225Proofs
 
-open Lax544225.Semimetric Lax544225.OrderedSemimetric Lax544225.SumProductSpace Lax544225.MaximumProductSpace
+open Lax544225.SemimetricSpace Lax544225.OrderedSemimetric Lax544225.SumProductSpace Lax544225.MaximumProductSpace
 open scoped NNReal BigOperators
 
 lemma product_partialOrder {S : Type u} (le : S → S → Prop)

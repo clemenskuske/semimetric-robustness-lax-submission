@@ -22,12 +22,12 @@ namespace Lax544225.DecompositionObstruction
 
 open scoped NNReal
 
-open Semimetric Decomposition PartitionRobustness
+open SemimetricSpace Decomposition PartitionRobustness
 
 /-- If a semimetric space has a (μ,ε)-decomposition and each induced subspace admits only trivial (μ,ε)-robust partitions, then the whole space admits only trivial (μ,ε)-robust partitions. -/
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetric d) (D : Set (Set S))
     (μ ε : ℝ≥0) (hε : 0 < ε) (hD : IsDecomposition d hd D μ)
-    (hlocal : ∀ A ∈ D, ∀ hA : IsSemimetric (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA μ ε) : OnlyTrivial d hd μ ε
+    (hlocal : ∀ Dᵢ ∈ D, ∀ hDᵢ : IsSemimetric (fun x y : Dᵢ => d x.val y.val),
+      OnlyTrivial (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ε) : OnlyTrivial d hd μ ε
 
 end Lax544225.DecompositionObstruction

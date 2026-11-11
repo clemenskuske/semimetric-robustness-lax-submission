@@ -8,7 +8,7 @@ universe u
 namespace Lax544225Proofs.CoveringConditions
 
 open scoped NNReal
-open Lax544225.Semimetric Lax544225.Balls Lax544225.Boundary
+open Lax544225.SemimetricSpace Lax544225.Balls Lax544225.Boundary
 
 /-- No μ-ball centered in a part is covered by ε-balls from its complement. -/
 def Uncovered {S : Type u} (d : Distance S) (hd : IsSemimetric d) (P : Set (Set S)) (μ ε : ℝ≥0) : Prop :=

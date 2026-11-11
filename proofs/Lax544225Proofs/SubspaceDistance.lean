@@ -1,4 +1,4 @@
-import Lax544225.Semimetric
+import Lax544225.SemimetricSpace
 
 /-! Proof-side notation for the distance inherited by a subset. -/
 
@@ -6,7 +6,7 @@ universe u
 
 namespace Lax544225Proofs
 
-open Lax544225.Semimetric
+open Lax544225.SemimetricSpace
 
 /-- The distance inherited by a subset. -/
 def restrict {S : Type u} (d : Distance S) (A : Set S) : Distance A :=

@@ -1,4 +1,4 @@
-import Lax544225.Semimetric
+import Lax544225.SemimetricSpace
 import Mathlib.Data.Set.Lattice
 
 /-!
@@ -18,7 +18,7 @@ is an **$\epsilon$-ball** around $x^*$.
 
 # Formalization notes
 
-Closed inequalities are essential: an input at distance exactly ε must have the same label. Ball membership uses d(y,x), matching the paper.
+Closed inequalities are essential: an input at distance exactly ε must have the same label. Ball membership uses d(x,x*), matching the paper; Lean spells the center `x_star`.
 
 The auxiliary neighborhood of a set $A$ is $\bigcup_{x\in A}B(x,r)$.
 -/
@@ -29,11 +29,11 @@ namespace Lax544225.Balls
 
 open scoped NNReal
 
-open Semimetric
-/-- The closed ball centered at x with radius r. -/
+open SemimetricSpace
+/-- The closed ε-ball centered at the paper’s point x*. -/
 def ball {S : Type u} (d : Distance S) (_hd : IsSemimetric d)
-    (x : S) (r : ℝ≥0) : Set S :=
-  {y | d y x ≤ r}
+    (x_star : S) (ε : ℝ≥0) : Set S :=
+  {x | d x x_star ≤ ε}
 
 /-- The union of closed r-balls with centers in A. -/
 def neighborhood {S : Type u} (d : Distance S) (hd : IsSemimetric d)

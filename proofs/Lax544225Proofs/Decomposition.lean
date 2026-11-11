@@ -8,7 +8,7 @@ import Mathlib.Data.Set.Finite.Basic
 universe u
 namespace Lax544225Proofs.Decomposition
 open scoped NNReal
-open Lax544225 Semimetric Partitions PartitionRobustness Balls Decomposition OrderedSemimetric PrecisionGaps
+open Lax544225 SemimetricSpace Partitions PartitionRobustness Balls Decomposition OrderedSemimetric PrecisionGaps
 
 private def trace {S : Type u} (A B : Set S) : Set A := {x | x.val ∈ B}
 private def traceFamily {S : Type u} (A : Set S) (P : Set (Set S)) : Set (Set A) :=

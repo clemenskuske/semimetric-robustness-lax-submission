@@ -29,7 +29,7 @@ namespace Lax544225.PartitionRobustness
 
 open scoped NNReal
 
-open Semimetric Partitions Balls
+open SemimetricSpace Partitions Balls
 /-- Coverage by monochromatic balls whose centers are μ-close to the input. -/
 def Robust {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (P : Set (Set S)) (_hP : IsPartition P) (μ ε : ℝ≥0) : Prop :=

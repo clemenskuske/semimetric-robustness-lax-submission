@@ -10,7 +10,7 @@ these declarations are illustrations and do not add concepts.
 
 namespace Lax544225Proofs.FlocqExamples
 
-open Lax544225.Semimetric Lax544225.OrderedSemimetric
+open Lax544225.SemimetricSpace Lax544225.OrderedSemimetric
 open Lax544225.BinaryFloats Lax544225.FloatAbsoluteSpace Lax544225.FloatSquaredSpace
 open Lax544225.SumProductSpace Lax544225.MaximumProductSpace Lax544225.ListSpaces
 open Lax544225Proofs.FlocqBridge

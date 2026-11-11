@@ -6,7 +6,7 @@ universe u
 
 namespace Lax544225Proofs
 
-open Lax544225.Semimetric Lax544225.OrderedSemimetric
+open Lax544225.SemimetricSpace Lax544225.OrderedSemimetric
 open scoped NNReal BigOperators
 
 private def coordinates {S : Type u} (pad : S) (n : ℕ) (f : List S) : Fin n → S :=

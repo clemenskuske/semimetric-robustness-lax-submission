@@ -31,7 +31,7 @@ namespace Lax544225.Decomposition
 
 open scoped NNReal
 
-open Semimetric Balls
+open SemimetricSpace Balls
 /-- A finite family of nonempty μ-closed pieces connected by overlaps. -/
 def IsDecomposition {S : Type u} (d : Distance S) (hd : IsSemimetric d)
     (D : Set (Set S)) (μ : ℝ≥0) : Prop :=

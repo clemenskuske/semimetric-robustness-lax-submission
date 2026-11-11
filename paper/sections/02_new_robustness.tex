@@ -13,14 +13,14 @@ $c: S \rightarrow [n]$.
 \end{definition}
 % lax end
 Surjectivity is assumed to exclude unused labels and simplify notation.
-% lax begin Lax544225.Semimetric
+% lax begin Lax544225.SemimetricSpace
 \begin{definition}[Semimetric Space]
 \label{def:distance}
     Let $(S, d)$ be a pair of a nonempty set and a function $d: S \times S \rightarrow \mathbb{R}_{\geq 0}$ such that for all $x,y \in S$, $d(x,y) = 0 \iff x = y$ (identity of indiscernibles) and $d(x,y) = d(y,x)$ (symmetry). Then, we call $(S, d)$ a \emph{semimetric space} and $d$ a \emph{distance} function on $S$.
 \end{definition}
 % lax end
 Using a distance, we define local $\epsilon$-robustness at an input $x^*$ requiring that sufficiently close (similar) inputs receive the same label. If it holds for all possible inputs, the classifier is globally $\epsilon$-robust.
-% lax begin Lax544225.ClassifierRobustness
+% lax begin Lax544225.EpsilonRobustness
 \begin{definition}[$\epsilon$-Robustness]
 \label{def:local-robustness}
 Let $(S,d)$ be a semimetric space. A classifier $c: S \rightarrow [n]$ is \emph{locally robust} at a point $x^* \in S$ for $\epsilon > 0$ if:
@@ -99,7 +99,7 @@ the majority class $A$ lies within $\epsilon$ of some input of class $B$, so no 
 When it comes to measuring global robustness, many authors introduce additional concepts to avoid working with robustness at every point. A common approach is to enforce robustness only at points where a classifier has high confidence~\cite{athavale2024verifying,leino2021globally}. This solution creates another problem of ensuring that classifier prediction is achieved with high confidence whenever required~\cite{el2010foundations,chow1970optimum}. Another popular approach is to enforce that the probability of finding a pair $x, x^*\in S$ with $d(x,x^*) \leq \epsilon$ and $c(x) \neq c(x^*)$ is less than some threshold value~\cite{levy2023groma,li2024certifying,mangal2019robustness}. The probabilistic approach only bounds the density of non-robust points and does not tell anything about their structure. For example, a grid of singular points such as one in Figure~\ref{fig:grid} with a different classifier label from its neighbors can result in a satisfaction of probabilistic robustness for a classifier that has no robust points (as they have a non-robust point from the grid as a neighbor).
 
 \paragraph{This Work: $(\mu,\epsilon)$-Robustness.} In this work, we explore a new version of global classifier robustness. We consider a classifier to be $(\mu,\epsilon)$-robust if every non-robust point has a robust point located at most $\mu$-far. Note that $(0,\epsilon)$-robustness is equivalent to $\epsilon$-robustness.
-% lax begin Lax544225.ClassifierRobustness
+% lax begin Lax544225.EpsilonRobustness
 \begin{definition}[$(\mu,\epsilon)$-Robustness]
 \label{def:mueps}
 Let $(S,d)$ be a semimetric space and\linebreak $c: S \rightarrow [n]$ a classifier. $c$ is $(\mu, \epsilon)$-robust for $\mu \in \mathbb{R}_{\geq0}$ and $\epsilon \in \mathbb{R}_{>0}$ if for each $x \in S$, there exists $x' \in S$ with $d(x,x') \leq \mu$ such that $c(x) = c(x')$ and $c$ is locally $\epsilon$-robust at $x'$.

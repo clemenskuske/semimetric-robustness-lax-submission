@@ -26,7 +26,7 @@ universe u
 
 namespace Lax544225.SumProductSpace
 
-open Semimetric OrderedSemimetric
+open SemimetricSpace OrderedSemimetric
 open scoped BigOperators
 
 /-- Coordinatewise order on finite tuples. -/

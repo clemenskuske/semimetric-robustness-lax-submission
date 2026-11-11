@@ -32,7 +32,7 @@ namespace Lax544225.ListSpaces
 
 open scoped NNReal
 
-open Semimetric OrderedSemimetric
+open SemimetricSpace OrderedSemimetric
 open scoped BigOperators
 /-- Equal-length lists ordered coordinatewise; other lengths are incomparable. -/
 def listLe {S : Type u} (le : S → S → Prop) (pad : S) (f g : List S) : Prop :=

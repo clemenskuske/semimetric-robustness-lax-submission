@@ -5,7 +5,7 @@ import Lax544225.OrderedSemimetric
 namespace Lax544225Proofs.PaperExamples
 
 open scoped NNReal
-open Lax544225.Semimetric Lax544225.OrderedSemimetric
+open Lax544225.SemimetricSpace Lax544225.OrderedSemimetric
 
 /-- The ordinary absolute distance on the real line. -/
 def realAbsDistance (x y : ℝ) : ℝ≥0 := Real.toNNReal |x - y|

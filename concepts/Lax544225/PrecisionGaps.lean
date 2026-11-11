@@ -33,7 +33,7 @@ namespace Lax544225.PrecisionGaps
 
 open scoped NNReal
 
-open Semimetric OrderedSemimetric
+open SemimetricSpace OrderedSemimetric
 /-- The number of consecutive steps between the endpoints of a closed interval. -/
 noncomputable def steps {S : Type u} [PartialOrder S] (x y : S) : ℕ :=
   (Set.Icc x y).ncard - 1
