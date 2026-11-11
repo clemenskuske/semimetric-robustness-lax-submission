@@ -24,11 +24,13 @@ open scoped NNReal
 
 open SemimetricSpace Decomposition PartitionRobustness
 
-/-- If a semimetric space has a μ-decomposition and each induced subspace admits only trivial (μ,ε)-robust partitions, then the whole space admits only trivial (μ,ε)-robust partitions. -/
-axiom theorem5 {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (D : Set (Set S))
-    (μ : ℝ≥0) (ε : ℝ>0) (hD : IsDecomposition d hd D μ)
-    (hlocal : ∀ (Dᵢ : Set S) (_hmem : Dᵢ ∈ D)
-      (hDᵢ : IsSemimetricSpace (fun x y : Dᵢ => d x.val y.val)),
-      OnlyTrivial (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ε) : OnlyTrivial d hd μ ε
+/-- Triviality of robust partitions on each decomposition piece implies global triviality. -/
+axiom theorem5 {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
+    (D : Set (Set S)) (μ : ℝ≥0) (ε : ℝ>0)
+    (hD : IsDecomposition d hd D μ)
+    (hlocal : ∀ Dᵢ ∈ D,
+      let dᵢ : Distance Dᵢ := fun x y => d x.val y.val
+      ∀ hDᵢ : IsSemimetricSpace dᵢ, OnlyTrivial dᵢ hDᵢ μ ε) :
+    OnlyTrivial d hd μ ε
 
 end Lax544225.DecompositionObstruction

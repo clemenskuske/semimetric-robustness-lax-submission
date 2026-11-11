@@ -144,7 +144,9 @@ lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S] [Nontr
       threshold (restrict d A) hA μ ≤ ε) : OnlyTrivial d hd.1 μ ε := by
   classical
   apply DecompositionObstruction.theorem5 d hd.1 D μ ε hD
-  intro A hA hsm
+  intro A hA
+  dsimp only
+  intro hsm
   let : LinearOrder A := {
     (inferInstance : PartialOrder A) with
     le_total := fun x y => (hchain A hA).total x.property y.property
