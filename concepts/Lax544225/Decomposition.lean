@@ -4,7 +4,7 @@ import Mathlib.Data.Set.Finite.Basic
 
 /-!
 ---
-title: (μ,ε)-Decomposition
+title: μ-Decomposition
 type: definition
 ---
 A decomposition covers the space by pieces that contain every sufficiently nearby point of each of their members. Overlapping pieces form chains connecting any two inputs.
@@ -12,7 +12,7 @@ A decomposition covers the space by pieces that contain every sufficiently nearb
 **Definition from the paper.**
 
 A collection of nonempty sets $D:=\{D_1,\dots,D_p\}$ is a
-**$(\mu,\epsilon)$-decomposition** of a semimetric space $(S,d)$ if and only if
+**$\mu$-decomposition** of a semimetric space $(S,d)$ if and only if
 
 1. For each $x\in D_i$, $B(x,\mu)\subseteq D_i$.
 2. For each $x_1,x_2\in S$, there is a sequence of sets

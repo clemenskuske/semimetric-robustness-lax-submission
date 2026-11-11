@@ -9,7 +9,7 @@ import Mathlib.Order.Preorder.Chain
 title: Corollary 3 — Precision bound on ordered pieces
 type: corollary
 ---
-In a finite partially ordered semimetric space, a (μ,ε)-decomposition into totally ordered pieces admits only trivial robust partitions if ε≥Δᵢδᵢμ+Δᵢ for every piece.
+In a finite partially ordered semimetric space, a μ-decomposition into totally ordered pieces admits only trivial robust partitions if ε≥Δᵢδᵢμ+Δᵢ for every piece.
 
 # Formalization notes
 
@@ -26,7 +26,7 @@ open scoped NNReal
 
 open SemimetricSpace OrderedSemimetric Decomposition PartitionRobustness PrecisionGaps
 
-/-- In a finite partially ordered semimetric space, a (μ,ε)-decomposition into totally ordered pieces admits only trivial robust partitions if ε≥Δᵢδᵢμ+Δᵢ for every piece. -/
+/-- In a finite partially ordered semimetric space, a μ-decomposition into totally ordered pieces admits only trivial robust partitions if ε≥Δᵢδᵢμ+Δᵢ for every piece. -/
 axiom corollary3 {S : Type u} [Finite S] [PartialOrder S] [Nontrivial S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (D : Set (Set S)) (μ : ℝ≥0) (ε : ℝ>0)
     (hD : IsDecomposition d hd.1 D μ)

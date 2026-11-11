@@ -18,7 +18,8 @@ replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
-updated from the user-supplied TeX archive on 11 November 2026. The paper viewer links 27
+updated from the user-supplied TeX archive and revised to match the subsequent
+`Bounds-11.pdf` received on 11 November 2026. The paper viewer links 27
 passages to all 25 formalized concepts and results. Private working history and
 unrelated formalizations are not included.
 
@@ -64,6 +65,7 @@ preserved. The scalar and list proofs remain available through their concepts.
 Corollary 3 follows the 11 November TeX revision: singleton decomposition pieces
 are allowed and contribute a zero precision bound. The proof handles them through
 the general existence criterion; only nontrivial pieces need the precision bound.
+Definition 11 now calls this a μ-decomposition, matching the existing Lean parameters.
 The general definitions of Δ and δ retain their finite, totally ordered,
 at-least-two-element domain.
 

@@ -63,9 +63,9 @@ A folklore characterization of global robustness is through its equivalence to \
 
     $(2.) \Rightarrow (1.)$:
 
-    Similarly, assume that (2.) holds but not (1.). By negating the robustness condition in Definition~\ref{def:mueps-robustness-partition}, there exist $S_{i'} \in P$ and $x \in S_{i'}$ such that for every $x' \in B(x,\mu)$ we have $\{x\} \cup B(x',\epsilon) \not\subseteq S_{i'}$.
-    Since $x \in S_{i'}$, there exist $x^* \in B(x', \epsilon)$, such that $x^* \notin S_{i'}$. By symmetry of distance, $x' \in B(x^*, \epsilon)$.
-    This implies $B(x,\mu) \subseteq \bigcup_{x^* \in S \setminus S_{i'}} B(x^*,\epsilon)$, raising a contradiction to (2.).
+    Similarly, assume that (2.) holds but not (1.). By negating the robustness condition in Definition~\ref{def:mueps-robustness-partition}, there exist $S_i \in P$ and $x \in S_i$ such that for every $x' \in B(x,\mu)$ we have $\{x\} \cup B(x',\epsilon) \not\subseteq S_i$.
+    Since $x \in S_i$, there exist $x^* \in B(x', \epsilon)$ for each $x' \in B(x,\mu)$, such that $x^* \notin S_i$. By symmetry of distance, $x' \in B(x^*, \epsilon)$.
+    This implies $B(x,\mu) \subseteq \bigcup_{x^* \in S \setminus S_i} B(x^*,\epsilon)$, raising a contradiction to (2.).
     \qed
 \end{proof}
 
