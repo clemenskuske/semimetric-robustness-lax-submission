@@ -27,7 +27,7 @@ private lemma split_partition : IsPartition split := by
   · exact ⟨3, by norm_num [low]⟩
 
 private lemma split_robust (hd : IsSemimetricSpace line) (hP : IsPartition split) :
-    MuEpsilonRobust line hd split hP 1 1 zero_lt_one := by
+    MuEpsilonRobust line hd split hP 1 ⟨1, zero_lt_one⟩ := by
   intro x
   by_cases hx : x.val < 2
   · refine ⟨0, ?_, low, by simp [split], hx, ?_⟩
@@ -49,8 +49,8 @@ private lemma split_nontrivial : ¬ IsTrivial split := by
 
 /-- If every ε-ball contains a common point, robustness forces a trivial partition. -/
 private lemma common_ball_trivial {S : Type*} (d : Distance S) (hd : IsSemimetricSpace d)
-    (pivot : S) (μ ε : ℝ≥0) (hε : 0 < ε) (hcommon : ∀ x, d pivot x ≤ ε) :
-    OnlyTrivial d hd μ ε hε := by
+    (pivot : S) (μ : ℝ≥0) (ε : ℝ>0) (hcommon : ∀ x, d pivot x ≤ ε) :
+    OnlyTrivial d hd μ ε := by
   intro P hP hrob
   have hpart : ∀ B ∈ P, pivot ∈ B := by
     intro B hB
@@ -92,16 +92,16 @@ Lemma 1.1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 -/
 lemma restrictionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
     (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
-    MuEpsilonRobust d hd P hP 1 1 zero_lt_one ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
     (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1 zero_lt_one) ∧
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     ¬ ∃ B ∈ P, A ⊆ B := by
   let A : Set (Fin 4) := {x | x.val = 1 ∨ x.val = 2}
   refine ⟨line, line_semimetric, split, split_partition, A,
     split_robust line_semimetric split_partition,
     ⟨1, by simp [A]⟩, ⟨0, by simp [A]⟩, ?_, ?_⟩
   · intro hA
-    apply common_ball_trivial (restrict line A) hA ⟨1, by simp [A]⟩ 1 1 zero_lt_one
+    apply common_ball_trivial (restrict line A) hA ⟨1, by simp [A]⟩ 1 ⟨1, zero_lt_one⟩
     intro x
     obtain ⟨x, hx⟩ := x
     change x.val = 1 ∨ x.val = 2 at hx
@@ -135,10 +135,10 @@ lemma unionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d
     (A B : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
     Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧ A ∪ B = Set.univ ∧
     (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1 zero_lt_one) ∧
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     (∀ hB : IsSemimetricSpace (fun x y : B => d x.val y.val),
-      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 1 zero_lt_one) ∧
-    MuEpsilonRobust d hd P hP 1 1 zero_lt_one ∧ ¬ IsTrivial P := by
+      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 ⟨1, zero_lt_one⟩) ∧
+    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P := by
   let A : Set (Fin 4) := {x | x.val < 3}
   let B : Set (Fin 4) := {x | 0 < x.val}
   refine ⟨line, line_semimetric, A, B, split, split_partition,
@@ -149,7 +149,7 @@ lemma unionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d
     change x.val < 3 ∨ 0 < x.val
     fin_cases x <;> norm_num
   · intro hA
-    apply common_ball_trivial (restrict line A) hA ⟨1, by simp [A]⟩ 1 1 zero_lt_one
+    apply common_ball_trivial (restrict line A) hA ⟨1, by simp [A]⟩ 1 ⟨1, zero_lt_one⟩
     intro x
     obtain ⟨x, hx⟩ := x
     change x.val < 3 at hx
@@ -157,7 +157,7 @@ lemma unionCounterexample : ∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d
     all_goals norm_num [restrict, line, Nat.dist] at *
     all_goals simp_all
   · intro hB
-    apply common_ball_trivial (restrict line B) hB ⟨2, by simp [B]⟩ 1 1 zero_lt_one
+    apply common_ball_trivial (restrict line B) hB ⟨2, by simp [B]⟩ 1 ⟨1, zero_lt_one⟩
     intro x
     obtain ⟨x, hx⟩ := x
     change 0 < x.val at hx
@@ -184,18 +184,18 @@ Lemma 1 of Aleksandrov, Kuske and Völlinger's revised FSEN 2027 manuscript (9 N
 lemma noncompositionality :
     (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
       (P : Set (Set (Fin 4))) (hP : IsPartition P) (A : Set (Fin 4)),
-    MuEpsilonRobust d hd P hP 1 1 zero_lt_one ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
+    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ A.Nonempty ∧ Aᶜ.Nonempty ∧
     (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1 zero_lt_one) ∧
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     ¬ ∃ B ∈ P, A ⊆ B) ∧
     (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
       (A B : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
     Aᶜ.Nonempty ∧ Bᶜ.Nonempty ∧ (A ∩ B).Nonempty ∧ A ∪ B = Set.univ ∧
     (∀ hA : IsSemimetricSpace (fun x y : A => d x.val y.val),
-      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 1 zero_lt_one) ∧
+      OnlyTrivial (fun x y : A => d x.val y.val) hA 1 ⟨1, zero_lt_one⟩) ∧
     (∀ hB : IsSemimetricSpace (fun x y : B => d x.val y.val),
-      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 1 zero_lt_one) ∧
-    MuEpsilonRobust d hd P hP 1 1 zero_lt_one ∧ ¬ IsTrivial P) := by
+      OnlyTrivial (fun x y : B => d x.val y.val) hB 1 ⟨1, zero_lt_one⟩) ∧
+    MuEpsilonRobust d hd P hP 1 ⟨1, zero_lt_one⟩ ∧ ¬ IsTrivial P) := by
   exact ⟨restrictionCounterexample, unionCounterexample⟩
 
 end Lax544225Proofs.Counterexamples

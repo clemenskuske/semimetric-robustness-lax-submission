@@ -32,6 +32,9 @@ namespace Lax544225.SemimetricSpace
 
 open scoped NNReal
 
+/-- Strictly positive real numbers, used for robustness radii. -/
+scoped notation "ℝ>0" => {r : ℝ≥0 // 0 < r}
+
 /-- A nonnegative real-valued distance on a carrier. -/
 abbrev Distance (S : Type u) := S → S → ℝ≥0
 

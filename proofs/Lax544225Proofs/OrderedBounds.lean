@@ -67,7 +67,7 @@ The ordered antitriangle inequality makes the boundary center no farther away.
 Aleksandrov, Kuske and Völlinger, Theorem 3, forward direction.
 -/
 lemma cutToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε) :
+    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
     EveryCutCovered d hd.1 μ ε → EveryCutBoundaryCovered d hd.1 μ ε := by
   intro h A hA hAc
   obtain ⟨x, hx | hx⟩ := h A hA hAc
@@ -93,7 +93,7 @@ belong to their own closed epsilon-ball because their self-distance is zero.
 Aleksandrov, Kuske and Völlinger, Theorem 3, reverse direction.
 -/
 lemma boundaryToCutCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε) :
+    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
     EveryCutBoundaryCovered d hd.1 μ ε → EveryCutCovered d hd.1 μ ε := by
   classical
   intro h A hA hAc
@@ -202,7 +202,7 @@ other side of the successor, the ordered antitriangle inequality gives monotonic
 Aleksandrov, Kuske and Völlinger, Theorem 4.
 -/
 theorem successorCovering {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (_hε : 0 < ε)
+    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0)
     (hbound : threshold d hd μ ≤ ε) (x y : S) (hxy : Successor x y) :
     ball d hd.1 x μ ⊆ ball d hd.1 y ε := by
   intro z hz
@@ -252,9 +252,9 @@ Restrict this covering to the lower point's side and apply BoundaryExistence.
 Aleksandrov, Kuske and Völlinger, Corollary 2.
 -/
 lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε)
-    (hbound : threshold d hd μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε hε := by
-  apply (Lax544225.BoundaryExistence.statement d hd μ ε hε).mpr
+    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0)
+    (hbound : threshold d hd μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
+  apply (Lax544225.BoundaryExistence.statement d hd μ ε).mpr
   intro A hA hAc
   obtain ⟨a, ha⟩ := hA
   obtain ⟨b, hb⟩ := hAc
@@ -264,12 +264,12 @@ lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance
     refine ⟨p, Or.inl ⟨hpA, ?_⟩⟩
     intro z hz
     exact ⟨q, ⟨hqA, p, by simpa using hpA, Or.inr hpq⟩,
-      Lax544225.SuccessorCovering.statement d hd μ ε hε hbound p q hpq hz.1⟩
+      Lax544225.SuccessorCovering.statement d hd μ ε hbound p q hpq hz.1⟩
   · obtain ⟨p, q, _, _, hpA, hqA, hpq⟩ := crossing_pair Aᶜ hba hb (by simpa using ha)
     refine ⟨p, Or.inr ⟨hpA, ?_⟩⟩
     intro z hz
     exact ⟨q, ⟨by simpa using hqA, p, hpA, Or.inr hpq⟩,
-      Lax544225.SuccessorCovering.statement d hd μ ε hε hbound p q hpq hz.1⟩
+      Lax544225.SuccessorCovering.statement d hd μ ε hbound p q hpq hz.1⟩
 
 /--
 Only-trivial robustness gives opposite-boundary covering.
@@ -281,11 +281,11 @@ Compose the general existence criterion with its finite-order boundary reduction
 Aleksandrov, Kuske and Völlinger, Corollary 1, forward direction.
 -/
 lemma trivialityToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S]
-    (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε hε → EveryCutBoundaryCovered d hd.1 μ ε := by
+    (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
+    Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε → EveryCutBoundaryCovered d hd.1 μ ε := by
   intro h
-  exact (Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε hε).mp
-    ((Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mp h)
+  exact (Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε).mp
+    ((Lax544225.GeneralExistence.statement d hd.1 μ ε).mp h)
 
 /--
 Opposite-boundary covering excludes nontrivial robust partitions.
@@ -297,10 +297,10 @@ Compose the boundary extension with the previously established general cut crite
 Aleksandrov, Kuske and Völlinger, Corollary 1, reverse direction.
 -/
 lemma boundaryCoveringToTriviality {S : Type u} [Finite S] [LinearOrder S]
-    (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutBoundaryCovered d hd.1 μ ε → Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε hε := by
+    (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) (ε : ℝ>0) :
+    EveryCutBoundaryCovered d hd.1 μ ε → Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
   intro h
-  exact (Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mpr
-    ((Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε hε).mpr h)
+  exact (Lax544225.GeneralExistence.statement d hd.1 μ ε).mpr
+    ((Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε).mpr h)
 
 end Lax544225Proofs.OrderedBounds

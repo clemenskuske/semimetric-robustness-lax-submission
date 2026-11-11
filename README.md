@@ -41,9 +41,8 @@ shorthands for these conditions are confined to the proof package.
 
 Space-dependent definitions consistently require semimetric or ordered-semimetric
 evidence. Partition robustness also requires a valid finite partition. The
-definitions of classifier and partition robustness require ε > 0 explicitly,
-while μ ≥ 0 remains allowed. Theorem
-statements and proofs pass their existing assumptions through these concepts;
+definitions of classifier and partition robustness use a strictly positive
+subtype for ε and a nonnegative real type for μ. Theorem statements and proofs pass their existing assumptions through these concepts;
 classifier robustness uses the paper’s distance inequalities directly, with
 ball characterizations in the proof package. Boundary results reuse the named
 complement boundary. Subspace certificates remain proof helpers.

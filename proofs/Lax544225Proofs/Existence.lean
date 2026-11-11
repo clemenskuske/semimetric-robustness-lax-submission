@@ -53,8 +53,8 @@ uncovered-to-robust characterization and contradict its forced triviality.
 Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
 lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
-    (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d hd μ ε hε → EveryCutCovered d hd μ ε := by
+    (μ : ℝ≥0) (ε : ℝ>0) :
+    OnlyTrivial d hd μ ε → EveryCutCovered d hd μ ε := by
   classical
   intro htr A hA hAc
   by_contra hn
@@ -66,7 +66,7 @@ lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetricSp
     · have hB' : B = Aᶜ := Set.mem_singleton_iff.mp hB
       subst B
       exact hn ⟨x, Or.inr ⟨hx, by simpa using hcov⟩⟩
-  have hrob := (CoveringCharacterization.statement d hd _ hP μ ε hε).mpr hun
+  have hrob := (CoveringCharacterization.statement d hd _ hP μ ε).mpr hun
   have heq := htr _ hP hrob
   have hAu : A = Set.univ := by
     have hmem : A ∈ ({A, Aᶜ} : Set (Set S)) := by simp
@@ -90,11 +90,11 @@ covering point. Thus every part is the whole carrier.
 Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
 lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
-    (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε hε := by
+    (μ : ℝ≥0) (ε : ℝ>0) :
+    EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε := by
   classical
   intro hcut P hP hrob
-  have hun := (CoveringCharacterization.statement d hd P hP μ ε hε).mp hrob
+  have hun := (CoveringCharacterization.statement d hd P hP μ ε).mp hrob
   have hall : ∀ A ∈ P, A = Set.univ := by
     intro A hA
     by_contra hne
