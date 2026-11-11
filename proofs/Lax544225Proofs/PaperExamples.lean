@@ -20,7 +20,7 @@ lemma realSquaredDistance_coe (x y : ℝ) : (realSquaredDistance x y : ℝ) = (x
   exact Real.coe_toNNReal _ (sq_nonneg _)
 
 /-- Absolute distance on ℝ is an ordered semimetric space. -/
-lemma realAbsDistance_isOrdered : IsOrdered realAbsDistance (· ≤ ·) := by
+lemma realAbsDistance_isOrdered : IsOrderedSemimetricSpace realAbsDistance (· ≤ ·) := by
   refine ⟨?_, inferInstance, ?_⟩
   · refine ⟨⟨⟨0⟩⟩, ?_, ?_⟩
     · intro x y
@@ -42,7 +42,7 @@ lemma realAbsDistance_isOrdered : IsOrdered realAbsDistance (· ≤ ·) := by
     nlinarith
 
 /-- Squared distance on ℝ is an ordered semimetric space. -/
-lemma realSquaredDistance_isOrdered : IsOrdered realSquaredDistance (· ≤ ·) := by
+lemma realSquaredDistance_isOrdered : IsOrderedSemimetricSpace realSquaredDistance (· ≤ ·) := by
   refine ⟨?_, inferInstance, ?_⟩
   · refine ⟨⟨⟨0⟩⟩, ?_, ?_⟩
     · intro x y

@@ -315,7 +315,7 @@ Proposition 1.1 of the source paper.
 
 
 -/
-lemma floatAbsoluteSpace (F : Format) : IsOrdered (absDistance F) (ieeeLe F) := by
+lemma floatAbsoluteSpace (F : Format) : IsOrderedSemimetricSpace (absDistance F) (ieeeLe F) := by
   refine ⟨⟨⟨Value.nan⟩, ?_, ?_⟩, (floatLinearOrder F).toIsPartialOrder, ?_⟩
   · intro x y
     simp only [absDistance, Real.toNNReal_eq_zero, abs_nonpos_iff, sub_eq_zero]
@@ -326,7 +326,7 @@ lemma floatAbsoluteSpace (F : Format) : IsOrdered (absDistance F) (ieeeLe F) := 
     exact (floatAbsoluteAdditivity F a b c hab hbc).symm.le
 
 private lemma square_ordered {S : Type u} (d : Distance S) (le : S → S → Prop)
-    (hd : IsOrdered d le) : IsOrdered (fun x y => d x y ^ 2) le := by
+    (hd : IsOrderedSemimetricSpace d le) : IsOrderedSemimetricSpace (fun x y => d x y ^ 2) le := by
   refine ⟨⟨hd.1.1, ?_, ?_⟩, hd.2.1, ?_⟩
   · intro x y
     simpa only [sq_eq_zero_iff] using hd.1.2.1 x y
@@ -363,7 +363,7 @@ dominates the sum of their squares because both distances are nonnegative.
 Proposition 1.2 of the source paper and the squared-distance construction in
 `flocq_ordered_spaces/semimetrics.v` of verinncoq/mueps-robustness-proofs.
 -/
-lemma floatSquaredSpace (F : Format) : IsOrdered (squareDistance F) (ieeeLe F) := by
+lemma floatSquaredSpace (F : Format) : IsOrderedSemimetricSpace (squareDistance F) (ieeeLe F) := by
   have hdist : squareDistance F = fun x y => absDistance F x y ^ 2 := by
     funext x y
     exact squareDistance_eq_absDistance_sq F x y

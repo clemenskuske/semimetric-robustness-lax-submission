@@ -46,7 +46,7 @@ open SemimetricSpace OrderedSemimetric Balls Boundary
 
 /-- In a finite totally ordered semimetric space, covering every proper cut is equivalent to covering its within-side μ-ball from the opposite boundary. -/
 axiom statement {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
-    (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
     (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →
       ∃ x, (x ∈ S' ∧ ball d hd.1 x μ ⊆ neighborhood d hd.1 S'ᶜ ε) ∨
         (x ∈ S'ᶜ ∧ ball d hd.1 x μ ⊆ neighborhood d hd.1 S' ε)) ↔ (∀ S' : Set S, S'.Nonempty → S'ᶜ.Nonempty →

@@ -32,6 +32,6 @@ noncomputable def absDistance (F : Format) (f₁ f₂ : Value F) : ℝ≥0 :=
   Real.toNNReal (|phi F f₁ - phi F f₂|)
 
 /-- The absolute-distance construction is an ordered semimetric space. -/
-axiom statement (F : Format) : IsOrdered (absDistance F) (ieeeLe F)
+axiom statement (F : Format) : IsOrderedSemimetricSpace (absDistance F) (ieeeLe F)
 
 end Lax544225.FloatAbsoluteSpace

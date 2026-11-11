@@ -40,16 +40,16 @@ noncomputable def steps {S : Type u} [PartialOrder S] (x y : S) : ℕ :=
 
 /-- The largest average distance per ordered step. -/
 noncomputable def deltaUpper {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
-    (_hd : IsOrdered d (· ≤ ·)) : ℝ≥0 :=
+    (_hd : IsOrderedSemimetricSpace d (· ≤ ·)) : ℝ≥0 :=
   sSup {r | ∃ x y, x < y ∧ r = d x y / (steps x y : ℝ≥0)}
 
 /-- The largest number of ordered steps per unit distance. -/
 noncomputable def deltaInverse {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
-    (_hd : IsOrdered d (· ≤ ·)) : ℝ≥0 :=
+    (_hd : IsOrderedSemimetricSpace d (· ≤ ·)) : ℝ≥0 :=
   sSup {r | ∃ x y, x < y ∧ r = (steps x y : ℝ≥0) / d x y}
 
 /-- The paper’s precision-dependent obstruction threshold Δδμ+Δ. -/
 noncomputable def threshold {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
-    (hd : IsOrdered d (· ≤ ·)) (μ : ℝ≥0) : ℝ≥0 := deltaUpper d hd * deltaInverse d hd * μ + deltaUpper d hd
+    (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ : ℝ≥0) : ℝ≥0 := deltaUpper d hd * deltaInverse d hd * μ + deltaUpper d hd
 
 end Lax544225.PrecisionGaps

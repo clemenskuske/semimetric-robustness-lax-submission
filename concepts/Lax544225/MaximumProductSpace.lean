@@ -42,7 +42,7 @@ noncomputable def maxDistance {S : Type u} (d : Distance S) (n : ℕ) : Distance
 
 /-- Synchronized maximum products preserve ordered semimetric spaces. -/
 axiom statement {S : Type u} (d : Distance S) (le : S → S → Prop)
-    (hd : IsOrdered d le) (hadd : Additive d le) (n : ℕ) :
-    IsOrdered (maxDistance d n) (synchronizedLe d le n)
+    (hd : IsOrderedSemimetricSpace d le) (hadd : Additive d le) (n : ℕ) :
+    IsOrderedSemimetricSpace (maxDistance d n) (synchronizedLe d le n)
 
 end Lax544225.MaximumProductSpace

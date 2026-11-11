@@ -39,6 +39,6 @@ noncomputable def sumDistance {S : Type u} (d : Distance S) (n : ℕ) : Distance
 
 /-- Sum products preserve ordered semimetric spaces. -/
 axiom statement {S : Type u} (d : Distance S) (le : S → S → Prop)
-    (hd : IsOrdered d le) (n : ℕ) : IsOrdered (sumDistance d n) (productLe le n)
+    (hd : IsOrderedSemimetricSpace d le) (n : ℕ) : IsOrderedSemimetricSpace (sumDistance d n) (productLe le n)
 
 end Lax544225.SumProductSpace

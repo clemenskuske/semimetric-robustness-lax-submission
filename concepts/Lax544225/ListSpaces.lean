@@ -61,11 +61,11 @@ noncomputable def maxDistance {S : Type u} (d : Distance S) (pad : S) : Distance
 /-- Both padded-list constructions are ordered semimetric spaces. -/
 axiom statement :
     (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
-      IsOrdered d le → ∀ pad : S,
-        IsOrdered (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
+      IsOrderedSemimetricSpace d le → ∀ pad : S,
+        IsOrderedSemimetricSpace (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
     (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
-      IsOrdered d le → Additive d le → ∀ pad : S,
-        IsOrdered (Lax544225.ListSpaces.maxDistance d pad)
+      IsOrderedSemimetricSpace d le → Additive d le → ∀ pad : S,
+        IsOrderedSemimetricSpace (Lax544225.ListSpaces.maxDistance d pad)
           (Lax544225.ListSpaces.synchronizedListLe d le pad))
 
 end Lax544225.ListSpaces

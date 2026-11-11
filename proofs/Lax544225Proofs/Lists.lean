@@ -53,11 +53,11 @@ private lemma lengthPenalty_symm {S : Type u} (f g : List S) :
   simp only [Lax544225.ListSpaces.lengthPenalty, eq_comm]
 
 private lemma padded_semimetric {S : Type u} (pad : S)
-    (D : (n : ℕ) → Distance (Fin n → S)) (hD : ∀ n, IsSemimetric (D n))
+    (D : (n : ℕ) → Distance (Fin n → S)) (hD : ∀ n, IsSemimetricSpace (D n))
     (dlist : Distance (List S))
     (hformula : ∀ f g, dlist f g = Lax544225.ListSpaces.lengthPenalty f g +
       D (max f.length g.length) (coordinates pad _ f) (coordinates pad _ g)) :
-    IsSemimetric dlist := by
+    IsSemimetricSpace dlist := by
   refine ⟨⟨[]⟩, ?_, ?_⟩
   · intro f g
     rw [hformula]
@@ -186,8 +186,8 @@ lengths coincide, so the sum-product antitriangle result applies directly.
 Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manuscript.
 -/
 lemma sumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
-    (hd : IsOrdered d le) (pad : S) :
-    IsOrdered (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad) := by
+    (hd : IsOrderedSemimetricSpace d le) (pad : S) :
+    IsOrderedSemimetricSpace (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad) := by
   have htuple := Lax544225.SumProductSpace.statement d le hd
   refine ⟨padded_semimetric pad (Lax544225.SumProductSpace.sumDistance d)
       (fun n => (htuple n).1) _ (sum_list_as_product d pad),
@@ -218,8 +218,8 @@ Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manusc
 the padded length-penalty construction is also present in the cited Rocq reference.
 -/
 lemma maximumListSpace {S : Type u} (d : Distance S) (le : S → S → Prop)
-    (hd : IsOrdered d le) (hadd : Additive d le) (pad : S) :
-    IsOrdered (Lax544225.ListSpaces.maxDistance d pad)
+    (hd : IsOrderedSemimetricSpace d le) (hadd : Additive d le) (pad : S) :
+    IsOrderedSemimetricSpace (Lax544225.ListSpaces.maxDistance d pad)
       (Lax544225.ListSpaces.synchronizedListLe d le pad) := by
   have htuple := Lax544225.MaximumProductSpace.statement d le hd hadd
   refine ⟨padded_semimetric pad (Lax544225.MaximumProductSpace.maxDistance d)
@@ -264,11 +264,11 @@ Proposition 1.5 of Aleksandrov, Kuske and Völlinger's supplied FSEN 2027 manusc
 -/
 lemma listSpaces :
     (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
-      IsOrdered d le → ∀ pad : S,
-        IsOrdered (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
+      IsOrderedSemimetricSpace d le → ∀ pad : S,
+        IsOrderedSemimetricSpace (Lax544225.ListSpaces.sumDistance d pad) (Lax544225.ListSpaces.listLe le pad)) ∧
     (∀ {S : Type u} (d : Distance S) (le : S → S → Prop),
-      IsOrdered d le → Additive d le → ∀ pad : S,
-        IsOrdered (Lax544225.ListSpaces.maxDistance d pad)
+      IsOrderedSemimetricSpace d le → Additive d le → ∀ pad : S,
+        IsOrderedSemimetricSpace (Lax544225.ListSpaces.maxDistance d pad)
           (Lax544225.ListSpaces.synchronizedListLe d le pad)) := by
   exact ⟨sumListSpace, maximumListSpace⟩
 

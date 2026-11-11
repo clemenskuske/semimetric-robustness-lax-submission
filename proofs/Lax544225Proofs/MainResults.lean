@@ -31,9 +31,9 @@ supplies a center whose ε-ball stays within the selected part.
 Theorem 1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
 theorem coveringCharacterization {S : Type u} (d : Distance S)
-    (hd : IsSemimetric d) (P : Set (Set S)) (hP : IsPartition P)
+    (hd : IsSemimetricSpace d) (P : Set (Set S)) (hP : IsPartition P)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    Robust d hd P hP μ ε ↔ Uncovered d hd P μ ε :=
+    MuEpsilonRobust d hd P hP μ ε ↔ Uncovered d hd P μ ε :=
   ⟨Basic.robustToUncovered d hd P hP μ ε hε,
     Basic.uncoveredToRobust d hd P hP μ ε hε⟩
 
@@ -53,7 +53,7 @@ proper part of a robust partition contradicts coverage of that cut.
 
 Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
-theorem generalExistence {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+theorem generalExistence {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
     OnlyTrivial d hd μ ε ↔ EveryCutCovered d hd μ ε :=
   ⟨Existence.trivialityToCutCovering d hd μ ε hε,
@@ -77,7 +77,7 @@ coverage, opposite-side points cover themselves with their own ε-balls.
 Theorem 3 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
 theorem boundaryCoveringCharacterization {S : Type u} [Finite S] [LinearOrder S]
-    (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
     EveryCutCovered d hd.1 μ ε ↔ EveryCutBoundaryCovered d hd.1 μ ε :=
   ⟨OrderedBounds.cutToBoundaryCovering d hd μ ε hε,
     OrderedBounds.boundaryToCutCovering d hd μ ε hε⟩
@@ -99,7 +99,7 @@ boundary characterization converts cut covering to boundary covering.
 Corollary 1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
 lemma boundaryExistence {S : Type u} [Finite S] [LinearOrder S]
-    (d : Distance S) (hd : IsOrdered d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
     OnlyTrivial d hd.1 μ ε ↔ EveryCutBoundaryCovered d hd.1 μ ε :=
   ⟨OrderedBounds.trivialityToBoundaryCovering d hd μ ε hε,
     OrderedBounds.boundaryCoveringToTriviality d hd μ ε hε⟩

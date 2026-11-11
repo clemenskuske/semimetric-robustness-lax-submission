@@ -31,12 +31,12 @@ open scoped NNReal
 
 open SemimetricSpace
 /-- The closed ε-ball centered at the paper’s point x*. -/
-def ball {S : Type u} (d : Distance S) (_hd : IsSemimetric d)
+def ball {S : Type u} (d : Distance S) (_hd : IsSemimetricSpace d)
     (x_star : S) (ε : ℝ≥0) : Set S :=
   {x | d x x_star ≤ ε}
 
 /-- The union of closed r-balls with centers in A. -/
-def neighborhood {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+def neighborhood {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (A : Set S) (r : ℝ≥0) : Set S :=
   {y | ∃ x ∈ A, y ∈ ball d hd x r}
 

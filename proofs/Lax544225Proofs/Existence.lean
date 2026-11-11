@@ -35,7 +35,7 @@ lemma part_disjoint {S : Type u} {P : Set (Set S)} (hP : IsPartition P)
   intro x hx hxb
   exact (hP.2.pairwiseDisjoint hA hB hne).le_bot ⟨hx, hxb⟩
 
-lemma neighborhood_mono {S : Type u} (d : Distance S) (hd : IsSemimetric d) (r : ℝ≥0)
+lemma neighborhood_mono {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (r : ℝ≥0)
     {A B : Set S} (h : A ⊆ B) : neighborhood d hd A r ⊆ neighborhood d hd B r := by
   rintro x ⟨y, hy, hxy⟩
   exact ⟨y, h hy, hxy⟩
@@ -52,7 +52,7 @@ uncovered-to-robust characterization and contradict its forced triviality.
 
 Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
-lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
     OnlyTrivial d hd μ ε → EveryCutCovered d hd μ ε := by
   classical
@@ -89,7 +89,7 @@ covering point. Thus every part is the whole carrier.
 
 Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
 -/
-lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
     EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε := by
   classical

@@ -36,18 +36,18 @@ open scoped NNReal
 
 open Classifier SemimetricSpace
 /-- Local robustness at the paper’s reference point x*. -/
-def LocallyRobust {S : Type u} {n : ℕ} (d : Distance S) (_hd : IsSemimetric d)
+def LocallyEpsilonRobust {S : Type u} {n : ℕ} (d : Distance S) (_hd : IsSemimetricSpace d)
     (c : Classifier S n) (ε : ℝ≥0) (x_star : S) : Prop :=
   ∀ x, d x x_star ≤ ε → c.label x = c.label x_star
 
 /-- Local robustness at every input. -/
-def GloballyRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
+def GloballyEpsilonRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetricSpace d)
     (c : Classifier S n) (ε : ℝ≥0) : Prop :=
-  ∀ x, LocallyRobust d hd c ε x
+  ∀ x, LocallyEpsilonRobust d hd c ε x
 
-/-- Coverage of each input by a same-label locally robust input. -/
-def RelaxedRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetric d)
+/-- (μ,ε)-robustness: each input is μ-close to a same-label locally ε-robust input. -/
+def MuEpsilonRobust {S : Type u} {n : ℕ} (d : Distance S) (hd : IsSemimetricSpace d)
     (c : Classifier S n) (μ ε : ℝ≥0) : Prop :=
-  ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyRobust d hd c ε x'
+  ∀ x, ∃ x', d x x' ≤ μ ∧ c.label x = c.label x' ∧ LocallyEpsilonRobust d hd c ε x'
 
 end Lax544225.EpsilonRobustness

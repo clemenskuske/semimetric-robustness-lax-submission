@@ -33,7 +33,7 @@ open scoped NNReal
 
 open SemimetricSpace Balls
 /-- A finite family of nonempty μ-closed pieces connected by overlaps. -/
-def IsDecomposition {S : Type u} (d : Distance S) (hd : IsSemimetric d)
+def IsDecomposition {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (D : Set (Set S)) (μ : ℝ≥0) : Prop :=
   D.Finite ∧ (∀ A ∈ D, A.Nonempty) ∧
     (∀ A ∈ D, ∀ x ∈ A, ball d hd x μ ⊆ A) ∧

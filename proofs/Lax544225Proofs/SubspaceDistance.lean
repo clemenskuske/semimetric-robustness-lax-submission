@@ -13,8 +13,8 @@ def restrict {S : Type u} (d : Distance S) (A : Set S) : Distance A :=
   fun x y => d x.val y.val
 
 /-- A nonempty subset inherits the semimetric laws. -/
-lemma restrict_isSemimetric {S : Type u} (d : Distance S) (hd : IsSemimetric d)
-    (A : Set S) (hA : A.Nonempty) : IsSemimetric (restrict d A) := by
+lemma restrict_isSemimetric {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
+    (A : Set S) (hA : A.Nonempty) : IsSemimetricSpace (restrict d A) := by
   refine ⟨hA.to_subtype, ?_, ?_⟩
   · intro x y
     exact (hd.2.1 x.val y.val).trans Subtype.val_inj

@@ -36,7 +36,7 @@ open scoped NNReal
 abbrev Distance (S : Type u) := S → S → ℝ≥0
 
 /-- The defining properties of a semimetric space, including a nonempty carrier. -/
-def IsSemimetric {S : Type u} (d : Distance S) : Prop :=
+def IsSemimetricSpace {S : Type u} (d : Distance S) : Prop :=
   Nonempty S ∧ (∀ x y, d x y = 0 ↔ x = y) ∧ (∀ x y, d x y = d y x)
 
 end Lax544225.SemimetricSpace
