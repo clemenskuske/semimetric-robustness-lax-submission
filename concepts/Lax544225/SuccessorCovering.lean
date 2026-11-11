@@ -11,7 +11,7 @@ Above the precision-dependent bound, the robustness ball of an immediate success
 
 **Statement from the paper.**
 
-Let $(S,<,d)$ be a finite totally ordered semimetric space and
+Let $(S,<,d)$ be a finite totally ordered semimetric space with $|S|\geq2$ and
 $\mu\geq0$, $\epsilon>0$. If
 
 $$\epsilon\geq\Delta\cdot\delta\cdot\mu+\Delta,$$

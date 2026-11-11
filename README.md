@@ -1,7 +1,7 @@
 # (μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds
 
 Lean 4 formalization of the mathematical statements in Andrei Aleksandrov,
-Clemens Kuske and Kim Völlinger’s revised FSEN 2027 manuscript (9 November 2026).
+Clemens Kuske and Kim Völlinger’s revised FSEN 2027 manuscript (TeX update received 11 November 2026).
 
 The package contains 25 concepts: 16 definitions, five theorems, three
 corollaries, and one lemma combining Lemma 1's two counterexamples. Each of
@@ -18,7 +18,7 @@ replaceable LAX draft. Unlisted content is accessible through its direct link;
 this source repository is public. Registration requires a separate instruction.
 
 This repository contains the Lean submission and the author-supplied TeX paper,
-updated from the user-supplied TeX archive on 9 November 2026. The paper viewer links 27
+updated from the user-supplied TeX archive on 11 November 2026. The paper viewer links 27
 passages to all 25 formalized concepts and results. Private working history and
 unrelated formalizations are not included.
 
@@ -60,6 +60,12 @@ standalone `first_formalization/lean` package is maintained separately.
 
 The Model Validation passage has no proof-card markers; its paper wording is
 preserved. The scalar and list proofs remain available through their concepts.
+
+Corollary 3 follows the 11 November TeX revision: singleton decomposition pieces
+are allowed and contribute a zero precision bound. The proof handles them through
+the general existence criterion; only nontrivial pieces need the precision bound.
+The general definitions of Δ and δ retain their finite, totally ordered,
+at-least-two-element domain.
 
 The revised manuscript's real-line examples (absolute and squared distance,
 including failure of the triangle inequality) are proved in `PaperExamples`.

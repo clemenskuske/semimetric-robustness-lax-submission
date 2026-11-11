@@ -2,6 +2,7 @@ import Lax544225Proofs.SubspaceDistance
 import Lax544225.DecompositionObstruction
 import Lax544225.PartialOrderPrecisionBound
 import Lax544225.PrecisionObstruction
+import Lax544225.GeneralExistence
 import Lax544225Proofs.Basic
 import Mathlib.Data.Set.Finite.Basic
 
@@ -127,24 +128,23 @@ Precision bounds on totally ordered decomposition pieces imply global triviality
 # Proof strategy
 
 Give each piece its inherited linear order, preserving the interval steps in
-its precision measures. Apply the total-order precision obstruction on each
-piece, then use the closed overlap decomposition theorem.
+its precision measures. A singleton has no nonempty proper cut, so the general
+existence criterion gives triviality. Apply the total-order precision obstruction
+on every nontrivial piece, then use the closed overlap decomposition theorem.
 
 # Attribution
 
-Corollary 3 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (9 November 2026).
+Corollary 3 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characterization, Existence, and Precision-Dependent Bounds*, revised FSEN 2027 manuscript (TeX update received 11 November 2026).
 -/
 lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S] [Nontrivial S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (D : Set (Set S))
     (μ : ℝ≥0) (ε : ℝ>0) (hD : IsDecomposition d hd.1 D μ)
     (hchain : ∀ A ∈ D, IsChain (· ≤ ·) A)
-    (hsize : ∀ A ∈ D, Nontrivial A)
     (hbound : ∀ A ∈ D, ∀ [Std.Total (α := A) (· ≤ ·)] [Nontrivial A], ∀ hA : IsOrderedSemimetricSpace (restrict d A) (· ≤ ·),
       threshold (restrict d A) hA μ ≤ ε) : OnlyTrivial d hd.1 μ ε := by
   classical
   apply DecompositionObstruction.theorem5 d hd.1 D μ ε hD
   intro A hA hsm
-  let : Nontrivial A := hsize A hA
   let : LinearOrder A := {
     (inferInstance : PartialOrder A) with
     le_total := fun x y => (hchain A hA).total x.property y.property
@@ -153,6 +153,14 @@ lemma partialOrderPrecisionBound {S : Type u} [Finite S] [PartialOrder S] [Nontr
     refine ⟨hsm, inferInstance, ?_⟩
     intro x y z hxy hyz
     exact hd.2.2 x.val y.val z.val hxy hyz
-  exact PrecisionObstruction.corollary2 (restrict d A) ho μ ε (hbound A hA ho)
+  rcases subsingleton_or_nontrivial A with hsub | hnontrivial
+  · let : Subsingleton A := hsub
+    apply (GeneralExistence.theorem2 (restrict d A) hsm μ ε).mpr
+    intro B hB hBc
+    obtain ⟨x, hx⟩ := hB
+    obtain ⟨y, hy⟩ := hBc
+    exact False.elim (hy ((Subsingleton.elim x y) ▸ hx))
+  · let : Nontrivial A := hnontrivial
+    exact PrecisionObstruction.corollary2 (restrict d A) ho μ ε (hbound A hA ho)
 
 end Lax544225Proofs.Decomposition
