@@ -33,7 +33,7 @@ Theorem 1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 theorem coveringCharacterization {S : Type u} (d : Distance S)
     (hd : IsSemimetricSpace d) (P : Set (Set S)) (hP : IsPartition P)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    MuEpsilonRobust d hd P hP μ ε ↔ Uncovered d hd P μ ε :=
+    MuEpsilonRobust d hd P hP μ ε hε ↔ Uncovered d hd P μ ε :=
   ⟨Basic.robustToUncovered d hd P hP μ ε hε,
     Basic.uncoveredToRobust d hd P hP μ ε hε⟩
 
@@ -55,7 +55,7 @@ Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 -/
 theorem generalExistence {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d hd μ ε ↔ EveryCutCovered d hd μ ε :=
+    OnlyTrivial d hd μ ε hε ↔ EveryCutCovered d hd μ ε :=
   ⟨Existence.trivialityToCutCovering d hd μ ε hε,
     Existence.cutCoveringToTriviality d hd μ ε hε⟩
 
@@ -100,7 +100,7 @@ Corollary 1 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Character
 -/
 lemma boundaryExistence {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d hd.1 μ ε ↔ EveryCutBoundaryCovered d hd.1 μ ε :=
+    OnlyTrivial d hd.1 μ ε hε ↔ EveryCutBoundaryCovered d hd.1 μ ε :=
   ⟨OrderedBounds.trivialityToBoundaryCovering d hd μ ε hε,
     OrderedBounds.boundaryCoveringToTriviality d hd μ ε hε⟩
 

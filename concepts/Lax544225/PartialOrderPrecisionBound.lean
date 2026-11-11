@@ -29,6 +29,6 @@ axiom statement {S : Type u} [Finite S] [PartialOrder S] (d : Distance S)
     (hD : IsDecomposition d hd.1 D μ)
     (hchain : ∀ Dᵢ ∈ D, ∀ x ∈ Dᵢ, ∀ y ∈ Dᵢ, x ≤ y ∨ y ≤ x)
     (hbound : ∀ Dᵢ ∈ D, ∀ hDᵢ : IsOrderedSemimetricSpace (fun x y : Dᵢ => d x.val y.val) (· ≤ ·),
-      threshold (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ≤ ε) : OnlyTrivial d hd.1 μ ε
+      threshold (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ≤ ε) : OnlyTrivial d hd.1 μ ε hε
 
 end Lax544225.PartialOrderPrecisionBound

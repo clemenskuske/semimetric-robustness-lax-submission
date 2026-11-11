@@ -54,7 +54,7 @@ Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 -/
 lemma trivialityToCutCovering {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    OnlyTrivial d hd μ ε → EveryCutCovered d hd μ ε := by
+    OnlyTrivial d hd μ ε hε → EveryCutCovered d hd μ ε := by
   classical
   intro htr A hA hAc
   by_contra hn
@@ -91,7 +91,7 @@ Theorem 2 of Aleksandrov, Kuske and Völlinger, *(μ,ε)-Robustness: Characteriz
 -/
 lemma cutCoveringToTriviality {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
     (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε := by
+    EveryCutCovered d hd μ ε → OnlyTrivial d hd μ ε hε := by
   classical
   intro hcut P hP hrob
   have hun := (CoveringCharacterization.statement d hd P hP μ ε hε).mp hrob

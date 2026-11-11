@@ -30,17 +30,17 @@ open SemimetricSpace Partitions PartitionRobustness
 axiom statement :
     (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
       (P : Set (Set (Fin 4))) (hP : IsPartition P) (S₁ : Set (Fin 4)),
-    MuEpsilonRobust d hd P hP 1 1 ∧ S₁.Nonempty ∧ S₁ᶜ.Nonempty ∧
+    MuEpsilonRobust d hd P hP 1 1 zero_lt_one ∧ S₁.Nonempty ∧ S₁ᶜ.Nonempty ∧
     (∀ hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val),
-      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ 1 1) ∧
+      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ 1 1 zero_lt_one) ∧
     ¬ ∃ Sᵢ ∈ P, S₁ ⊆ Sᵢ) ∧
     (∃ (d : Distance (Fin 4)) (hd : IsSemimetricSpace d)
       (S₁ S₂ : Set (Fin 4)) (P : Set (Set (Fin 4))) (hP : IsPartition P),
     S₁ᶜ.Nonempty ∧ S₂ᶜ.Nonempty ∧ (S₁ ∩ S₂).Nonempty ∧ S₁ ∪ S₂ = Set.univ ∧
     (∀ hS₁ : IsSemimetricSpace (fun x y : S₁ => d x.val y.val),
-      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ 1 1) ∧
+      OnlyTrivial (fun x y : S₁ => d x.val y.val) hS₁ 1 1 zero_lt_one) ∧
     (∀ hS₂ : IsSemimetricSpace (fun x y : S₂ => d x.val y.val),
-      OnlyTrivial (fun x y : S₂ => d x.val y.val) hS₂ 1 1) ∧
-    MuEpsilonRobust d hd P hP 1 1 ∧ ¬ IsTrivial P)
+      OnlyTrivial (fun x y : S₂ => d x.val y.val) hS₂ 1 1 zero_lt_one) ∧
+    MuEpsilonRobust d hd P hP 1 1 zero_lt_one ∧ ¬ IsTrivial P)
 
 end Lax544225.Noncompositionality

@@ -28,6 +28,6 @@ open SemimetricSpace Decomposition PartitionRobustness
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (D : Set (Set S))
     (μ ε : ℝ≥0) (hε : 0 < ε) (hD : IsDecomposition d hd D μ)
     (hlocal : ∀ Dᵢ ∈ D, ∀ hDᵢ : IsSemimetricSpace (fun x y : Dᵢ => d x.val y.val),
-      OnlyTrivial (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ε) : OnlyTrivial d hd μ ε
+      OnlyTrivial (fun x y : Dᵢ => d x.val y.val) hDᵢ μ ε hε) : OnlyTrivial d hd μ ε hε
 
 end Lax544225.DecompositionObstruction

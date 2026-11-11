@@ -15,16 +15,16 @@ open Lax544225.Partitions Lax544225.PartitionRobustness Lax544225.Balls Lax54422
 
 /-- The paper's distance formulation is equivalent to constancy on its closed ball. -/
 lemma locallyEpsilonRobust_iff_ball {S : Type u} {n : ℕ} (d : Distance S)
-    (hd : IsSemimetricSpace d) (c : Classifier S n) (ε : ℝ≥0) (x_star : S) :
-    LocallyEpsilonRobust d hd c ε x_star ↔
+    (hd : IsSemimetricSpace d) (c : Classifier S n) (ε : ℝ≥0) (hε : 0 < ε) (x_star : S) :
+    LocallyEpsilonRobust d hd c ε hε x_star ↔
       ∀ x ∈ ball d hd x_star ε, c.label x = c.label x_star := Iff.rfl
 
 /-- Symmetry connects the paper's d(x,x') bound to membership of x' in B(x,μ). -/
 lemma muEpsilonRobust_iff_ball {S : Type u} {n : ℕ} (d : Distance S)
-    (hd : IsSemimetricSpace d) (c : Classifier S n) (μ ε : ℝ≥0) :
-    EpsilonRobustness.MuEpsilonRobust d hd c μ ε ↔
+    (hd : IsSemimetricSpace d) (c : Classifier S n) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    EpsilonRobustness.MuEpsilonRobust d hd c μ ε hε ↔
       ∀ x, ∃ x', x' ∈ ball d hd x μ ∧ c.label x = c.label x' ∧
-        LocallyEpsilonRobust d hd c ε x' := by
+        LocallyEpsilonRobust d hd c ε hε x' := by
   simp only [EpsilonRobustness.MuEpsilonRobust, ball, Set.mem_setOf_eq, hd.2.2]
 
 /-- The mathlib partition predicate preserves the finite-family formulation. -/
@@ -116,14 +116,14 @@ the same fiber.
 Definitions 4 and 8 of the source paper.
 -/
 lemma classifierToPartition {S : Type u} {n : ℕ} (d : Distance S)
-    (hd : IsSemimetricSpace d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    EpsilonRobustness.MuEpsilonRobust d hd c μ ε → PartitionRobustness.MuEpsilonRobust d hd (induced c) (inducedPartition c) μ ε := by
+    (hd : IsSemimetricSpace d) (c : Classifier S n) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    EpsilonRobustness.MuEpsilonRobust d hd c μ ε hε → PartitionRobustness.MuEpsilonRobust d hd (induced c) (inducedPartition c) μ ε hε := by
   intro hc x
-  rcases (muEpsilonRobust_iff_ball d hd c μ ε).mp hc x with ⟨x', hdist, hlabel, hlocal⟩
+  rcases (muEpsilonRobust_iff_ball d hd c μ ε hε).mp hc x with ⟨x', hdist, hlabel, hlocal⟩
   refine ⟨x', ?_, fiber c (c.label x), ⟨c.label x, rfl⟩, rfl, ?_⟩
   · exact hdist
   · intro y hy
-    exact ((locallyEpsilonRobust_iff_ball d hd c ε x').mp hlocal y hy).trans hlabel.symm
+    exact ((locallyEpsilonRobust_iff_ball d hd c ε hε x').mp hlocal y hy).trans hlabel.symm
 
 /--
 Robustness of the fiber partition gives relaxed classifier robustness.
@@ -138,10 +138,10 @@ ball, so it has the input's label; every point of the ball has that label too.
 Definitions 4 and 8 of the source paper.
 -/
 lemma partitionToClassifier {S : Type u} {n : ℕ} (d : Distance S)
-    (hd : IsSemimetricSpace d) (c : Classifier S n) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    PartitionRobustness.MuEpsilonRobust d hd (induced c) (inducedPartition c) μ ε → EpsilonRobustness.MuEpsilonRobust d hd c μ ε := by
+    (hd : IsSemimetricSpace d) (c : Classifier S n) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    PartitionRobustness.MuEpsilonRobust d hd (induced c) (inducedPartition c) μ ε hε → EpsilonRobustness.MuEpsilonRobust d hd c μ ε hε := by
   intro hP
-  apply (muEpsilonRobust_iff_ball d hd c μ ε).mpr
+  apply (muEpsilonRobust_iff_ball d hd c μ ε hε).mpr
   intro x
   rcases hP x with ⟨x', hdist, A, hA, hx, hball⟩
   rcases hA with ⟨i, rfl⟩
@@ -164,8 +164,8 @@ input. Its local robustness is therefore the required local robustness.
 The zero-relaxation observation in Section 2 of the source paper.
 -/
 lemma zeroToGlobal {S : Type u} {n : ℕ} (d : Distance S)
-    (hd : IsSemimetricSpace d) (c : Classifier S n) (ε : ℝ≥0) (_hε : 0 < ε) :
-    EpsilonRobustness.MuEpsilonRobust d hd c 0 ε → GloballyEpsilonRobust d hd c ε := by
+    (hd : IsSemimetricSpace d) (c : Classifier S n) (ε : ℝ≥0) (hε : 0 < ε) :
+    EpsilonRobustness.MuEpsilonRobust d hd c 0 ε hε → GloballyEpsilonRobust d hd c ε hε := by
   intro h x
   rcases h x with ⟨x', hdist, _, hlocal⟩
   have heq : x = x' := (hd.2.1 x x').1 (le_antisymm hdist zero_le)
@@ -183,8 +183,8 @@ Use the input itself as the robust center, whose self-distance is zero.
 The zero-relaxation observation in Section 2 of the source paper.
 -/
 lemma globalToZero {S : Type u} {n : ℕ} (d : Distance S)
-    (hd : IsSemimetricSpace d) (c : Classifier S n) (ε : ℝ≥0) (_hε : 0 < ε) :
-    GloballyEpsilonRobust d hd c ε → EpsilonRobustness.MuEpsilonRobust d hd c 0 ε := by
+    (hd : IsSemimetricSpace d) (c : Classifier S n) (ε : ℝ≥0) (hε : 0 < ε) :
+    GloballyEpsilonRobust d hd c ε hε → EpsilonRobustness.MuEpsilonRobust d hd c 0 ε hε := by
   intro h x
   exact ⟨x, (distance_self hd x).le, rfl, h x⟩
 
@@ -202,8 +202,8 @@ failure of coverage of the input's μ-ball.
 The forward implication of Theorem 1 in the source paper.
 -/
 lemma robustToUncovered {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
-    (P : Set (Set S)) (hP : IsPartition P) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    PartitionRobustness.MuEpsilonRobust d hd P hP μ ε → Uncovered d hd P μ ε := by
+    (P : Set (Set S)) (hP : IsPartition P) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    PartitionRobustness.MuEpsilonRobust d hd P hP μ ε hε → Uncovered d hd P μ ε := by
   intro hrob A hA x hx hcovered
   rcases hrob x with ⟨x', hx', B, hB, hxB, hball⟩
   have hAB : A = B := part_eq_of_mem hP hA hB hx hxB
@@ -224,8 +224,8 @@ avoidance into containment of its ε-ball in the selected part.
 The reverse implication of Theorem 1 in the source paper.
 -/
 lemma uncoveredToRobust {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
-    (P : Set (Set S)) (hP : IsPartition P) (μ ε : ℝ≥0) (_hε : 0 < ε) :
-    Uncovered d hd P μ ε → PartitionRobustness.MuEpsilonRobust d hd P hP μ ε := by
+    (P : Set (Set S)) (hP : IsPartition P) (μ ε : ℝ≥0) (hε : 0 < ε) :
+    Uncovered d hd P μ ε → PartitionRobustness.MuEpsilonRobust d hd P hP μ ε hε := by
   classical
   intro hunc x
   rcases hP.2.2 x with ⟨A, ⟨hA, hxA⟩, _⟩
@@ -247,8 +247,8 @@ give the strict separation bound.
 The μ=0 consequence of Theorem 1 in the source paper.
 -/
 lemma zeroRobustToSeparated {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
-    (P : Set (Set S)) (hP : IsPartition P) (ε : ℝ≥0) (_hε : 0 < ε) :
-    PartitionRobustness.MuEpsilonRobust d hd P hP 0 ε → Separated d hd P hP ε := by
+    (P : Set (Set S)) (hP : IsPartition P) (ε : ℝ≥0) (hε : 0 < ε) :
+    PartitionRobustness.MuEpsilonRobust d hd P hP 0 ε hε → Separated d hd P hP ε := by
   intro hrob A hA B hB hAB x hx y hy
   apply lt_of_not_ge
   intro hdist
@@ -276,8 +276,8 @@ the separation bound excludes every part different from the input's part.
 The μ=0 consequence of Theorem 1 in the source paper.
 -/
 lemma separatedToZeroRobust {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d)
-    (P : Set (Set S)) (hP : IsPartition P) (ε : ℝ≥0) (_hε : 0 < ε) :
-    Separated d hd P hP ε → PartitionRobustness.MuEpsilonRobust d hd P hP 0 ε := by
+    (P : Set (Set S)) (hP : IsPartition P) (ε : ℝ≥0) (hε : 0 < ε) :
+    Separated d hd P hP ε → PartitionRobustness.MuEpsilonRobust d hd P hP 0 ε hε := by
   classical
   intro hsep x
   rcases hP.2.2 x with ⟨A, ⟨hA, hxA⟩, _⟩

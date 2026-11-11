@@ -253,7 +253,7 @@ Aleksandrov, Kuske and Völlinger, Corollary 2.
 -/
 lemma precisionObstruction {S : Type u} [Finite S] [LinearOrder S] (d : Distance S)
     (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε)
-    (hbound : threshold d hd μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
+    (hbound : threshold d hd μ ≤ ε) : Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε hε := by
   apply (Lax544225.BoundaryExistence.statement d hd μ ε hε).mpr
   intro A hA hAc
   obtain ⟨a, ha⟩ := hA
@@ -282,7 +282,7 @@ Aleksandrov, Kuske and Völlinger, Corollary 1, forward direction.
 -/
 lemma trivialityToBoundaryCovering {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε → EveryCutBoundaryCovered d hd.1 μ ε := by
+    Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε hε → EveryCutBoundaryCovered d hd.1 μ ε := by
   intro h
   exact (Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε hε).mp
     ((Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mp h)
@@ -298,7 +298,7 @@ Aleksandrov, Kuske and Völlinger, Corollary 1, reverse direction.
 -/
 lemma boundaryCoveringToTriviality {S : Type u} [Finite S] [LinearOrder S]
     (d : Distance S) (hd : IsOrderedSemimetricSpace d (· ≤ ·)) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    EveryCutBoundaryCovered d hd.1 μ ε → Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε := by
+    EveryCutBoundaryCovered d hd.1 μ ε → Lax544225.PartitionRobustness.OnlyTrivial d hd.1 μ ε hε := by
   intro h
   exact (Lax544225.GeneralExistence.statement d hd.1 μ ε hε).mpr
     ((Lax544225.BoundaryCoveringCharacterization.statement d hd μ ε hε).mpr h)

@@ -30,9 +30,9 @@ namespace Lax544225.CoveringCharacterization
 open scoped NNReal
 open SemimetricSpace Partitions PartitionRobustness Balls
 
-/-- Sᵢ finite partition is (μ,ε)-robust exactly when no μ-ball centered in a part is covered by ε-balls from its complement. -/
+/-- A finite partition is (μ,ε)-robust exactly when no μ-ball centered in a part is covered by ε-balls from its complement. -/
 axiom statement {S : Type u} (d : Distance S) (hd : IsSemimetricSpace d) (P : Set (Set S))
     (hP : IsPartition P) (μ ε : ℝ≥0) (hε : 0 < ε) :
-    MuEpsilonRobust d hd P hP μ ε ↔ (∀ Sᵢ ∈ P, ∀ x ∈ Sᵢ, ¬ ball d hd x μ ⊆ neighborhood d hd Sᵢᶜ ε)
+    MuEpsilonRobust d hd P hP μ ε hε ↔ (∀ Sᵢ ∈ P, ∀ x ∈ Sᵢ, ¬ ball d hd x μ ⊆ neighborhood d hd Sᵢᶜ ε)
 
 end Lax544225.CoveringCharacterization
